@@ -14,13 +14,13 @@ interface User {
 interface ContextValue {
     userData: User | null;
     login: (user: User) => void;
-    logout: () => void;
+    logout: ({url} : {url: string}) => void;
 }
 
 const Context = createContext<ContextValue>({
     userData: null,
     login: () => { },
-    logout: () => { }
+    logout: ({url} : {url: string}) => { }
 });
 
 interface ContextProps {
@@ -50,9 +50,14 @@ const ContextProvider = ({ children }: ContextProps) => {
         jsCookie.set("user", JSON.stringify(user));
     }
 
-    const logout = () => {
-        setUserData(null);
-        jsCookie.remove("user");
+    const logout = ({url} : {url: string}) => {
+        try {
+            setUserData(null);
+            jsCookie.remove("user");
+            window.location.href = url;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 

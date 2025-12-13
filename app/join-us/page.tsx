@@ -66,6 +66,13 @@ const JoinUsPage = () => {
         }
     }
 
+
+    useEffect(() => {
+        if (userData?.personID) {
+            location.href = "/"
+        }
+    }, [userData])
+
     return (
         <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
         dark:bg-linear-to-l dark:from-gray-600 dark:to-transparent">

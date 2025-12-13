@@ -105,6 +105,19 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                         </li>
                      )}
 
+                     {mounted && !userData?.personID && (
+                        <li className="">
+                            <Link href="/join-us"
+                                className="flex items-center gap-2 justify-start flex-row
+                         p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                onClick={() => setToggle(!toggle)}
+                            >
+                                <FaUser size={20} />
+                                <span> الأنضمام إلينا </span>
+                            </Link>
+                        </li>
+                     )}
+
                     <p className="flex items-center flex-row justify-center mt-2 text-center gap-1 font-semibold text-gray-800 dark:text-gray-200">
                         "
                         <span>  وجودك يعني لنا الكثير </span>
