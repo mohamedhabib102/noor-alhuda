@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const req = axios.create({
-    baseURL: "https://alhodaalnabawya.runasp.net/",
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },

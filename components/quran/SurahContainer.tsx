@@ -10,39 +10,9 @@ interface SurahContainerProps {
 }
 
 const SurahContainer: React.FC<SurahContainerProps> = ({ surah }) => {
-    const [showSaved, setShowSaved] = useState(false);
-    const [selectedAyah, setSelectedAyah] = useState<any>(null);
-    const [marks, setMarks] = useState<any[]>([]);
-
-    const updateMarks = () => {
-        const storedMarks = JSON.parse(localStorage.getItem("marks") || "[]");
-        setMarks(storedMarks);
-    };
-
-    useEffect(() => {
-        updateMarks();
-    }, []);
-
-    const handleClose = () => {
-        setShowSaved(!showSaved);
-    };
-
-    const handleAyahClick = (ayah: any) => {
-        setSelectedAyah(ayah)
-    };
-
-    const handleShowSaved = () => {
-        setShowSaved(!showSaved);
-    };
 
     return (
         <>
-            <SavedSurha
-                isOpen={showSaved}
-                onClose={handleClose}
-                selectedAyah={selectedAyah}
-                onUpdate={updateMarks}
-            />
             <section className="py-16">
                 <CustomContainer>
                     <div>

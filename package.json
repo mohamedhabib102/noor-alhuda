@@ -12,6 +12,7 @@
     "@supabase/supabase-js": "^2.83.0",
     "@vercel/kv": "^3.0.0",
     "axios": "^1.13.2",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
     "js-cookie": "^3.0.5",
     "next": "^14.2.15",
@@ -19,7 +20,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
-    "swiper": "^12.0.3"
+    "recharts": "^3.5.1",
+    "swiper": "^12.0.3",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

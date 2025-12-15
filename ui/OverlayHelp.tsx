@@ -8,6 +8,10 @@ import { FaHeart } from "react-icons/fa";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
+import { FaChartBar } from "react-icons/fa6";
+import { RiBookShelfFill } from "react-icons/ri";
+
+
 
 
 interface OverlayMessage {
@@ -46,6 +50,12 @@ const NavbarText: Navbar[] = [
         title: " دعمنا ",
         link: "/",
         icon: FaHandHoldingHeart
+    },
+     {
+        id: 5,
+        title: " الكتب ",
+        link: "/books",
+        icon: RiBookShelfFill
     }
 ]
 
@@ -105,6 +115,19 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                         </li>
                      )}
 
+                    {mounted && userData?.role === "Admin" && (
+                        <li className="">
+                            <Link href="/control"
+                                className="flex items-center gap-2 justify-start flex-row
+                         p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                onClick={() => setToggle(!toggle)}
+                            >
+                                <FaChartBar size={20} />
+                                <span>  لوحة التحكم </span>
+                            </Link>
+                        </li>
+                     )}
+
                      {mounted && !userData?.personID && (
                         <li className="">
                             <Link href="/join-us"
@@ -117,6 +140,8 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                             </Link>
                         </li>
                      )}
+
+
 
                     <p className="flex items-center flex-row justify-center mt-2 text-center gap-1 font-semibold text-gray-800 dark:text-gray-200">
                         "

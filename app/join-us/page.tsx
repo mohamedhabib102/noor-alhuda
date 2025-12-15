@@ -2,29 +2,54 @@
 import req from "@/lib/axios";
 import { useAuth } from "@/lib/contextapi";
 import { ChangeEvent, useEffect, useState } from "react";
-// import { FaGoogle } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import { IoChevronDown, IoEye, IoEyeOff } from "react-icons/io5";
-// import { signIn, useSession} from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const JoinUsPage = () => {
     const { login, userData } = useAuth();
+    const { data: session } = useSession();
     const [loginData, setLoginData] = useState({
         personName: "",
         email: "",
         password: "",
-        gender: "",
+        image: "",
     })
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter()
+    const [imageShow, setImageShow] = useState<string>("");
+
+
+    const handelImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            console.log("📸 Image file selected:", file.name, file.size, "bytes");
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.result) {
+                    setImageShow(e.target.result as string);
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            console.log("⚠️ No file selected");
+        }
+    }
 
 
     // MowafyAdmin324
 
-    const handelChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, type, value, files } = e.target;
+
         setLoginData({
             ...loginData,
-            [e.target.name]: e.target.value,
+            [name]: type === 'file' ? (files?.[0] || "") : value
         })
     }
 
@@ -34,7 +59,7 @@ const JoinUsPage = () => {
         setError("");
         try {
             setLoading(true)
-            if (!loginData.personName || !loginData.email|| !loginData.password || !loginData.gender) {
+            if (!loginData.personName || !loginData.email || !loginData.password) {
                 setError("من فضلك تأكد من إدخال جميع البيانات المطلوبة بشكل صحيح")
                 setLoading(false)
                 return
@@ -46,21 +71,39 @@ const JoinUsPage = () => {
                 setLoading(false)
                 return
             }
-            const data = {
-                ...loginData,
-                role: "string",
+            const formData = new FormData();
+            formData.append("PersonName", loginData.personName);
+            formData.append("Email", loginData.email);
+            formData.append("Password", loginData.password);
+            formData.append("Role", "string");
+
+            if (loginData.image && typeof loginData.image === 'object' && 'name' in loginData.image) {
+                formData.append("Image", loginData.image);
             }
-            const res = await req.post("/api/Alhoda_Alnabawya/Login", data)
+
+
+            const res = await req.post("/api/Alhoda_Alnabawya/Login", formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                }
+            )
+            console.log(res);
+
             login(res.data)
-            const role = res.data.role
+
+            const {role} = res.data;
             if (role === "Admin") {
-                location.href = "/control"
+                router.push("/control")
             } else {
-                location.href = "/"
+                router.push("/")
             }
-        } catch (error) {
+        } catch (error: AxiosError | any) {
             console.log(error);
-            alert("حدث خطأ في الخادام الرجاء التواصل مع الدعم الفني")
+            if (error.response?.status === 400) {
+                setError(" البريد الالكتروني موجود بالفعل او كلمة المرور غير صحيحة");
+            }
         } finally {
             setLoading(false)
         }
@@ -69,9 +112,51 @@ const JoinUsPage = () => {
 
     useEffect(() => {
         if (userData?.personID) {
-            location.href = "/"
+            router.push("/")
         }
-    }, [userData])
+    }, [userData, router])
+
+    useEffect(() => {
+        // Only sync if session exists, user is NOT logged in in our system, and not currently loading
+        if (session?.user && !userData?.personID && !loading) {
+            const syncWithBackend = async () => {
+                try {
+                    setLoading(true);
+                    // Mapping Google session to Backend expectations
+                    const formData = new FormData();
+                    formData.append("PersonName", session.user?.name || "");
+                    formData.append("Email", session.user?.email || "");
+                    formData.append("Password", "@GoogleOAuthDefaultPassword123");
+                    formData.append("Role", "string");
+                    formData.append("Image", session.user?.image || "");
+        
+
+                    const res = await req.post("/api/Alhoda_Alnabawya/Login", 
+                        formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        }
+                        });
+
+                    if (res.data) {
+                        login(res.data);
+                        // Redirect handled by the other useEffect upon userData update
+                    }
+                } catch (error: AxiosError|any) {
+                    console.log("Google Sync Error:", error);
+                    // Only show error if it's not a duplicate request issue
+                    if (error.response?.status === 400) {
+                        setError(" البريد الالكتروني موجود بالفعل ");
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            };
+            syncWithBackend();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session, userData]); 
+    // Removed login from deps to avoid re-runs, and added exhaustive-deps ignore if needed, though login is stable usually. Keeping it simple.
 
     return (
         <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
@@ -84,9 +169,22 @@ const JoinUsPage = () => {
             dark:shadow-[0_10px_30px_rgba(0,0,0,0.5),0_4px_10px_rgba(0,0,0,0.3)]
             transition-all duration-300
             ">
-                <h3 className="text-2xl font-medium mb-3 text-(--main-color)"> انضم إلينا </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400"> ادخل معلوماتك للتسجيل في المنصة </p>
+                <div className="flex justify-between items-center mb-6">
 
+                    <div>
+                        <h3 className="text-2xl font-medium mb-3 text-(--main-color)"> انضم إلينا </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400"> ادخل معلوماتك للتسجيل في المنصة </p>
+                    </div>
+
+                    <Image
+                        src={imageShow || "/images/default.png"}
+                        alt="Logo"
+                        width={100}
+                        height={100}
+                        className="p-1 w-24 h-24 bg-contain rounded-full bg-gray-400 dark:bg-gray-700"
+                    />
+
+                </div>
                 {error && (
                     <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
                         {error}
@@ -112,7 +210,7 @@ const JoinUsPage = () => {
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
-                        الأسم
+                        الأسم <span className="text-red-500">*</span>
                     </label>
                 </div>
 
@@ -136,7 +234,7 @@ const JoinUsPage = () => {
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
-                        البريد الالكتروني
+                        البريد الالكتروني <span className="text-red-500">*</span>
                     </label>
                 </div>
 
@@ -167,29 +265,26 @@ const JoinUsPage = () => {
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
-                        كلمة المرور
+                        كلمة المرور <span className="text-red-500">*</span>
                     </label>
                 </div>
 
-                {/* Gender Select */}
                 <div className="relative mt-6 mb-4">
-                    <select
-                        name="gender"
-                        id="gender"
-                        value={loginData.gender}
-                        onChange={handelChange}
-                        className="appearance-none w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6 
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        accept="image/*"
+                        onChange={(e) => {
+                            handelImageChange(e)
+                            handelChange(e)
+                        }}
+                        className="appearance-none w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6
                         bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                        focus:outline-none focus:border-(--main-color) transition
-                        cursor-pointer"
-                    >
-                        <option value="" disabled>اختر النوع</option>
-                        <option value="M">ذكر</option>
-                        <option value="F">أنثى</option>
-                    </select>
-                    <IoChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                        focus:outline-none focus:border-(--main-color) transition"
+                    />
                     <label className="absolute right-4 top-2 text-xs text-gray-500 dark:text-gray-400 pointer-events-none">
-                        النوع
+                        الصورة
                     </label>
                 </div>
 
@@ -201,17 +296,17 @@ const JoinUsPage = () => {
                     {loading ? "جاري التحميل..." : "تسجيل"}
                 </button>
 
-                {/* <button
+                <button
                     type="button"
                     onClick={() => signIn("google")}
                     className="cursro-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
                     hover:opacity-90 transition-opacity font-medium flex items-center gap-2 justify-center
                     text-center"
                 >
-                    
+
                     <span> التسجيل باستخدام </span>
                     <FaGoogle size={20} />
-                </button> */}
+                </button>
             </form>
         </section>
     );

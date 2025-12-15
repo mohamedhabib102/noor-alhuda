@@ -17,9 +17,10 @@ const SurhaPage: React.FC<SurhaProps> = ({ surah }) => {
         if (playingIndex === index) {
             if (audio.paused) {
                 audio.play();
+                setPlayingIndex(index);
             } else {
                 audio.pause();
-                setPlayingIndex(null);
+                setPlayingIndex(null);  
             }
         } else {
             // Stop previous

@@ -35,20 +35,11 @@ const Header: React.FC = () => {
                     <ToggleNavbar setToggle={setToggle} toggle={toggle} />
                     <DarkModeToggle />
                     {mounted && userData?.personID && (
-                        <Link href={`profile/`} 
+                        <Link href={`/profile/`} 
                         className="flex justify-center items-center cursor-pointer w-10 h-10 relative p-0.5 bg-(--main-color) rounded-full">
-                            {mounted && userData.gender === "M" ? (
+                            {mounted && userData.personID &&(
                             <Image
-                              src="/images/male.png"
-                              alt="user"
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                            ) :
-                            (
-                            <Image
-                                src="/images/female.jpg"
+                                src={userData.image || "/images/default.png"}
                                 alt="user"
                                 width={40}
                                 height={40}
