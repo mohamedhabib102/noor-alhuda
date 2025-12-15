@@ -3,7 +3,15 @@
 import { useEffect, useReducer, useState } from "react"
 import { motion } from "framer-motion"
 
-const reducer = (state: any, action: any) => {
+interface State {
+  count: number;
+}
+
+interface Actions {
+  type: "increment";
+}
+
+const reducer = (state: State, action: Actions) => {
     switch (action.type) {
         case "increment":
             return {count: state.count + 1}
@@ -12,9 +20,7 @@ const reducer = (state: any, action: any) => {
     }
 }
 
-const Action = {
-    increment: () => ({type: "increment"})
-}
+
 
 const ParyFC: React.FC = () => {
     const [count, dispatch] = useReducer(reducer, {count: 0});
@@ -23,7 +29,7 @@ const ParyFC: React.FC = () => {
    const handelClick = () => {
 
     const stored = localStorage.getItem("count");
-    let oldValue = stored ? JSON.parse(stored) : 0;
+    const oldValue = stored ? JSON.parse(stored) : 0;
 
     const newValue = oldValue + 1;
 
@@ -32,17 +38,21 @@ const ParyFC: React.FC = () => {
 
     setAllNums(newValue);
 
-    dispatch(Action.increment());
+    dispatch({ type: "increment" });
   };
 
     
-    useEffect(() => {
-        const count = localStorage.getItem("count")
-        if (count) {
-            const parsedCount = JSON.parse(count)
-            setAllNums(parsedCount)
-        }
-    }, [])
+useEffect(() => {
+  const fetchCount = async () => {
+    const count = localStorage.getItem("count");
+    if (count) {
+      const parsedCount = JSON.parse(count);
+      setAllNums(parsedCount); // الآن آمن
+    }
+  };
+  fetchCount();
+}, []);
+
     return(
         <>
          <div className="flex items-center gap-3 select-none bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">

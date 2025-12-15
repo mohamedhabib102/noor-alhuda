@@ -3,11 +3,17 @@ import req from "@/lib/axios";
 import { useAuth } from "@/lib/contextapi";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { IoChevronDown, IoEye, IoEyeOff } from "react-icons/io5";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 import { signIn, useSession } from "next-auth/react";
-import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+interface ApiError {
+    response?: {
+        status: number;
+    };
+    message?: string;
+}
 
 const JoinUsPage = () => {
     const { login, userData } = useAuth();
@@ -96,9 +102,10 @@ const JoinUsPage = () => {
             } else {
                 router.push("/")
             }
-        } catch (error: AxiosError | any) {
-            console.log(error);
-            if (error.response?.status === 400) {
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            console.log(err);
+            if (err.response?.status === 400) {
                 setError(" البريد الالكتروني موجود بالفعل او كلمة المرور غير صحيحة");
             }
         } finally {
@@ -106,14 +113,7 @@ const JoinUsPage = () => {
         }
     }
 
-    async function urlToBlob(url: string): Promise<Blob> {
-    const res = await fetch(url);
-    return await res.blob(); 
-}
-
-
-
-
+    
     useEffect(() => {
         if (userData?.personID) {
             if (userData.role === "Admin") {
@@ -143,7 +143,7 @@ const JoinUsPage = () => {
                         formData.append("Image", session.user.image);
                     }
 
-                    for (let pair of formData.entries()) {
+                    for (const pair of formData.entries()) {
                         console.log(`${pair[0]}: ${pair[1]}`);
                     }
 
@@ -163,10 +163,11 @@ const JoinUsPage = () => {
                             router.push("/")
                         }
                     }
-                } catch (error: AxiosError|any) {
-                    console.log("Google Sync Error:", error);
+                } catch (error: unknown) {
+                    const err = error as ApiError;
+                    console.log("Google Sync Error:", err);
                     // Only show error if it's not a duplicate request issue
-                    if (error.response?.status === 400) {
+                    if (err.response?.status === 400) {
                         setError(" البريد الالكتروني موجود بالفعل ");
                     }
                 } finally {

@@ -1,6 +1,5 @@
 "use client"
 import req from "@/lib/axios";
-import { supabase } from "@/lib/supabaseClient";
 import AccordionItem from "@/ui/Accordion";
 import CreateQuation from "@/ui/CreateQuation";
 import CustomContainer from "@/ui/CustomContainer";
@@ -8,7 +7,6 @@ import CustomTitle from "@/ui/CustomTitle";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { IoMdFemale, IoMdMale } from "react-icons/io";
 
 
 
@@ -42,7 +40,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
         setShowQuestions(res.data)
        })
     } catch (error) {
-      
+      console.log(error);
     }
   }
   

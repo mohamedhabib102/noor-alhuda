@@ -2,7 +2,6 @@
 
 import req from "@/lib/axios";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import PostCard from "@/components/posts/PostCard";
 
 interface Post {

@@ -115,7 +115,10 @@ const Posts: React.FC = () => {
         }
     }
     useEffect(() => {
-        getAllPosts()
+        const fetchPosts = async () => {
+            await getAllPosts();
+        }
+        fetchPosts();
     }, [])
     return (
         <>

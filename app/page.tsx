@@ -3,17 +3,9 @@ import {
   HeroSection,
   Quations,
   Services
-}
-  from "@/components/home";
-import { useAuth } from "@/lib/contextapi";
-import { useEffect } from "react";
+} from "@/components/home";
 
 export default function Home() {
-  const { userData } = useAuth();
-
-  useEffect(() => {
-    console.log(userData);
-  }, []);
 
   return (
     <main>

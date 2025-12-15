@@ -27,9 +27,13 @@ const Azkar: React.FC<AzkarProps> = ({list}) => {
         }
     }
 
-    useEffect(() => {
-        allAzkar();
-    }, []);
+     useEffect(() => {
+       const fetchAzkar = async () => {
+         await allAzkar();
+       };
+       fetchAzkar();
+     }, []);
+
 
 
     const filterAzkar = azkar.filter((azkar) => azkar.category === active);
@@ -55,7 +59,7 @@ const Azkar: React.FC<AzkarProps> = ({list}) => {
     return(     
         <div>
             <ul className="flex items-center gap-4">
-                {list.map((item, index) => (
+                {list.map((item) => (
                     <li 
                     onClick={() => setActive(item.title)}
                     className={`flex items-center gap-1.5 hover:text-white p-4 hover:bg-(--main-color) hover:border-transparent border border-gray-200 rounded-lg cursor-pointer hover:shadow-md transition ${active === item.title ? 'bg-(--main-color) text-white' : ''}`}

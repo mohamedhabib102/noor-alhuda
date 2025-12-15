@@ -1,7 +1,6 @@
 "use client"
 import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
-import { IconType } from "react-icons";
 import { MdHotel } from "react-icons/md";
 import { IoMdSunny } from "react-icons/io";
 import { FaMoon } from "react-icons/fa";

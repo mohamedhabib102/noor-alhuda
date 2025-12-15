@@ -56,13 +56,15 @@ export default function AnalyticsPage() {
             location.href = "/";
         }
     }, [userData]);
-    const trafficData = [
-    { name: "Posts", value: post, color: "#10b981" }, 
-    { name: "Questions", value: question || 10, color: "#f59e0b" }, 
-    { name: "Users", value: user, color: "#3b82f6" }, 
-   ];
-    const COLORS = trafficData.map((item) => item.color);
-    const total = useMemo(() => trafficData.reduce((acc, curr) => acc + curr.value, 0), []);
+   const trafficData = useMemo(() => [
+      { name: "Posts", value: post, color: "#10b981" }, 
+      { name: "Questions", value: question, color: "#f59e0b" }, 
+      { name: "Users", value: user, color: "#3b82f6" }, 
+   ], [post, question, user]);
+
+
+    const total = useMemo(() => trafficData.reduce((acc, curr) => acc + curr.value, 0), [trafficData]);
+
     
 
     return (

@@ -15,19 +15,24 @@ interface User {
 const UsersPage = () => {
     const [users, setUsers] = useState<User[]>([]);
 
-   const getAllUsers = async () => {
-    try {
+    const getAllUsers = async () => {
+      try {
         const response = await req.get("/api/Alhoda_Alnabawya/GetAllPerson");
-        setUsers(response.data);
+        setUsers(response.data); // ✅ Safe
         console.log(response.data);
-        
-    } catch (error) {
+      } catch (error) {
         console.log(error);
-    }
-   }
+      }
+    };
+    
     useEffect(() => {
-        getAllUsers();
-    }, [])
+      const fetchData = async () => {
+        await getAllUsers();
+      };
+    
+      fetchData();
+    }, []);
+
     
 
     const deleteUser = async (id: number) => {

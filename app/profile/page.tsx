@@ -64,14 +64,10 @@ const ProfilePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(userData);
-  }, [])
-
-  useEffect(() => {
     if(!userData?.personID){
       router.push("/");
     }
-  }, [])
+  }, [userData, router]);
 
 
 

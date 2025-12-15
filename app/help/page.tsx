@@ -12,7 +12,6 @@ const HelpPage = () => {
     return (
         <div className="py-10 min-h-screen bg-gray-50 dark:bg-[#0f1014] transition-colors duration-300">
             <CustomContainer>
-                {/* Header Section */}
                 <div className="mb-12">
                     <CustomTitle
                         title="مركز المساعدة"
@@ -44,7 +43,7 @@ const HelpPage = () => {
                         </div>
                     </section>
 
-                    {/* Section 2: How it Works */}
+
                     <section>
                         <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100 flex items-center justify-center gap-3">
                             <MdRecordVoiceOver className="text-green-600" />
@@ -117,7 +116,7 @@ const HelpPage = () => {
                                 <div>
                                     <h4 className="font-bold text-gray-800 dark:text-gray-200">المشاركة بدون تسجيل</h4>
                                     <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                                        نحترم خصوصيتك، يمكنك المشاركة كـ "مجهول". لكن تذكر، الله يراك. استخدم هذه الميزة بمسؤولية لنشر الخير.
+                                        نحترم خصوصيتك، يمكنك المشاركة كـ  مجهول لكن تذكر، الله يراك استخدم هذه الميزة بمسؤولية لنشر الخير.
                                     </p>
                                 </div>
                             </div>

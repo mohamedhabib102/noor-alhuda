@@ -1,13 +1,24 @@
 "use client";
-import { useState, useEffect } from "react";
-import SavedSurha from "@/components/quran/SavedSurha";
 import SurahDisplay from "@/ui/Surha";
 import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
 
-interface SurahContainerProps {
-    surah: any;
+interface Verse {
+  number: number;
+  text: string;
 }
+
+interface Surah {
+  id: number;
+  name: string;
+  englishName: string;
+  ayahs: Verse[];
+}
+
+interface SurahContainerProps {
+  surah: Surah;
+}
+
 
 const SurahContainer: React.FC<SurahContainerProps> = ({ surah }) => {
 

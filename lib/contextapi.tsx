@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import jsCookie from "js-cookie";
 import { signOut } from "next-auth/react";
 
@@ -21,7 +21,7 @@ interface ContextValue {
 const Context = createContext<ContextValue>({
     userData: null,
     login: () => { },
-    logout: ({ url }: { url: string }) => { }
+    logout: () => { }
 });
 
 interface ContextProps {
@@ -51,18 +51,19 @@ const ContextProvider = ({ children }: ContextProps) => {
         jsCookie.set("user", JSON.stringify(user));
     }
 
-    const logout = async ({ url }: { url: string }) => {
-        try {
-            setUserData(null);
-            jsCookie.remove("user");
-            // Call next-auth signOut to clear server-side httpOnly cookies
-            await signOut({ callbackUrl: url });
-        } catch (error) {
-            console.log(error);
-            // Fallback redirect if signOut fails
-            window.location.href = url;
-        }
+   const logout = async ({ url }: { url: string }) => {
+    try {
+        setUserData(null);
+        jsCookie.remove("user");
+        // Call next-auth signOut to clear server-side httpOnly cookies
+        await signOut({ callbackUrl: url });
+    } catch (error) {
+        console.log(error);
+        // Fallback redirect if signOut fails
+        window.location.href = url;
     }
+  }
+
 
 
 
