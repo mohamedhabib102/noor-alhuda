@@ -25,7 +25,7 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
         const id = postID;
         try {
             await req.delete(`/api/Alhoda_Alnabawya/DeletePost/${id}`).then((res) => {
-                console.log(res);
+               getPosts();
             });
         } catch (error) {
             console.error("Failed to delete post", error);

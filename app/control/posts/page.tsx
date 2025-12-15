@@ -36,6 +36,7 @@ const PostsPage = () => {
         fetchPosts();
     }, []);
 
+
     if (loading) {
         return (
             <div className="dark:bg-gray-900 py-8">

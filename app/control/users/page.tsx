@@ -33,11 +33,11 @@ const UsersPage = () => {
     const deleteUser = async (id: number) => {
         const PersonID = id;
         try {
+            console.log("Deleting user with ID:", PersonID);
             await req.delete(`/api/Alhoda_Alnabawya/DeletePerson/{${PersonID}}`)
-            .then((response) => {
-              console.log(response);
+            .then(() => {
+              getAllUsers();
             })
-            // getAllUsers();
         } catch (error) {
             console.log(error);
         }

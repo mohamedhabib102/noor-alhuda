@@ -9,8 +9,8 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { FaUserSecret } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import req from "@/lib/axios";
-import { signIn, useSession } from "next-auth/react";
-import jsCookie from "js-cookie";
+import { useRouter } from "next/navigation";
+
 
 
 
@@ -20,8 +20,8 @@ const ProfilePage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [anymousMode, setAnymousMode] = useState(false);
-      const { data: session } = useSession();
   const [formData, setFormData] = useState({
     personName: "",
     email: "",
@@ -68,13 +68,11 @@ const ProfilePage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-     const sessionToken = jsCookie.get("next-auth.session-token");
-    
-     if (session?.user){
-      console.log("Session Token:", session?.user);
-     }
-     
-  }, []);
+    if(!userData?.personID){
+      router.push("/");
+    }
+  }, [])
+
 
 
   if (!mounted || !userData) {

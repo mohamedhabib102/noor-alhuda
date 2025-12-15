@@ -89,12 +89,9 @@ const JoinUsPage = () => {
                     }
                 }
             )
-            console.log(res);
-
             login(res.data)
-
-            const {role} = res.data;
-            if (role === "Admin") {
+            
+            if (res.data?.role === "Admin") {
                 router.push("/control")
             } else {
                 router.push("/")
@@ -109,12 +106,24 @@ const JoinUsPage = () => {
         }
     }
 
+    async function urlToBlob(url: string): Promise<Blob> {
+    const res = await fetch(url);
+    return await res.blob(); 
+}
+
+
+
 
     useEffect(() => {
         if (userData?.personID) {
-            router.push("/")
+            if (userData.role === "Admin") {
+                router.push("/control")
+            } else {
+                router.push("/")
+            }
         }
     }, [userData, router])
+
 
     useEffect(() => {
         // Only sync if session exists, user is NOT logged in in our system, and not currently loading
@@ -128,8 +137,15 @@ const JoinUsPage = () => {
                     formData.append("Email", session.user?.email || "");
                     formData.append("Password", "@GoogleOAuthDefaultPassword123");
                     formData.append("Role", "string");
-                    formData.append("Image", session.user?.image || "");
-        
+                    
+
+                    if (session.user?.image) {
+                        formData.append("Image", session.user.image);
+                    }
+
+                    for (let pair of formData.entries()) {
+                        console.log(`${pair[0]}: ${pair[1]}`);
+                    }
 
                     const res = await req.post("/api/Alhoda_Alnabawya/Login", 
                         formData, {
@@ -140,7 +156,12 @@ const JoinUsPage = () => {
 
                     if (res.data) {
                         login(res.data);
-                        // Redirect handled by the other useEffect upon userData update
+                        // تحويل بناءً على الـ role
+                        if (res.data?.role === "Admin") {
+                            router.push("/control")
+                        } else {
+                            router.push("/")
+                        }
                     }
                 } catch (error: AxiosError|any) {
                     console.log("Google Sync Error:", error);
@@ -155,8 +176,7 @@ const JoinUsPage = () => {
             syncWithBackend();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session, userData]); 
-    // Removed login from deps to avoid re-runs, and added exhaustive-deps ignore if needed, though login is stable usually. Keeping it simple.
+    }, [session, userData]);
 
     return (
         <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
@@ -181,7 +201,7 @@ const JoinUsPage = () => {
                         alt="Logo"
                         width={100}
                         height={100}
-                        className="p-1 w-24 h-24 bg-contain rounded-full bg-gray-400 dark:bg-gray-700"
+                        className="p-1 w-24 h-24 bg-cover rounded-full bg-gray-400 dark:bg-gray-700"
                     />
 
                 </div>

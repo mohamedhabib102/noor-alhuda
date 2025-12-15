@@ -47,7 +47,7 @@ export default function AnalyticsPage() {
 
     useEffect(() => {
         getPosts();
-        // getQuestions();
+        getQuestions();
         getUsers();
     }, []);
 

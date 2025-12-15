@@ -9,18 +9,25 @@ interface SurhaProps {
 const SurhaPage: React.FC<SurhaProps> = ({ surah }) => {
     const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
     const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+    const [hasInteracted, setHasInteracted] = useState(false);
 
     const handlePlayPause = (index: number) => {
         const audio = audioRefs.current[index];
         if (!audio) return;
 
+        // Mark that the user interacted with the player (allows autoplay of next)
+        setHasInteracted(true);
+
         if (playingIndex === index) {
             if (audio.paused) {
-                audio.play();
-                setPlayingIndex(index);
+                audio.play().then(() => {
+                    setPlayingIndex(index);
+                }).catch((err) => {
+                    console.warn("Audio play prevented:", err);
+                });
             } else {
                 audio.pause();
-                setPlayingIndex(null);  
+                setPlayingIndex(null);
             }
         } else {
             // Stop previous
@@ -32,7 +39,7 @@ const SurhaPage: React.FC<SurhaProps> = ({ surah }) => {
                 }
             }
 
-            // Just to be safe, pause all others if state got out of sync
+            // Pause/reset any others if state got out of sync
             audioRefs.current.forEach((a, i) => {
                 if (i !== index && a) {
                     if (!a.paused) a.pause();
@@ -40,15 +47,32 @@ const SurhaPage: React.FC<SurhaProps> = ({ surah }) => {
                 }
             });
 
-            audio.play();
-            setPlayingIndex(index);
+            audio.play().then(() => {
+                setPlayingIndex(index);
+            }).catch((err) => {
+                console.warn("Audio play prevented:", err);
+            });
         }
     };
 
     const handleEnded = (index: number) => {
         const nextIndex = index + 1;
         if (nextIndex < surah.ayahs.length) {
-            handlePlayPause(nextIndex);
+            const nextAudio = audioRefs.current[nextIndex];
+            if (nextAudio && hasInteracted) {
+                // ensure it's at start then try to play; handle promise rejection
+                try { nextAudio.currentTime = 0; } catch (e) { /* ignore */ }
+                nextAudio.play().then(() => {
+                    setPlayingIndex(nextIndex);
+                }).catch((err) => {
+                    console.warn("Auto-play next prevented:", err);
+                    // fallback: set state so UI doesn't appear active
+                    setPlayingIndex(null);
+                });
+            } else {
+                // either no next audio or user hasn't interacted — stop
+                setPlayingIndex(null);
+            }
         } else {
             setPlayingIndex(null);
         }
@@ -72,6 +96,7 @@ const SurhaPage: React.FC<SurhaProps> = ({ surah }) => {
                         <audio
                             ref={(el) => { audioRefs.current[index] = el; }}
                             onEnded={() => handleEnded(index)}
+                            preload="auto"
                             className="hidden"
                         >
                             <source src={ayah.audio} type="audio/mpeg" />

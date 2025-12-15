@@ -1,4 +1,5 @@
 "use client"
+import req from "@/lib/axios";
 import { supabase } from "@/lib/supabaseClient";
 import AccordionItem from "@/ui/Accordion";
 import CreateQuation from "@/ui/CreateQuation";
@@ -15,12 +16,12 @@ import { IoMdFemale, IoMdMale } from "react-icons/io";
 
 
 interface CreateQuestionProps {
-  id: number;
-  userName: string;
-  question: string;
-  gender: string;
-  result: string;
-  success: boolean;
+    questionID: number,
+    personID: number,
+    questionContent: string,
+    responseContent: string,
+    personName: string,
+    isFound: boolean
 }
 
 
@@ -32,14 +33,22 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
   const [showQuestions, setShowQuestions] = useState<CreateQuestionProps[]>([])
 
 
-  const getQuestions = async () => {
-    const { data, error } = await supabase.from("question").select("*");
-    if (!error) setShowQuestions(data)
-  }
 
+  const getAllQuestion = async() => {
+    try {
+       await req.get("/api/Alhoda_Alnabawya/GetAllQuestionsAndResponses")
+       .then((res) => {
+        console.log(res.data);
+        setShowQuestions(res.data)
+       })
+    } catch (error) {
+      
+    }
+  }
+  
 
   useEffect(() => {
-    getQuestions()
+    getAllQuestion()
   }, [])
   return (
     <section className={
@@ -59,26 +68,18 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
            text-[20px] mb-5 mr-auto w-fit"> عرض جميع الأسئلة  </Link>
         )}
         <div className="mb-4">
-          {showQuestions.slice(0, 8).map((ques) => (
-            ques.success && (
-              <AccordionItem key={ques.id}
-                title={ques.question}>
+          {state === "page" ? (
+            showQuestions.map((ques) => (
+            ques.isFound && (
+              <AccordionItem key={ques.questionID}
+                title={ques.questionContent}>
                 <div className="flex items-center flex-col">
                   <div className="flex items-center gap-3 flex-row border-b border-gray-300 dark:border-gray-700 w-full pb-1.5">
                     {
-                      ques.gender === "أنثى" ? (
-                        <Image
-                          src="/images/female.jpg"
-                          title={ques.question}
-                          alt="avatar"
-                          width={40}
-                          height={100}
-                          className="rounded-full"
-                        />
-                      ) : (
+                       (
                         <Image
                           src="/images/male.png"
-                          title={ques.question}
+                          title={ques.questionContent}
                           alt="avatar"
                           width={40}
                           height={100}
@@ -88,20 +89,46 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                     }
                     <div>
                       <h4 className="text-(--main-color) dark:text-[#4ade80] font-semibold flex flex-row gap-0.5">
-                        <span>{ques.userName}</span>
-                        <span className="text-sm font-medium">{ques.gender === "ذكر" ? (
-                          <IoMdMale size={23} />
-                        ) : (
-                          <IoMdFemale size={23} />
-                        )}</span>
+                        <span>{ques.personName}</span>
                       </h4>
                     </div>
                   </div>
-                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">{ques.result}</p>
+                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">{ques.responseContent}</p>
                 </div>
               </AccordionItem>
             )
-          ))}
+          ))
+          ) : (
+            showQuestions.slice(0, 8).map((ques) => (
+            ques.isFound && (
+              <AccordionItem key={ques.questionID}
+                title={ques.questionContent}>
+                <div className="flex items-center flex-col">
+                  <div className="flex items-center gap-3 flex-row border-b border-gray-300 dark:border-gray-700 w-full pb-1.5">
+                    {
+                       (
+                        <Image
+                          src="/images/male.png"
+                          title={ques.questionContent}
+                          alt="avatar"
+                          width={40}
+                          height={100}
+                          className="rounded-full"
+                        />
+                      )
+                    }
+                    <div>
+                      <h4 className="text-(--main-color) dark:text-[#4ade80] font-semibold flex flex-row gap-0.5">
+                        <span>{ques.personName}</span>
+                      </h4>
+                    </div>
+                  </div>
+                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">{ques.responseContent}</p>
+                </div>
+              </AccordionItem>
+            )
+          ))
+          )}
         </div>
         <CreateQuation />
       </CustomContainer>

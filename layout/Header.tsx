@@ -36,14 +36,14 @@ const Header: React.FC = () => {
                     <DarkModeToggle />
                     {mounted && userData?.personID && (
                         <Link href={`/profile/`} 
-                        className="flex justify-center items-center cursor-pointer w-10 h-10 relative p-0.5 bg-(--main-color) rounded-full">
+                        className="">
                             {mounted && userData.personID &&(
                             <Image
                                 src={userData.image || "/images/default.png"}
                                 alt="user"
                                 width={40}
                                 height={40}
-                                className="rounded-full"
+                                className="w-10 h-10 rounded-full"
                             />
                             )
                            }
