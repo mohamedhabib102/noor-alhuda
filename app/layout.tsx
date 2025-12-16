@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Rubik, Rakkas } from "next/font/google";
 import "./globals.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import  { ContextProviderWrapper } from "@/lib/contextapi";
@@ -9,12 +12,14 @@ const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+  display: 'swap',
 });
 
 const rakkas = Rakkas({
   variable: "--font-rakkas",
   subsets: ["arabic"],
   weight: "400",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

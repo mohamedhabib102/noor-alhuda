@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
+// Swiper CSS moved to app/layout.tsx for global preload and to avoid extra CSS chunks
 
 
 
@@ -145,7 +144,7 @@ const Posts: React.FC = () => {
                                                         alt={post.name}
                                                         title={post.name}
                                                         width={40}
-                                                        height={100}
+                                                        height={40}
                                                         className="rounded-full"
                                                     />
                                                 ) : (
@@ -154,7 +153,7 @@ const Posts: React.FC = () => {
                                                         alt={post.name}
                                                         title={post.name}
                                                         width={40}
-                                                        height={100}
+                                                        height={40}
                                                         className="rounded-full"
                                                     />
                                                 )

@@ -4,8 +4,10 @@ import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
 
 interface Verse {
-  number: number;
-  text: string;
+    number: number;
+    numberInSurah: number;
+    text: string;
+    audio: string;
 }
 
 interface Surah {

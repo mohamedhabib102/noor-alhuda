@@ -1,0 +1,123 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { CiPlay1 } from "react-icons/ci";
+import { MdClose } from "react-icons/md";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+export interface HeroProps {
+  id: number;
+  type: string;
+  title: string;
+  link: string;
+  image: string;
+  description?: string;
+}
+
+interface Props {
+  slides: HeroProps[];
+  skipFirstSSR?: boolean;
+}
+
+const HeroSliderClient: React.FC<Props> = ({ slides, skipFirstSSR = false }) => {
+  const [playingId, setPlayingId] = useState<number | null>(null);
+  const localSlides = skipFirstSSR ? slides.slice(1) : slides;
+
+  const getVideoId = (url: string) => {
+    const match = url.match(/v=([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : "";
+  };
+
+  return (
+    <Swiper
+      modules={[Pagination, Navigation, Autoplay]}
+      slidesPerView={1}
+      pagination={{ clickable: true }}
+      navigation
+      loop={localSlides.length > 1}
+      className="w-full lg:rounded-2xl"
+    >
+      {localSlides.map((slide, idx) => {
+        const isPlaying = playingId === slide.id;
+        const videoId = slide.type === "video" ? getVideoId(slide.link) : null;
+
+        return (
+          <SwiperSlide key={slide.id} className="w-screen overflow-hidden lg:rounded-2xl md:rounded-2xl">
+            <div className="w-screen lg:h-[670px] md:h-[450px] h-[300px] relative">
+              {videoId ? (
+                <>
+                  {isPlaying && (
+                    <div className="fixed top-0 inset-0 z-50 flex items-center justify-center pointer-events-none">
+                      <div
+                        className="relative w-full max-w-5xl lg:h-[550px] md:h-[350px] h-[260px] aspect-video p-4 pointer-events-auto"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          onClick={() => setPlayingId(null)}
+                          className="absolute lg:-top-3 top-1 lg:-right-1 right-3 z-10 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                        >
+                          <MdClose size={24} />
+                        </button>
+                        <iframe
+                          className="w-full h-full rounded-lg shadow-2xl"
+                          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                          title={slide.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className={`${isPlaying ? "fixed inset-0 z-20 bg-black/75 backdrop-blur-[5px]" : "hidden"}`} />
+                  <div className="w-full h-full relative cursor-pointer" onClick={() => setPlayingId(slide.id)}>
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      loading={idx === 0 ? "eager" : "lazy"} // الصورة الأولى تحميل سريع
+                      placeholder="blur"
+                      blurDataURL="/placeholder.png"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-[#ceaf15] rounded-full flex items-center justify-center">
+                        <CiPlay1 size={30} />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="relative w-full h-full">
+                  <div className="absolute inset-0 z-10 bg-black/40" />
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    placeholder="blur"
+                    blurDataURL="/placeholder.png"
+                  />
+                  <div className="absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white z-50">
+                    <h3 className="text-lg font-bold text-(--main-color)">{slide.title}</h3>
+                    <p className="text-3xl leading-11 lg:w-[450px] md:w-96">{slide.description}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </SwiperSlide>
+        );
+      })}
+    </Swiper>
+  );
+};
+
+export default HeroSliderClient;

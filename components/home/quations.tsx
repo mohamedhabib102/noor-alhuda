@@ -80,7 +80,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                           title={ques.questionContent}
                           alt="avatar"
                           width={40}
-                          height={100}
+                          height={40}
                           className="rounded-full"
                         />
                       )
@@ -110,7 +110,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                           title={ques.questionContent}
                           alt="avatar"
                           width={40}
-                          height={100}
+                          height={40}
                           className="rounded-full"
                         />
                       )
