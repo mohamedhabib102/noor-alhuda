@@ -9,9 +9,10 @@ interface Props {
   }>;
 }
 
+
 const getSurah = async (surahNumber: string) => {
   const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`, {
-    cache: "force-cache"
+    cache: "no-store"
   })
   const data = await res.json()
   return data.data
@@ -20,6 +21,7 @@ const getSurah = async (surahNumber: string) => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const surah = await getSurah(resolvedParams.surha);
+
 
   return {
     title: `سورة ${surah.name} | القرآن الكريم`,
