@@ -29,18 +29,21 @@ interface QuationsProps {
 
 const Quations: React.FC<QuationsProps> = ({ state }) => {
   const [showQuestions, setShowQuestions] = useState<CreateQuestionProps[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
 
 
   const getAllQuestion = async() => {
     try {
+      setLoading(true)
        await req.get("/api/Alhoda_Alnabawya/GetAllQuestionsAndResponses")
        .then((res) => {
-        console.log(res.data);
         setShowQuestions(res.data)
        })
     } catch (error) {
       console.log(error);
+    } finally{
+      setLoading(false)
     }
   }
   
@@ -48,6 +51,8 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
   useEffect(() => {
     getAllQuestion()
   }, [])
+
+  const findHim = showQuestions.some(q => q.isFound === true);
   return (
     <section className={
       `${state === "page" ? "" : "py-16 bg-gray-100 dark:bg-gray-900"}`
@@ -60,7 +65,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
             success={false}
           />
         )}
-        {state !== "page" && (
+        {state !== "page" || !findHim && (
           <Link href="/questions" className="block mt-4 p-2 bg-(--main-color) text-white rounded-lg
           cursor-pointer hover:text-white hover:bg-[#264f37] transition-all duration-300
            text-[20px] mb-5 mr-auto w-fit"> عرض جميع الأسئلة  </Link>
@@ -128,8 +133,12 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
           ))
           )}
         </div>
-        <CreateQuation />
-      </CustomContainer>
+        {loading && <p>جاري تحميل الأسئلة...</p>}
+        {!loading && !findHim && (
+          <p className="mb-1.5 text-sm font-semibold">لا يوجد أسئلة حاليًا، يمكنك إضافة سؤال وانتظار مراجعته</p>
+        )}
+        <CreateQuation getAllQuestion={getAllQuestion}/>
+        </CustomContainer>
     </section>
   )
 }

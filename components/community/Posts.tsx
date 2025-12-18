@@ -1,31 +1,12 @@
 "use client"
 import Image from "next/image";
-import { FaRegHeart } from "react-icons/fa";
 import { BiSolidComment } from "react-icons/bi";
 import AddPostForm from "@/ui/CreatePost";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-// Swiper CSS moved to app/layout.tsx for global preload and to avoid extra CSS chunks
-
-
-
-interface User {
-    name: string;
-    image: string;
-}
-
-interface Post {
-    id: number;
-    title: string;
-    content: string;
-    image?: string;
-    user: User;
-    typeContent: string;
-    type: boolean;
-    time: string;
-}
+import { Autoplay } from "swiper/modules";
+import req from "@/lib/axios";
+import { FaHeart, FaShare } from "react-icons/fa6";
 
 interface Dhikr {
     id: number;
@@ -33,34 +14,6 @@ interface Dhikr {
     content: string;
     image: string;
 }
-
-const posts: Post[] = [
-    {
-        id: 1,
-        user: {
-            name: "Mohamed Mowafy",
-            image: "/images/male.png"
-        },
-        title: "Post 1",
-        content: " اللهم انت المنجي فا نجي القدس من اليهود ",
-        image: "/images/plastine.jpg",
-        typeContent: " عن الأمة التي بكى الرسول عليها ",
-        type: true,
-        time: "2025-11-23"
-    },
-    {
-        id: 2,
-        user: {
-            name: " ايه محمود احمد ",
-            image: "/images/female.jpg"
-        },
-        title: "Post 2",
-        content: " لا اله إلا الله  محمد رسول الله ",
-        typeContent: " عن القرآن الكريم الذي نزل من الله عز وجل ",
-        type: false,
-        time: "2025-11-15"
-    }
-]
 
 const randomDhikr: Dhikr[] = [
     {
@@ -83,42 +36,82 @@ const randomDhikr: Dhikr[] = [
     }
 ]
 
-
 interface PostPage {
-    id: number;
-    image_url: string;
-    name: string;
-    type: string;
-    content: string;
-    created_at: string;
-    gender: string;
+    postID: number;
+    personID: number;
+    postTitle: string;
+    postContent: string;
+    createdAt: string;
+    personName: string;
+    image: string;
 }
 
 const Posts: React.FC = () => {
     const [toggle, setToggle] = useState(false);
     const [postsPage, setPostsPage] = useState<PostPage[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<boolean>(false)
 
 
     const getAllPosts = async () => {
         try {
-            const { data, error } = await supabase.from("posts").select("*")
-            console.log(data);
-
-            if (!error && data) {
-                // Shuffle the posts array randomly
-                const shuffledPosts = [...data].sort(() => 0.5 - Math.random());
-                setPostsPage(shuffledPosts);
-            }
+            setLoading(true)
+            const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts")
+            console.log(res);
+            
+            setPostsPage(res.data)
         } catch (error) {
             console.log(error)
+            setError(true)
+        } finally{
+            setLoading(false)
         }
     }
     useEffect(() => {
-        const fetchPosts = async () => {
-            await getAllPosts();
-        }
-        fetchPosts();
+        getAllPosts();
     }, [])
+
+
+   if (loading) {
+    return (
+        <div className=" py-8">
+            <div className="h-10 w-[200px] rounded-lg mb-3 bg-gray-200 dark:bg-gray-800 animate-pulse"></div>
+            <div className="flex items-start justify-between lg:flex-row-reverse md:flex-row flex-col-reverse gap-8">
+                <div className="lg:w-[75%] md:w-[60%] w-full">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <div key={i} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden animate-pulse mb-8 last:mb-0">
+                            <div className="h-48 bg-gray-200 dark:bg-gray-700"></div>
+                            <div className="p-5 space-y-3">
+                                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                 
+                <div className="bg-gray-200 dark:bg-gray-900 lg:w-[25%] md:w-[35%] w-full sticky top-0 rounded-lg">
+                    {[1].map((i) => (
+                        <div key={i} className="p-3 bg-white dark:bg-gray-800 rounded-lg overflow-hidden animate-pulse">
+                            <div className="bg-gray-400 p-2 dark:bg-gray-900 rounded-lg">
+                                <div className="flex items-center gap-3 mb-4">
+                                 <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                                 <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                            </div>
+                            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+    }
+
+     if (error) {
+       return <p>حدث خطأ أثناء تحميل المنشورات</p>;
+     }
+
     return (
         <>
             <AddPostForm
@@ -134,66 +127,57 @@ const Posts: React.FC = () => {
                     <div className="lg:w-[75%] md:w-[60%] w-full">
                         <div className="">
                             {postsPage.map((post) => (
-                                <div key={post.id} dir="rtl" className="bg-gray-100 dark:bg-gray-800 last:mb-0 mb-14 lg:p-6 md:p-6 p-4 rounded-lg">
+                                <div key={post.postID} dir="rtl" className="bg-gray-100 dark:bg-gray-800 last:mb-0 mb-14 lg:p-6 md:p-6 p-4 rounded-lg">
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-center gap-2">
                                             {
-                                                post.gender !== "ذكر" ? (
-                                                    <Image
-                                                        src="/images/male.png"
-                                                        alt={post.name}
-                                                        title={post.name}
-                                                        width={40}
-                                                        height={40}
-                                                        className="rounded-full"
-                                                    />
-                                                ) : (
-                                                    <Image
-                                                        src="/images/female.jpg"
-                                                        alt={post.name}
-                                                        title={post.name}
-                                                        width={40}
-                                                        height={40}
-                                                        className="rounded-full"
-                                                    />
-                                                )
+                                              
                                             }
                                             <div>
-                                                <h3 className="font-medium -mb-1.5 text-(--main-bg)">{post.name}</h3>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">{post.type}</span>
+                                                <h3 className="font-medium -mb-1.5 text-(--main-bg)">{post.personName}</h3>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">{post.postTitle}</span>
                                             </div>
                                         </div>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400">{new Date(post.created_at).toLocaleDateString()}</span>
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
                                     </div>
                                     <div>
-                                        {post.image_url ? (
+                                        {post.image ? (
                                             <div>
-                                                <p className="mt-2 text-lg dark:text-gray-200">{post.content}</p>
-                                                {post.image_url !== null && (
-                                                    <Image
-                                                        src={post.image_url}
-                                                        alt={post.name}
-                                                        width={500}
-                                                        height={500}
-                                                        className="rounded-lg w-full lg:h-[550px] mt-3 bg-cover"
-                                                    />
+                                                <p className="mt-2 text-lg dark:text-gray-200 mb-2">{post.postContent}</p>
+                                                {post.image !== null && (
+                                                  <Image
+                                                    src={post.image}
+                                                    alt={post.personName}
+                                                    width={600}
+                                                    height={900}
+                                                    className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                   />
+
+
                                                 )}
                                             </div>
                                         ) : (
-                                            <p className="mt-2 text-lg dark:text-gray-200">{post.content}</p>
+                                            <p className="mt-2 text-lg dark:text-gray-200">{post.postContent}</p>
                                         )}
-                                        <div className="flex items-center justify-between gap-2.5 mt-4">
-                                            <div className="flex items-center justify-center bg-white dark:bg-gray-700 p-2 rounded-lg gap-1 w-[45%] text-(--main-bg) cursor-pointer
-                                    hover:bg-(--main-bg) hover:text-white transition duration-300">
-                                                <span>0</span>
-                                                <FaRegHeart size={23} />
-                                            </div>
-                                            <div className="flex items-center justify-center bg-white dark:bg-gray-700 p-2 rounded-lg gap-1 w-[45%] text-(--main-bg) cursor-pointer
-                                    hover:bg-(--main-bg) hover:text-white transition duration-300">
-                                                <span>0</span>
-                                                <BiSolidComment size={23} />
-                                            </div>
+                                        <div className="flex items-center justify-between gap-3 mt-4">
+                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
+                                            <span>0</span>
+                                            <FaHeart size={23} />
+                                          </div>
+
+                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-teal-600 cursor-pointer">
+                                            <span>0</span>
+                                            <BiSolidComment size={23} />
+                                          </div>
+                                        
+                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer">
+                                            <span>Share</span>
+                                            <FaShare size={23} />
+                                          </div>
                                         </div>
+
+
+
                                     </div>
                                 </div>
                             ))}
@@ -202,7 +186,7 @@ const Posts: React.FC = () => {
                     <div className="bg-gray-200 dark:bg-gray-900 p-3 lg:w-[20%] md:w-[35%] w-full sticky top-0 rounded-lg">
                         {/* Desktop View */}
                         <div className="hidden md:block">
-                            {randomDhikr.map((dhikr) => (
+                            {!loading && randomDhikr.map((dhikr) => (
                                 <div key={dhikr.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-5" dir="rtl">
                                     <div className="flex items-center justify-end flex-row-reverse gap-0.5">
                                         <h2 className="text-lg font-medium text-(--main-color)">{dhikr.title}</h2>

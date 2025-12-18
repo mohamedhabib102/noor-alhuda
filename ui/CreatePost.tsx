@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, ChangeEvent, FormEvent, useRef } from 'react';
-import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
 import { FaImage } from 'react-icons/fa';
 import { MdClose } from "react-icons/md";
+import req from '@/lib/axios';
+import { useAuth } from '@/lib/contextapi';
+import { useRouter } from 'next/navigation';
 
 
 interface CreatePostProps {
@@ -15,17 +17,16 @@ interface CreatePostProps {
 
 const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts }) => {
     const [formData, setFormData] = useState({
-        name: '',
-        postType: '',
-        content: '',
-        gender: ''
+        PostTitle: '',
+        PostContent: '',
     });
+    const {userData} = useAuth()
     const [image, setImage] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const  router =  useRouter()
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -52,42 +53,39 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
         e.preventDefault();
         setError(null);
 
-        // Validation
-        if (!formData.name.trim() || !formData.postType.trim() || !formData.content.trim() || !formData.gender) {
-            setError('من فضلك تأكد من إدخال جميع البيانات المطلوبة بشكل صحيح');
+
+        if (!userData?.personID){
+            router.push("/join-us")
             return;
         }
 
+        // Validation
+        if (!formData.PostTitle.trim() || !formData.PostContent.trim()) {
+            setError('من فضلك تأكد من إدخال جميع البيانات المطلوبة بشكل صحيح');
+            return;
+        }
+        const now = new Date();
+
         try {
             setLoading(true);
-            let publicUrl = null;
-
+            const data = new FormData();
+            data.append("PersonID", userData?.personID.toString()||"")
+            data.append("PostTitle", formData.PostTitle)
+            data.append("PostContent", formData.PostContent)
+            data.append("CreatedAt", now.toISOString()||"")
             if (image) {
-                const fileName = `public/${Date.now()}_${image.name}`;
-                const { error: uploadError } = await supabase.storage
-                    .from('Images')
-                    .upload(fileName, image);
-
-                if (uploadError) throw uploadError;
-
-                const { data } = supabase.storage.from('Images').getPublicUrl(fileName);
-                publicUrl = data?.publicUrl;
+                data.append("image", image||"")
             }
-
-            const { error: insertError } = await supabase
-                .from('posts')
-                .insert([{
-                    name: formData.name,
-                    type: formData.postType,
-                    content: formData.content,
-                    gender: formData.gender,
-                    image_url: publicUrl
-                }]);
-
-            if (insertError) throw insertError;
-
+            req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
             // Reset form
-            setFormData({ name: '', postType: '', content: '', gender: '' });
+            setFormData({
+               PostTitle: '',
+               PostContent: '',
+           });
             removeImage();
             alert('تم إضافة البوست بنجاح');
             setToggle(!toggle);
@@ -103,7 +101,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
 
     return (
         <>
-            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-10 bg-black/50`}></div>
+            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-10 bg-black/50 backdrop-blur-sm`}></div>
             <div className={
                 `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}  fixed z-50 top-1/2 left-1/2 -translate-1/2 w-[90%] h-[550px] overflow-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition no-scrollbar`
             }>
@@ -122,55 +120,24 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
 
                     {/* Name Input */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">الاسم</label>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right"> نوع البوست </label>
                         <input
                             type="text"
                             id="name"
-                            name="name"
-                            value={formData.name}
+                            name="PostTitle"
+                            value={formData.PostTitle}
                             onChange={handleChange}
-                            placeholder="أدخل اسمك"
+                             placeholder=" مثال: عن القرآن الكريم , عن الأمة الأسلامية"
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                         />
                     </div>
-
-                    {/* Post Type Input */}
-                    <div>
-                        <label htmlFor="postType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">نوع البوست</label>
-                        <input
-                            type="text"
-                            id="postType"
-                            name="postType"
-                            value={formData.postType}
-                            onChange={handleChange}
-                            placeholder=" اكتب نوع البوست  مثال: عن القرآن الكريم , عن الأمة الأسلامية"
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                        />
-                    </div>
-
-                    {/* Gender Input */}
-                    <div>
-                        <label htmlFor="gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">النوع</label>
-                        <select
-                            id="gender"
-                            name="gender"
-                            value={formData.gender}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all text-right bg-white dark:bg-gray-700 dark:text-white"
-                        >
-                            <option value="">اختر النوع</option>
-                            <option value="male">ذكر</option>
-                            <option value="female">أنثى</option>
-                        </select>
-                    </div>
-
                     {/* Content Input */}
                     <div>
                         <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">محتوى البوست</label>
                         <textarea
                             id="content"
-                            name="content"
-                            value={formData.content}
+                            name="PostContent"
+                            value={formData.PostContent}
                             onChange={handleChange}
                             placeholder="اكتب محتوى البوست هنا"
                             rows={5}
@@ -221,7 +188,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full py-3 px-4 rounded-lg text-white font-semibold shadow-md transition-all
+                        className={`cursor-pointer w-full py-3 px-4 rounded-lg text-white font-semibold shadow-md transition-all
                        ${loading
                                 ? 'bg-[#0e582d]/70 cursor-not-allowed'
                                 : 'bg-[#0e582d] hover:bg-[#0b4623] hover:shadow-lg active:transform active:scale-[0.99]'

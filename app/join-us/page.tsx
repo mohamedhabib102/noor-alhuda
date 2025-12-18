@@ -7,6 +7,8 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { FaCheck } from "react-icons/fa6";
+import Link from "next/link";
 
 interface ApiError {
     response?: {
@@ -26,6 +28,8 @@ const JoinUsPage = () => {
     })
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [checked, setChecked] = useState(false)
+    const [erroChecked, setErroChecked] = useState("")
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter()
     const [imageShow, setImageShow] = useState<string>("");
@@ -65,6 +69,7 @@ const JoinUsPage = () => {
         setError("");
         try {
             setLoading(true)
+
             if (!loginData.personName || !loginData.email || !loginData.password) {
                 setError("من فضلك تأكد من إدخال جميع البيانات المطلوبة بشكل صحيح")
                 setLoading(false)
@@ -75,6 +80,11 @@ const JoinUsPage = () => {
             if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(loginData.password)) {
                 setError("كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، وتتضمن حروف كبيرة وصغيرة وأرقام")
                 setLoading(false)
+                return
+            }
+
+            if (!checked){
+                setErroChecked(" يجب الموافقة على التعليمات ")
                 return
             }
             const formData = new FormData();
@@ -211,6 +221,12 @@ const JoinUsPage = () => {
                         {error}
                     </div>
                 )}
+
+                {erroChecked && (
+                    <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                        {erroChecked}
+                    </div>
+                )}
                 {/* Name Input */}
                 <div className="relative mt-6 mb-4">
                     <input
@@ -309,9 +325,52 @@ const JoinUsPage = () => {
                     </label>
                 </div>
 
+                 <div className="flex items-center gap-2 mb-3 relative">
+                      <div className="w-5 h-5  bg-white dark:bg-gray-700 border border-gray-400 rounded-full 
+                      flex items-center justify-center cursor-pointer">
+                        <input
+                         type="checkbox"
+                         id="checked"
+                         className="peer hidden"
+                         checked={checked}
+                        onChange={(e) => {
+                            setChecked(e.target.checked);
+                            if (e.target.checked) setErroChecked(""); 
+                        }}
+                       />  
+                          <label
+                            htmlFor="checked"
+                            className="relative cursor-pointer 
+                            opacity-0 peer-checked:opacity-100 transition-transform duration-200"
+                          >
+                           <span
+                           className="absolute w-3 h-3 rounded-full z-20 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2
+                           bg-(--main-bg)"
+                           ></span>
+                          </label>
+                     </div>
+                     <p className="text-sm text-gray-500"> قرأت التعليمات وموافق عليها  ؟ </p>
+                 </div>
+
+                <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                  يجب قراءة التعليمات والموافقة عليها. الرجاء زيارة 
+                  <Link 
+                  href="/help"
+                  className="font-semibold text-red-600 dark:text-red-400 inline-block
+                  mx-1 underline"
+                  >
+                   التعليمات
+                  </Link>
+                  قبل المتابعة.
+                </div>
+
+
+
+
+
                 <button
                     type="submit"
-                    className="cursro-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
+                    className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
                     hover:opacity-90 transition-opacity font-medium"
                 >
                     {loading ? "جاري التحميل..." : "تسجيل"}
@@ -320,7 +379,7 @@ const JoinUsPage = () => {
                 <button
                     type="button"
                     onClick={() => signIn("google")}
-                    className="cursro-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
+                    className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
                     hover:opacity-90 transition-opacity font-medium flex items-center gap-2 justify-center
                     text-center"
                 >

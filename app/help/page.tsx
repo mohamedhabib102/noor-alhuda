@@ -60,13 +60,15 @@ const HelpPage = () => {
                                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">المجتمع والمنشورات</h3>
                                 </div>
                                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                                    المجتمع مفتوح للجميع! يمكنك كتابة منشورات تفيد الغير وتشارك معلوماتك.
-                                    النشر متاح للجميع (حتى بدون تسجيل) لنشر الفائدة بأوسع نطاق، ولكن تذكر أن الهدف هو التوعية.
+                                    يمكنك المشاركة في المجتمع من خلال حسابك الشخصي، مع ميزة اختيار النشر 
+                                    <span className="font-semibold"> كمجهول الهوية</span> إذا رغبت بذلك. 
+                                    هذه الميزة تمنحك الخصوصية بينما يظل المنشور مرتبطاً بحسابك.
                                 </p>
                                 <div className="text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/10 p-2 rounded-lg inline-block">
-                                    * يظهر المنشور مباشرة بعد النشر
+                                    * تظهر المنشورات مباشرة بعد النشر، مع إمكانية تفعيل النشر كمجهول الهوية من إعدادات الحساب
                                 </div>
                             </div>
+
 
                             {/* Questions Card */}
                             <div className="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
@@ -114,7 +116,7 @@ const HelpPage = () => {
                                     <FaUserSecret className="text-green-600" size={20} />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">المشاركة بدون تسجيل</h4>
+                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">المشاركة كمجهول الهوية </h4>
                                     <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                         نحترم خصوصيتك، يمكنك المشاركة كـ  مجهول لكن تذكر، الله يراك استخدم هذه الميزة بمسؤولية لنشر الخير.
                                     </p>
