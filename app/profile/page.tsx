@@ -10,6 +10,8 @@ import { FaUserSecret } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import { BsFilePostFill } from "react-icons/bs";
+import Link from "next/link";
 
 
 
@@ -83,7 +85,7 @@ const ProfilePage: React.FC = () => {
   
 
 
-  const { personID, personName, email, role, createdAt, image } = userData;
+  const { personID, personName, email, role, createdAt } = userData;
 
   const userRole = role === "Admin" ? "مشرف" : "مستخدم";
 
@@ -112,7 +114,7 @@ const ProfilePage: React.FC = () => {
 
               <div className="w-20 h-20 rounded-full overflow-hidden mb-3 z-40">
                <Image
-                 src={image || "/images/default.png"}
+                 src={userData.image || "/images/default.png"}
                  alt="user"
                  width={80}
                  height={80}
@@ -229,7 +231,7 @@ const ProfilePage: React.FC = () => {
 
             <div>
               <p className="text-sm text-gray-500">البريد الإلكتروني</p>
-              <p className="font-semibold text-lg break-all">{email || "غير متوفر"}</p>
+              <p className="font-semibold text-lg break-all">{(`...${email.split("@")[0]}`) || "غير متوفر"}</p>
             </div>
 
             <div>
@@ -277,6 +279,21 @@ const ProfilePage: React.FC = () => {
                   </span>
                   تعديل الحساب
                 </button>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">تعديل الحساب</p>
+               <Link
+               href="profile/your-posts" 
+               className="mt-1 font-semibold text-sm flex items-center gap-2 cursor-pointer">
+                  <span className="w-7 h-7 rounded-full flex items-center justify-center bg-(--main-color) dark:bg-gray-700">
+                    <BsFilePostFill 
+                    size={18} 
+                    className="text-white"
+                    />
+                  </span>
+                   رؤية منشوراتك
+                </Link>
             </div>
           </div>
           <div className="mt-8 rounded-xl bg-(--main-color)/5 dark:bg-(--main-color)/50 p-4 text-sm leading-relaxed text-gray-700 dark:text-white">

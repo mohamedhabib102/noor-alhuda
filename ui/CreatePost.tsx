@@ -141,7 +141,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                             onChange={handleChange}
                             placeholder="اكتب محتوى البوست هنا"
                             rows={5}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-none text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-y text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                         />
                     </div>
 

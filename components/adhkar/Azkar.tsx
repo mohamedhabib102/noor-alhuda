@@ -70,7 +70,7 @@ const Azkar: React.FC<AzkarProps> = ({list}) => {
                 ))}
             </ul>
             <div className="mt-8">
-                {filterAzkar.map((azkar, index) => (
+                {filterAzkar.map((azkar) => (
                     azkar.array.map((zekr, index) => (
                         <div 
                         key={index}

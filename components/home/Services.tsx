@@ -6,6 +6,7 @@ import { GiPrayerBeads } from "react-icons/gi";
 import { FaMosque } from "react-icons/fa6";
 import Link from "next/link";
 import CustomTitle from "@/ui/CustomTitle";
+import { RiBookShelfFill } from "react-icons/ri";
 
 
 
@@ -43,8 +44,19 @@ const services: Serve[] = [
         title: " المجتمع ",
         icon: FaMosque,
         link: "/community"
+    },
+    {
+        id: 6,
+        title: " الكتب ",
+        link: "/books",
+        icon: RiBookShelfFill
     }
 ]
+
+/*
+
+
+*/
 
 
 const Services: React.FC = () => {

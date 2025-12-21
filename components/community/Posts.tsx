@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import req from "@/lib/axios";
 import { FaHeart, FaShare } from "react-icons/fa6";
+import { useAuth } from "@/lib/contextapi";
 
 interface Dhikr {
     id: number;
@@ -43,7 +44,8 @@ interface PostPage {
     postContent: string;
     createdAt: string;
     personName: string;
-    image: string;
+    image_Post: string;
+    image_Person: string
 }
 
 const Posts: React.FC = () => {
@@ -51,6 +53,7 @@ const Posts: React.FC = () => {
     const [postsPage, setPostsPage] = useState<PostPage[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<boolean>(false)
+    const {userData} = useAuth()
 
 
     const getAllPosts = async () => {
@@ -58,7 +61,6 @@ const Posts: React.FC = () => {
             setLoading(true)
             const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts")
             console.log(res);
-            
             setPostsPage(res.data)
         } catch (error) {
             console.log(error)
@@ -131,22 +133,31 @@ const Posts: React.FC = () => {
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-center gap-2">
                                             {
-                                              
+                                              post.image_Person && (
+                                                <Image
+                                                 src={post.image_Person}
+                                                 title={post.personName}
+                                                 alt={post.postContent}
+                                                 width={40}
+                                                 height={40}
+                                                 className="w-10 h-10 rounded-full object-contain"
+                                                />
+                                              )
                                             }
                                             <div>
-                                                <h3 className="font-medium -mb-1.5 text-(--main-bg)">{post.personName}</h3>
+                                                <h3 className="font-medium -mb-1.5 text-(--main-bg)">{userData?.personID === post.personID ? "أنت" : post.personName}</h3>
                                                 <span className="text-xs text-gray-500 dark:text-gray-400">{post.postTitle}</span>
                                             </div>
                                         </div>
                                         <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
                                     </div>
                                     <div>
-                                        {post.image ? (
+                                        {post.image_Post ? (
                                             <div>
                                                 <p className="mt-2 text-lg dark:text-gray-200 mb-2">{post.postContent}</p>
-                                                {post.image !== null && (
+                                                {post.image_Post !== null && (
                                                   <Image
-                                                    src={post.image}
+                                                    src={post.image_Post}
                                                     alt={post.personName}
                                                     width={600}
                                                     height={900}

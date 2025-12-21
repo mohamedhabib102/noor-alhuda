@@ -97,7 +97,7 @@ const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
                     name="responseContent"
                     id="responseContent"
                     placeholder=" أضف الأجابة "
-                    className="resize-none w-full h-30 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                    className="resize-y w-full h-30 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
                 text-right mb-4 outline-none focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color)
                 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     onChange={handelChange}
@@ -105,6 +105,11 @@ const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
                 >
 
                 </textarea>
+                
+                <p className="text-sm"> إذا أضفت جملة بين علامات التنصيص  " " يتم عرض الجمله هكذا  :
+
+                    <span className="text-(--main-color) mx-1 font-semibold underline">مثال</span>
+                </p>
 
                 <button
                     type="submit"
@@ -112,6 +117,7 @@ const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
                     cursor-pointer  hover:text-white hover:bg-[#264f37] transition-all duration-300
                     w-33 text-right text-[20px]"
                 > {loading ? " جاري الأضافة... " : "أضف"} </button>
+
             </form>
         </div>
     )

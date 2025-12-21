@@ -2,12 +2,13 @@
 import req from "@/lib/axios";
 import { useAuth } from "@/lib/contextapi";
 import { ChangeEvent, useEffect, useState } from "react";
-import { FaGoogle } from "react-icons/fa";
+// import { FaGoogle } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import { signIn, useSession } from "next-auth/react";
+// import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
+// import { FaCheck } from "react-icons/fa6";
 import Link from "next/link";
 
 interface ApiError {
@@ -38,7 +39,6 @@ const JoinUsPage = () => {
     const handelImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            console.log("📸 Image file selected:", file.name, file.size, "bytes");
             const reader = new FileReader();
             reader.onload = (e) => {
                 if (e.target?.result) {
@@ -135,59 +135,55 @@ const JoinUsPage = () => {
     }, [userData, router])
 
 
-    useEffect(() => {
-        // Only sync if session exists, user is NOT logged in in our system, and not currently loading
-        if (session?.user && !userData?.personID && !loading) {
-            const syncWithBackend = async () => {
-                try {
-                    setLoading(true);
-                    // Mapping Google session to Backend expectations
-                    const formData = new FormData();
-                    formData.append("PersonName", session.user?.name || "");
-                    formData.append("Email", session.user?.email || "");
-                    formData.append("Password", "@GoogleOAuthDefaultPassword123");
-                    formData.append("Role", "string");
+    // useEffect(() => {
+    //     // Only sync if session exists, user is NOT logged in in our system, and not currently loading
+    //     if (session?.user && !userData?.personID && !loading) {
+    //         const syncWithBackend = async () => {
+    //             try {
+    //                 setLoading(true);
+    //                 // Mapping Google session to Backend expectations
+    //                 const formData = new FormData();
+    //                 formData.append("PersonName", session.user?.name || "");
+    //                 formData.append("Email", session.user?.email || "");
+    //                 formData.append("Password", "@GoogleOAuthDefaultPassword123");
+    //                 formData.append("Role", "string");
                     
 
-                    if (session.user?.image) {
-                        formData.append("Image", session.user.image);
-                    }
+    //                 if (session.user?.image) {
+    //                     formData.append("Image", session.user.image);
+    //                 }
 
-                    for (const pair of formData.entries()) {
-                        console.log(`${pair[0]}: ${pair[1]}`);
-                    }
+    //                 const res = await req.post("/api/Alhoda_Alnabawya/Login", 
+    //                     formData, {
+    //                     headers: {
+    //                         "Content-Type": "multipart/form-data",
+    //                     }
+    //                     });
 
-                    const res = await req.post("/api/Alhoda_Alnabawya/Login", 
-                        formData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        }
-                        });
-
-                    if (res.data) {
-                        login(res.data);
-                        // تحويل بناءً على الـ role
-                        if (res.data?.role === "Admin") {
-                            router.push("/control")
-                        } else {
-                            router.push("/")
-                        }
-                    }
-                } catch (error: unknown) {
-                    const err = error as ApiError;
-                    console.log("Google Sync Error:", err);
-                    // Only show error if it's not a duplicate request issue
-                    if (err.response?.status === 400) {
-                        setError(" البريد الالكتروني موجود بالفعل ");
-                    }
-                } finally {
-                    setLoading(false);
-                }
-            };
-            syncWithBackend();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session, userData]);
+    //                 if (res.data) {
+    //                     login(res.data);
+    //                     // تحويل بناءً على الـ role
+    //                     if (res.data?.role === "Admin") {
+    //                         router.push("/control")
+    //                     } else {
+    //                         router.push("/")
+    //                     }
+    //                 }
+    //             } catch (error: unknown) {
+    //                 const err = error as ApiError;
+    //                 console.log("Google Sync Error:", err);
+    //                 // Only show error if it's not a duplicate request issue
+    //                 if (err.response?.status === 400) {
+    //                     setError(" البريد الالكتروني موجود بالفعل ");
+    //                 }
+    //             } finally {
+    //                 setLoading(false);
+    //             }
+    //         };
+    //         syncWithBackend();
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [session, userData]);
 
     return (
         <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
@@ -212,7 +208,7 @@ const JoinUsPage = () => {
                         alt="Logo"
                         width={100}
                         height={100}
-                        className="p-1 w-24 h-24 bg-cover rounded-full bg-gray-400 dark:bg-gray-700"
+                        className="p-1 w-24 h-24 bg-cover rounded-full object-contain bg-gray-400 dark:bg-gray-700"
                     />
 
                 </div>
@@ -376,7 +372,7 @@ const JoinUsPage = () => {
                     {loading ? "جاري التحميل..." : "تسجيل"}
                 </button>
 
-                <button
+                {/* <button
                     type="button"
                     onClick={() => signIn("google")}
                     className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
@@ -386,7 +382,7 @@ const JoinUsPage = () => {
 
                     <span> التسجيل باستخدام </span>
                     <FaGoogle size={20} />
-                </button>
+                </button> */}
             </form>
         </section>
     );

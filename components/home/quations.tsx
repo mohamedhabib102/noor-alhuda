@@ -19,7 +19,8 @@ interface CreateQuestionProps {
     questionContent: string,
     responseContent: string,
     personName: string,
-    isFound: boolean
+    isFound: boolean;
+    image: string
 }
 
 
@@ -65,7 +66,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
             success={false}
           />
         )}
-        {state !== "page" || !findHim && (
+        {state !== "page" && (
           <Link href="/questions" className="block mt-4 p-2 bg-(--main-color) text-white rounded-lg
           cursor-pointer hover:text-white hover:bg-[#264f37] transition-all duration-300
            text-[20px] mb-5 mr-auto w-fit"> عرض جميع الأسئلة  </Link>
@@ -81,7 +82,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                     {
                        (
                         <Image
-                          src="/images/male.png"
+                          src={ques.image}
                           title={ques.questionContent}
                           alt="avatar"
                           width={40}
@@ -96,13 +97,23 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                       </h4>
                     </div>
                   </div>
-                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">{ques.responseContent}</p>
+                  <p className="p-3 leading-8 text-right ml-auto text-gray-800 dark:text-gray-200">
+                  {ques.responseContent.split(/(".*?")/).map((part, index) =>
+                    part.startsWith('"') && part.endsWith('"') ? (
+                      <span key={index}
+                      className="text-(--main-color) mx-1 font-semibold underline"
+                      >{part.replace(/"/g, "")}</span>
+                    ) : (
+                      part
+                    )
+                  )}
+                  </p>
                 </div>
               </AccordionItem>
             )
           ))
           ) : (
-            showQuestions.slice(0, 8).map((ques) => (
+            showQuestions.slice(0, 3).map((ques) => (
             ques.isFound && (
               <AccordionItem key={ques.questionID}
                 title={ques.questionContent}>
@@ -111,12 +122,12 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                     {
                        (
                         <Image
-                          src="/images/male.png"
+                          src={ques.image}
                           title={ques.questionContent}
                           alt="avatar"
                           width={40}
                           height={40}
-                          className="rounded-full"
+                          className="w-10 h-10 rounded-full object-contain"
                         />
                       )
                     }
@@ -126,7 +137,17 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                       </h4>
                     </div>
                   </div>
-                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">{ques.responseContent}</p>
+                  <p className="p-3 leading-7 text-right ml-auto text-gray-800 dark:text-gray-200">
+                    {ques.responseContent.split(/(".*?")/).map((part, index) =>
+                    part.startsWith('"') && part.endsWith('"') ? (
+                      <span key={index}
+                      className="text-(--main-color) mx-1 font-semibold underline"
+                      >{part.replace(/"/g, "")}</span>
+                    ) : (
+                      part
+                    )
+                  )}
+                  </p>
                 </div>
               </AccordionItem>
             )
