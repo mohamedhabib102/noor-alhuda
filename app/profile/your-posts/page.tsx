@@ -29,6 +29,7 @@ const YourPosts = () => {
 
 
 
+
     const getAllPosts = async() => {
          try {
             const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts")
@@ -66,6 +67,11 @@ const YourPosts = () => {
         }
      }, []);
 
+ 
+
+
+
+
 
 
     const posoByID = posts.filter((p) => p.personID === userData?.personID)
@@ -80,23 +86,21 @@ const YourPosts = () => {
                ${scroll ? "p-2! bg-linear-to-r from-[#121212] to-[#ceaf15]" : ""}
           `}>
                 <div className="flex items-center gap-3.5">
-                    {loading && userData?.image && (
-                       <Image
+                   {userData && (
+                     <Image
                        src={userData?.image || "/images/default.png"}
                        width={112}
                        height={112}
                        alt="profile"
                        title={userData?.personName}
-                       className={
-                        `w-28 h-28 rounded-full object-cover transition duration-200
-                        ${scroll ? "w-10! h-10!" : ""}
-                        `
-                       }
-                       />
-                    )}
+                       className={`w-28 h-28 rounded-full object-cover transition duration-200
+                         ${scroll ? "w-10 h-10" : ""}`}
+                     />
+                   )}
+
                     <div>
-                        <h4 className="mb-1 font-semibold text-lg">{loading && userData?.personName}</h4>
-                        <span className="text-sm bg-gray-400 dark:bg-gray-700 px-2 py-0.5 rounded-lg text-white">{loading && userData?.role === "Admin" ? "مشرف" : "مستخدم"}</span>
+                        <h4 className="mb-1 font-semibold text-lg">{userData?.personName}</h4>
+                        <span className="text-sm bg-gray-400 dark:bg-gray-700 px-2 py-0.5 rounded-lg text-white">{userData?.role === "Admin" ? "مشرف" : "مستخدم"}</span>
                     </div>
                 </div>
               </div>
