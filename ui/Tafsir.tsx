@@ -22,7 +22,7 @@ const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir }) => {
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/40 backdrop-blur-sm`} onClick={() => setToggle(false)}></div>
             <div className={`${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}
-        transition-all duration-200 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-10/12 m-auto bg-white dark:bg-zinc-900 py-6 px-6 rounded-3xl shadow-2xl border border-gray-100 dark:border-zinc-800`}>
+        transition-all duration-200 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-10/12   h-[500px] overflow-auto no-scrollbar m-auto bg-white dark:bg-zinc-900 py-6 px-6 rounded-3xl shadow-2xl border border-gray-100 dark:border-zinc-800`}>
                 <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-emerald-600 dark:text-gray-200 absolute top-4 left-4">
                     <MdClose size={24} />
                 </button>
