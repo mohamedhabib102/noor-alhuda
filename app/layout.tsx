@@ -23,7 +23,7 @@ const rakkas = Rakkas({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nour-alhud.vercel.app/"),
+  metadataBase: new URL("https://noor-alhuda.netlify.app/"),
   title: "نور الهدى | رفيقك في رحلة الإيمان",
   description:
     "منصة نور الهدى هي وجهتك الروحانية المتكاملة، حيث تجمع بين تلاوة القرآن الكريم، الأذكار اليومية، ومجتمع إسلامي متفاعل. نسعى لتعزيز صلتك بالله وتوفير بيئة هادئة تعينك على الطاعة والتفقه في الدين",
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     title: "نور الهدى | رفيقك في رحلة الإيمان",
     description:
       "اكتشف السكينة مع منصة نور الهدى. قرآن، أذكار، ومجتمع إسلامي يجمعنا على الطاعة.",
-    url: "https://nour-alhud.vercel.app/",
+    url: "https://noor-alhuda.netlify.app/",
     siteName: "نور الهدى",
     locale: "ar_AR",
     type: "website",
     images: [
       {
-        url: "https://nour-alhud.vercel.app/logo-share.png",
+        url: "https://noor-alhuda.netlify.app/logo-share.png",
         width: 600,
         height: 600,
         alt: "شعار نور الهدى",
@@ -62,12 +62,12 @@ export const metadata: Metadata = {
     title: "نور الهدى | رفيقك في رحلة الإيمان",
     description:
       "اكتشف السكينة مع منصة نور الهدى. قرآن، أذكار، ومجتمع إسلامي يجمعنا على الطاعة.",
-    images: ["https://nour-alhud.vercel.app/logo-share.png"],
+    images: ["https://noor-alhuda.netlify.app/logo-share.png"],
   },
 
   icons: {
-    icon: "https://nour-alhud.vercel.app/logo-share.png",
-    apple: "https://nour-alhud.vercel.app/logo-share.png",
+    icon: "https://noor-alhuda.netlify.app/logo-share.png",
+    apple: "https://noor-alhuda.netlify.app/logo-share.png",
   },
 };
 
