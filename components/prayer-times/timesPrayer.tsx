@@ -16,9 +16,7 @@ const getPrayerTimes = async () => {
     const today = new Date().toLocaleDateString("en-GB").replaceAll("/", "-");
     const url = `https://api.aladhan.com/v1/timingsByCity/${today}?city=cairo&country=egypt&method=5`;
     const response = await fetch(url, {
-        next: {
-            revalidate: 60 * 60 * 6, // 6 hours to build cache
-        }
+        cache: "no-store"
     });
     const data = await response.json();
     return data;
