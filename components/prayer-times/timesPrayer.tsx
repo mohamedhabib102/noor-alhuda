@@ -12,8 +12,13 @@ interface PrayerTime {
 
 
 
+// Helper to get current time in Egypt (Africa/Cairo)
+const getEgyptTime = () => {
+    return new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
+};
+
 const getPrayerTimes = async () => {
-    const today = new Date().toLocaleDateString("en-GB").replaceAll("/", "-");
+    const today = getEgyptTime().toLocaleDateString("en-GB").replaceAll("/", "-");
     const url = `https://api.aladhan.com/v1/timingsByCity/${today}?city=cairo&country=egypt&method=5`;
     const response = await fetch(url, {
         cache: "no-store"
@@ -29,7 +34,7 @@ const TimesPrayer = async () => {
 
     const formatTo12Hour = (time: string) => {
         const [hours, minutes] = time.split(":").map(Number)
-        const date = new Date()
+        const date = getEgyptTime();
         date.setHours(hours);
         date.setMinutes(minutes);
         return date.toLocaleTimeString("ar-EG", {
@@ -50,7 +55,8 @@ const TimesPrayer = async () => {
 
     const hijriDateDisplay = `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ`;
 
-    const currentTime = new Date();
+
+    const currentTime = getEgyptTime();
     const timeString = currentTime.toLocaleTimeString("ar-EG", {
         hour: "2-digit",
         minute: "2-digit",
@@ -65,12 +71,11 @@ const TimesPrayer = async () => {
         year: "numeric",
     });
 
-
     const getNextPrayerIndex = () => {
-        const now = new Date();
+        const now = getEgyptTime();
         for (let i = 0; i < prayerTimesList.length; i++) {
             const [hours, minutes] = prayerTimesList[i].rawTime.split(":").map(Number);
-            const prayerDate = new Date();
+            const prayerDate = getEgyptTime();
             prayerDate.setHours(hours, minutes, 0, 0);
 
             if (prayerDate > now) {
@@ -83,14 +88,14 @@ const TimesPrayer = async () => {
     const nextPrayerIndex = getNextPrayerIndex();
 
     const getNextPrayerDate = () => {
-        const now = new Date();
+        const now = getEgyptTime();
         const nextPrayer = prayerTimesList[nextPrayerIndex];
         const [hours, minutes] = nextPrayer.rawTime.split(":").map(Number);
 
-        const prayerDate = new Date();
+        const prayerDate = getEgyptTime();
         prayerDate.setHours(hours, minutes, 0, 0);
 
-        if (prayerDate < now) {
+        if (prayerDate <= now) {
             prayerDate.setDate(prayerDate.getDate() + 1);
         }
         return prayerDate;
