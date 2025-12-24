@@ -11,10 +11,10 @@ interface Actions {
   type: "increment";
 }
 
-const reducer = (state: State, action: Actions) => {
+const reducer = (state: number, action: Actions) => {
     switch (action.type) {
         case "increment":
-            return {count: state.count + 1}
+            return  state === 33 ? 0 : state + 1
         default:
             return state
     }
@@ -23,7 +23,7 @@ const reducer = (state: State, action: Actions) => {
 
 
 const ParyFC: React.FC = () => {
-    const [count, dispatch] = useReducer(reducer, {count: 0});
+    const [count, dispatch] = useReducer(reducer, 0);
     const [allNums, setAllNums] = useState<number>(0)
 
    const handelClick = () => {
@@ -77,7 +77,7 @@ useEffect(() => {
          onClick={handelClick} className="mt-20 mx-auto cursor-pointer lg:w-96 lg:h-96 w-72 h-72 rounded-full bg-white border-2 border-gray-400
          dark:bg-gray-800 dark:border-gray-600">
             <div className="w-full h-full flex items-center justify-center">
-                <p className="text-7xl font-bold select-none">{count.count <= 9 ? `0${count.count}` : count.count}</p>
+                <p className="text-7xl font-bold select-none">{count <= 9 ? `0${count}` : count}</p>
             </div>
          </motion.div>
         </>

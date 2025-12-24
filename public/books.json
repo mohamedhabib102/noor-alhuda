@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "title": "صحيح البخاري",
+        "author": "الإمام البخاري",
+        "category": "الحديث الشريف",
+        "pages": 7563,
+        "size": "25MB",
+        "fileLink": "PDF",
+        "images": "images/books/bokary.png.webp",
+        "description": "أصح كتب الحديث النبوي عند أهل السنة والجماعة، جمعه الإمام محمد بن إسماعيل البخاري."
+    },
+    {
+        "id": 2,
+        "title": "تفسير ابن كثير",
+        "author": "الحافظ ابن كثير",
+        "category": "التفسير",
+        "pages": 4000,
+        "size": "45MB",
+        "fileLink": "PDF",
+        "images": "images/books/abnkatheer.webp",
+        "description": "من أشهر كتب التفسير بالمأثور، ويعد من أصح وأفضل التفاسير للقرآن الكريم."
+    },
+    {
+        "id": 3,
+        "title": "رياض الصالحين",
+        "author": "الإمام النووي",
+        "category": "الحديث والزهد",
+        "pages": 680,
+        "size": "14.17MB",
+        "fileLink": "PDF",
+        "images": "images/books/rayad.jpg.webp",
+        "description": "كتاب جامع للترغيب والترهيب والزهد، يضم أحاديث القول والفعل المروية عن النبي صلى الله عليه وسلم."
+    }
+]

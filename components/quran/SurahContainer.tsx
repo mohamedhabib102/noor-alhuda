@@ -13,16 +13,28 @@ interface Verse {
 interface Surah {
   id: number;
   name: string;
+  number: number;
   englishName: string;
   ayahs: Verse[];
 }
 
+interface Tafsir {
+  id: number;
+  sura: string;
+  aya: string;
+  arabic_text: string;
+  translation: string;
+}
+
 interface SurahContainerProps {
   surah: Surah;
+  tafsir: Tafsir[];
 }
 
 
-const SurahContainer: React.FC<SurahContainerProps> = ({ surah }) => {
+const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
+
+
 
     return (
         <>
@@ -38,6 +50,7 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah }) => {
                         <div className="mt-10">
                             <SurahDisplay
                                 surah={surah}
+                                tafsir={tafsir}
                             />
                         </div>
                     </div>

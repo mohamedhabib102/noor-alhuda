@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import Image from 'next/image';
-import { FaImage } from 'react-icons/fa';
+import { FaImage, FaSmile } from 'react-icons/fa';
 import { MdClose } from "react-icons/md";
 import req from '@/lib/axios';
 import { useAuth } from '@/lib/contextapi';
@@ -14,6 +14,14 @@ interface CreatePostProps {
     setToggle: React.Dispatch<React.SetStateAction<boolean>>;
     getAllPosts: () => void;
 }
+
+interface Emoji {
+    text: string;
+    emoji: string;
+}
+
+const availableEmojis = ["👍", "❤️", "😂", "😮", "😢", "😡"];
+
 
 const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts }) => {
     const [formData, setFormData] = useState({
@@ -27,6 +35,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const  router =  useRouter()
+    const [open, setOpen] = useState<boolean>(false)
+
+    const handleEmojis = (em: string) => {
+        if (!em) return;
+        setFormData(prev => ({ ...prev, PostContent: prev.PostContent + em }));
+    }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -132,17 +146,43 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                         />
                     </div>
                     {/* Content Input */}
-                    <div>
+                    <div className='relative'>
                         <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">محتوى البوست</label>
                         <textarea
                             id="content"
                             name="PostContent"
-                            value={formData.PostContent}
+                            value={`${formData.PostContent}`}
                             onChange={handleChange}
                             placeholder="اكتب محتوى البوست هنا"
                             rows={5}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-y text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            className="w-full px-4 py-2 pl-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-y text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
+                            no-scrollbar"
                         />
+                        <FaSmile 
+                        size={20}
+                        className='absolute top-8 left-3 cursor-pointer
+                        text-(--main-bg)'
+                        onClick={() => setOpen(!open)}
+                         />
+
+                         <div className={
+                            `dark:bg-gray-600 bg-gray-300 rounded-lg
+                         flex items-center gap-2 p-1 w-fit mr-auto
+                         ${open ? "visible opacity-100 scale-100" : "invisible opacity-0 scale-0"}
+                         transition-all duration-300 
+                         `
+                         }>
+                            {availableEmojis.map((em, index) => (
+                                <button 
+                                key={index}
+                                className='text-lg cursor-pointer'
+                                onClick={() => handleEmojis(em)}
+                                type='button'
+                                >
+                                    {em}
+                                </button>
+                            ))}
+                         </div>
                     </div>
 
                     {/* Image Upload Section */}

@@ -18,6 +18,15 @@ const getSurah = async (surahNumber: string) => {
   return data.data
 }
 
+const getTafsir = async (surahNumber: string) => {
+  const res = await fetch(`https://quranenc.com/api/v1/translation/sura/arabic_moyassar/${surahNumber}`, {
+    cache: "no-store"
+  })
+  const data = await res.json()
+  // console.log(data.result);
+  return data.result
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const surah = await getSurah(resolvedParams.surha);
@@ -38,8 +47,9 @@ const SurhaPage: React.FC<Props> = async ({ params }) => {
   const resolvedParams = await params;
   const surahNumber = resolvedParams.surha;
   const surah = await getSurah(surahNumber);
+  const tafsir = await getTafsir(surahNumber);
   return (
-    <SurahContainer surah={surah} />
+    <SurahContainer surah={surah} tafsir={tafsir} />
   );
 };
 

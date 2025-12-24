@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
 import { FaChartBar } from "react-icons/fa6";
 import { RiBookShelfFill } from "react-icons/ri";
+import { IoHeartCircleSharp } from "react-icons/io5";
+
 
 
 
@@ -51,11 +53,17 @@ const NavbarText: Navbar[] = [
         link: "/",
         icon: FaHandHoldingHeart
     },
-     {
+    {
         id: 5,
         title: " الكتب ",
         link: "/books",
         icon: RiBookShelfFill
+    },
+    {
+        id: 6,
+        title: " أوقات الصلاة ",
+        link: "/prayer-times",
+        icon: IoHeartCircleSharp
     }
 ]
 

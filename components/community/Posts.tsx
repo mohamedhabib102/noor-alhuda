@@ -1,6 +1,5 @@
 "use client"
 import Image from "next/image";
-import { BiSolidComment } from "react-icons/bi";
 import AddPostForm from "@/ui/CreatePost";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,6 +7,9 @@ import { Autoplay } from "swiper/modules";
 import req from "@/lib/axios";
 import { FaHeart, FaShare } from "react-icons/fa6";
 import { useAuth } from "@/lib/contextapi";
+import { BiRepost } from "react-icons/bi";
+import LikePost from "./LikePost";
+
 
 interface Dhikr {
     id: number;
@@ -46,7 +48,24 @@ interface PostPage {
     personName: string;
     image_Post: string;
     image_Person: string
+    share: boolean;
+    nameShare: string;
 }
+
+const sharePost = [
+    {
+        postID: 1,
+        personID: 12,
+        postTitle: "السودان الحبيبة",
+        postContent: "اللهم حرر السوادن من د الظالمين",
+        createdAt: "2025-12-23T23:38:26",
+        personName: " محمد محمود أحمد ",
+        image_Post: "/images/soudan.jpg",
+        image_Person: "/images/default.png",
+        share: false,
+        nameShare: "Mohamed Habib"
+    }
+]
 
 const Posts: React.FC = () => {
     const [toggle, setToggle] = useState(false);
@@ -125,10 +144,88 @@ const Posts: React.FC = () => {
                 <button className="bg-(--main-bg) text-white p-2 rounded-lg w-[200px] block ml-auto mb-4 cursor-pointer hover:opacity-80 transition duration-300"
                     onClick={() => setToggle(!toggle)}
                 > اضافة منشور </button>
-                <div className="flex items-start justify-between lg:flex-row-reverse md:flex-row flex-col-reverse gap-8">
+                 <div className="flex items-start justify-between lg:flex-row-reverse md:flex-row flex-col-reverse gap-8">
                     <div className="lg:w-[75%] md:w-[60%] w-full">
                         <div className="">
-                            {postsPage.map((post) => (
+                        {sharePost.map((post) => (
+                            <div key={post.postID} 
+                            className="bg-gray-200 dark:bg-gray-900 lg:p-5 md:p-5 p-2 pb-2! px-2! rounded-lg mb-14">
+                                <div className="flex items-center gap-1.5 mb-2">
+                                    <BiRepost size={20} className="text-(--main-bg)" />
+                                    <div className="font-medium text-sm flex items-center gap-1"> 
+                                        <span className="font-bold">تم المشاركة من :</span>
+                                        <div className="flex items-center gap-1">
+                                            <span className="mx-1">{post.nameShare}</span>
+                                             {/* {
+                                             post.image_Person && (
+                                              <Image
+                                              src="/images/male.png"
+                                              title={post.personName}
+                                              alt={post.postContent}
+                                              width={28}
+                                              height={28}
+                                              className="w-7 h-7 rounded-full object-contain"
+                                                     />
+                                               )
+                                             } */}
+                                        </div>
+                                    </div>
+                                </div>
+                            <div  dir="rtl" className="bg-gray-100 dark:bg-gray-800 last:mb-0 mb-14 lg:p-6 md:p-6 p-4 rounded-lg">
+                                 <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-2">
+                                     {
+                                     post.image_Person && (
+                                         <Image
+                                         src={post.image_Person}
+                                         title={post.personName}
+                                         alt={post.postContent}
+                                         width={40}
+                                         height={40}
+                                         className="w-10 h-10 rounded-full object-contain"
+                                                />
+                                          )
+                                        }
+                                        <div>
+                                            <h3 className="font-medium -mb-1.5 text-(--main-bg)">{userData?.personID === post.personID ? "أنت" : post.personName}</h3>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">{post.postTitle}</span>
+                                        </div>
+                                        </div>
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
+                                </div>
+                                <div>
+                                {post.image_Post ? (
+                                <div>
+                                    <p className="mt-2 text-lg dark:text-gray-200 mb-2">{post.postContent}</p>
+                                        {post.image_Post !== null && (
+                                          <Image
+                                            src={post.image_Post}
+                                                alt={post.personName}
+                                                   width={600}
+                                                   height={900}
+                                                   className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                  />
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <p className="mt-2 text-lg dark:text-gray-200">{post.postContent}</p>
+                                        )}
+                                        <div className="flex items-center justify-between gap-3 mt-4">
+                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
+                                            <span>0</span>
+                                            <FaHeart size={23} />
+                                          </div>
+
+                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer">
+                                            <span>Share</span>
+                                            <FaShare size={23} />
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            ))}
+                        {postsPage.map((post) => (
                                 <div key={post.postID} dir="rtl" className="bg-gray-100 dark:bg-gray-800 last:mb-0 mb-14 lg:p-6 md:p-6 p-4 rounded-lg">
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-center gap-2">
@@ -171,27 +268,15 @@ const Posts: React.FC = () => {
                                             <p className="mt-2 text-lg dark:text-gray-200">{post.postContent}</p>
                                         )}
                                         <div className="flex items-center justify-between gap-3 mt-4">
-                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
-                                            <span>0</span>
-                                            <FaHeart size={23} />
-                                          </div>
-
-                                          <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-teal-600 cursor-pointer">
-                                            <span>0</span>
-                                            <BiSolidComment size={23} />
-                                          </div>
-                                        
+                                          <LikePost />
                                           <div className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer">
                                             <span>Share</span>
                                             <FaShare size={23} />
                                           </div>
                                         </div>
-
-
-
                                     </div>
                                 </div>
-                            ))}
+                        ))}
                         </div>
                     </div>
                     <div className="bg-gray-200 dark:bg-gray-900 p-3 lg:w-[20%] md:w-[35%] w-full sticky top-0 rounded-lg">
