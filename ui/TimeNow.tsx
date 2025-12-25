@@ -13,7 +13,7 @@ const TimeNow: React.FC<TimeNowProps> = ({
     prayerTimes,
 }) => {
     const [currentTime, setCurrentTime] = useState<Date | null>(null);
-    const [timeLeft, setTimeLeft] = useState<string>("--:--:--");
+    const [timeLeft, setTimeLeft] = useState<[number, number, number]>([0, 0, 0]);
 
     useEffect(() => {
         const update = () => {
@@ -62,9 +62,9 @@ const TimeNow: React.FC<TimeNowProps> = ({
                     const formatted = [diffHrs, diffMins, diffSecs]
                         .map(v => v.toLocaleString("ar-EG", { minimumIntegerDigits: 2, useGrouping: false }))
                         .join(':');
-                    setTimeLeft(formatted);
+                    setTimeLeft([diffHrs, diffMins, diffSecs]);
                 } else {
-                    setTimeLeft("00:00:00");
+                    setTimeLeft([0, 0, 0]);
                 }
             }
         };
@@ -101,7 +101,7 @@ const TimeNow: React.FC<TimeNowProps> = ({
                 <div className="flex flex-col items-start md:items-end gap-1 border-t md:border-t-0 md:border-r border-white/20 pt-4 md:pt-0 md:pr-6 mt-4 md:mt-0">
                     <span className="text-sm uppercase tracking-widest opacity-70 font-bold">باقي على الأذان التالي</span>
                     <span className="text-3xl font-bold text-[#ab900b] tabular-nums">
-                        {timeLeft}
+                        {`${timeLeft[0]}:${timeLeft[1]}:${timeLeft[2]}`}
                     </span>
                 </div>
             </div>
