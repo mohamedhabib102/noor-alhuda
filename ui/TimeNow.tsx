@@ -48,7 +48,10 @@ const TimeNow: React.FC<TimeNowProps> = ({
                 const ntm = String(tomorrow.getMonth() + 1).padStart(2, '0');
                 const ntd = String(tomorrow.getDate()).padStart(2, '0');
                 const tomorrowStr = `${nty}-${ntm}-${ntd}`;
-                nextPrayerDate = new Date(`${tomorrowStr}T${prayerTimes[0].rawTime}:00+02:00`);
+                nextPrayerDate = new Date(
+                    new Date(`${tomorrowStr}T${prayerTimes[0].rawTime}:00`)
+                        .toLocaleString("en-US", { timeZone: "Africa/Cairo" })
+                );
             }
 
             if (nextPrayerDate) {

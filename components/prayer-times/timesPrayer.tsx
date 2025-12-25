@@ -25,6 +25,8 @@ const getPrayerTimes = async () => {
     return data;
 }
 
+import PrayerList from "./PrayerList";
+
 const TimesPrayer = async () => {
     const apiData = await getPrayerTimes();
     const timings = apiData.data.timings;
@@ -41,10 +43,6 @@ const TimesPrayer = async () => {
             hour12: true,
         });
     }
-
-    const todayDate = apiData.data.date.gregorian.date; // "DD-MM-YYYY"
-    const [d, m, y] = todayDate.split("-");
-    const formattedToday = `${y}-${m}-${d}`;
 
     const prayerTimesList: PrayerTime[] = [
         { name: "الفجر", time: formatTo12Hour(timings.Fajr), rawTime: timings.Fajr, icon: <MdAccessTime /> },
@@ -71,19 +69,6 @@ const TimesPrayer = async () => {
         month: "long",
         year: "numeric",
     });
-
-    const getNextPrayerIndex = () => {
-        const now = currentTimeAtEgypt;
-        for (let i = 0; i < prayerTimesList.length; i++) {
-            const prayerDate = new Date(`${formattedToday}T${prayerTimesList[i].rawTime}:00+02:00`);
-            if (prayerDate > now) {
-                return i;
-            }
-        }
-        return 0; // Default to Fajr
-    };
-
-    const nextPrayerIndex = getNextPrayerIndex();
 
     return (
         <div className="w-full max-w-5xl mx-auto space-y-8 px-4 font-sans text-right" dir="rtl">
@@ -125,31 +110,7 @@ const TimesPrayer = async () => {
             </div>
 
             {/* Prayer Times Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {prayerTimesList.map((prayer, index) => (
-                    <div
-                        key={prayer.name}
-                        className={`relative p-6 rounded-3xl transition-all duration-300 border ${index === nextPrayerIndex
-                            ? "bg-[#0e582d] border-[#0e582d] text-white shadow-lg shadow-green-900/20"
-                            : "bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200"
-                            } hover:-translate-y-2.5`}
-                    >
-                        <div className="flex flex-col items-center gap-3">
-                            <div className={`text-2xl ${index === nextPrayerIndex ? "text-white" : "text-[#0e582d]"}`}>
-                                {prayer.icon}
-                            </div>
-                            <span className={`font-bold ${index === nextPrayerIndex ? "text-white" : "text-gray-500"}`}>{prayer.name}</span>
-                            <span className="text-2xl font-black tabular-nums">{prayer.time}</span>
-                        </div>
-                        {index === nextPrayerIndex && (
-                            <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#ab900b] text-white text-[10px] font-bold rounded-full shadow-sm
-                            text-center">
-                                الصلاة القادمة
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+            <PrayerList prayerTimesList={prayerTimesList} />
         </div>
     );
 };
