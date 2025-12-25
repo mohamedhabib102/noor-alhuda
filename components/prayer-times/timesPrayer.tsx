@@ -44,6 +44,12 @@ const TimesPrayer = async () => {
         });
     }
 
+    const todayDate = apiData.data.date.gregorian.date; // "DD-MM-YYYY"
+    const offset = apiData.data.meta.timezone === "Africa/Cairo" ? "+02:00" : "+02:00"; // Cairo offset
+
+    const [d, m, y] = todayDate.split("-");
+    const formattedToday = `${y}-${m}-${d}`;
+
     const prayerTimesList: PrayerTime[] = [
         { name: "الفجر", time: formatTo12Hour(timings.Fajr), rawTime: timings.Fajr, icon: <MdAccessTime /> },
         { name: "الشروق", time: formatTo12Hour(timings.Sunrise), rawTime: timings.Sunrise, icon: <MdAccessTime /> },
@@ -55,16 +61,17 @@ const TimesPrayer = async () => {
 
     const hijriDateDisplay = `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ`;
 
+    // Use a fixed time for comparison on the server based on Egypt time
+    const currentTimeAtEgypt = getEgyptTime();
 
-    const currentTime = getEgyptTime();
-    const timeString = currentTime.toLocaleTimeString("ar-EG", {
+    const timeString = currentTimeAtEgypt.toLocaleTimeString("ar-EG", {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
     });
 
-    const gregorianDate = currentTime.toLocaleDateString("ar-EG", {
+    const gregorianDate = currentTimeAtEgypt.toLocaleDateString("ar-EG", {
         weekday: 'long',
         day: "numeric",
         month: "long",
@@ -72,31 +79,30 @@ const TimesPrayer = async () => {
     });
 
     const getNextPrayerIndex = () => {
-        const now = getEgyptTime();
+        const now = currentTimeAtEgypt;
         for (let i = 0; i < prayerTimesList.length; i++) {
-            const [hours, minutes] = prayerTimesList[i].rawTime.split(":").map(Number);
-            const prayerDate = getEgyptTime();
-            prayerDate.setHours(hours, minutes, 0, 0);
-
+            const prayerDate = new Date(`${formattedToday}T${prayerTimesList[i].rawTime}:00+02:00`);
             if (prayerDate > now) {
                 return i;
             }
         }
-        return 0; // Default to Fajr if all prayers for today have passed
+        return 0; // Default to Fajr
     };
 
     const nextPrayerIndex = getNextPrayerIndex();
 
     const getNextPrayerDate = () => {
-        const now = getEgyptTime();
         const nextPrayer = prayerTimesList[nextPrayerIndex];
-        const [hours, minutes] = nextPrayer.rawTime.split(":").map(Number);
+        let prayerDate = new Date(`${formattedToday}T${nextPrayer.rawTime}:00+02:00`);
 
-        const prayerDate = getEgyptTime();
-        prayerDate.setHours(hours, minutes, 0, 0);
-
-        if (prayerDate <= now) {
-            prayerDate.setDate(prayerDate.getDate() + 1);
+        if (prayerDate <= currentTimeAtEgypt) {
+            // If it's Fajr (index 0) and we passed Isha, it should be tomorrow
+            const tomorrow = new Date(currentTimeAtEgypt);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const ty = tomorrow.getFullYear();
+            const tm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const td = String(tomorrow.getDate()).padStart(2, '0');
+            prayerDate = new Date(`${ty}-${tm}-${td}T${nextPrayer.rawTime}:00+02:00`);
         }
         return prayerDate;
     };

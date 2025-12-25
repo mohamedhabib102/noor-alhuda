@@ -22,9 +22,9 @@ const TimeNow: React.FC<{ timeString?: string; nextPrayerTime?: number }> = ({
                     const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                     const diffSecs = Math.floor((diffMs % (1000 * 60)) / 1000);
 
-                    // Format as HH:MM:SS
+                    // Format as HH:MM:SS with localization
                     const formatted = [diffHrs, diffMins, diffSecs]
-                        .map(v => v.toString().padStart(2, '0'))
+                        .map(v => v.toLocaleString("ar-EG", { minimumIntegerDigits: 2, useGrouping: false }))
                         .join(':');
                     setTimeLeft(formatted);
                 } else {
@@ -64,7 +64,7 @@ const TimeNow: React.FC<{ timeString?: string; nextPrayerTime?: number }> = ({
                 </div>
                 <div className="flex flex-col items-start md:items-end gap-1 border-t md:border-t-0 md:border-r border-white/20 pt-4 md:pt-0 md:pr-6 mt-4 md:mt-0">
                     <span className="text-sm uppercase tracking-widest opacity-70 font-bold">باقي على الأذان التالي</span>
-                    <span className="text-2xl font-bold text-[#ab900b] tabular-nums">
+                    <span className="text-3xl font-bold text-[#ab900b] tabular-nums">
                         {timeLeft}
                     </span>
                 </div>
