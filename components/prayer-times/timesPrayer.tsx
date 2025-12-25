@@ -10,8 +10,6 @@ interface PrayerTime {
     icon: JSX.Element;
 }
 
-
-
 // Helper to get current time in Egypt (Africa/Cairo)
 const getEgyptTime = () => {
     return new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
@@ -45,8 +43,6 @@ const TimesPrayer = async () => {
     }
 
     const todayDate = apiData.data.date.gregorian.date; // "DD-MM-YYYY"
-    const offset = apiData.data.meta.timezone === "Africa/Cairo" ? "+02:00" : "+02:00"; // Cairo offset
-
     const [d, m, y] = todayDate.split("-");
     const formattedToday = `${y}-${m}-${d}`;
 
@@ -60,8 +56,6 @@ const TimesPrayer = async () => {
     ];
 
     const hijriDateDisplay = `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ`;
-
-    // Use a fixed time for comparison on the server based on Egypt time
     const currentTimeAtEgypt = getEgyptTime();
 
     const timeString = currentTimeAtEgypt.toLocaleTimeString("ar-EG", {
@@ -91,34 +85,12 @@ const TimesPrayer = async () => {
 
     const nextPrayerIndex = getNextPrayerIndex();
 
-    const getNextPrayerDate = () => {
-        const nextPrayer = prayerTimesList[nextPrayerIndex];
-        let prayerDate = new Date(`${formattedToday}T${nextPrayer.rawTime}:00+02:00`);
-
-        if (prayerDate <= currentTimeAtEgypt) {
-            // If it's Fajr (index 0) and we passed Isha, it should be tomorrow
-            const tomorrow = new Date(currentTimeAtEgypt);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const ty = tomorrow.getFullYear();
-            const tm = String(tomorrow.getMonth() + 1).padStart(2, '0');
-            const td = String(tomorrow.getDate()).padStart(2, '0');
-            prayerDate = new Date(`${ty}-${tm}-${td}T${nextPrayer.rawTime}:00+02:00`);
-        }
-        return prayerDate;
-    };
-
-    const nextPrayerDate = getNextPrayerDate();
-
-
-
-
-
     return (
         <div className="w-full max-w-5xl mx-auto space-y-8 px-4 font-sans text-right" dir="rtl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Time Card */}
                 <TimeNow
-                    nextPrayerTime={nextPrayerDate.getTime()}
+                    prayerTimes={prayerTimesList.map(p => ({ name: p.name, rawTime: p.rawTime }))}
                     timeString={timeString}
                 />
                 {/* Date Card */}
@@ -181,6 +153,5 @@ const TimesPrayer = async () => {
         </div>
     );
 };
-
 
 export default TimesPrayer;

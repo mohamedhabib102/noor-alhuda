@@ -3,20 +3,56 @@
 import { useState, useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 
-const TimeNow: React.FC<{ timeString?: string; nextPrayerTime?: number }> = ({
+interface TimeNowProps {
+    timeString?: string;
+    prayerTimes: { name: string; rawTime: string }[];
+}
+
+const TimeNow: React.FC<TimeNowProps> = ({
     timeString,
-    nextPrayerTime,
+    prayerTimes,
 }) => {
     const [currentTime, setCurrentTime] = useState<Date | null>(null);
     const [timeLeft, setTimeLeft] = useState<string>("--:--:--");
 
     useEffect(() => {
         const update = () => {
-            const now = new Date();
+            const now = new Date(
+                new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" })
+            );
             setCurrentTime(now);
 
-            if (nextPrayerTime) {
-                const diffMs = nextPrayerTime - now.getTime();
+            // Find next prayer using today's date
+            let nextPrayerDate: Date | null = null;
+            const ty = now.getFullYear();
+            const tm = String(now.getMonth() + 1).padStart(2, '0');
+            const td = String(now.getDate()).padStart(2, '0');
+            const todayStr = `${ty}-${tm}-${td}`;
+
+            for (const prayer of prayerTimes) {
+                const pDate = new Date(
+                    new Date(`${todayStr}T${prayer.rawTime}:00`)
+                        .toLocaleString("en-US", { timeZone: "Africa/Cairo" })
+                );
+                if (pDate > now) {
+                    nextPrayerDate = pDate;
+                    break;
+                }
+            }
+
+            // If no prayer found today, next one is Fajr tomorrow
+            if (!nextPrayerDate && prayerTimes.length > 0) {
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const nty = tomorrow.getFullYear();
+                const ntm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+                const ntd = String(tomorrow.getDate()).padStart(2, '0');
+                const tomorrowStr = `${nty}-${ntm}-${ntd}`;
+                nextPrayerDate = new Date(`${tomorrowStr}T${prayerTimes[0].rawTime}:00+02:00`);
+            }
+
+            if (nextPrayerDate) {
+                const diffMs = nextPrayerDate.getTime() - now.getTime();
                 if (diffMs > 0) {
                     const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
                     const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -36,7 +72,7 @@ const TimeNow: React.FC<{ timeString?: string; nextPrayerTime?: number }> = ({
         update(); // Initial call
         const timer = setInterval(update, 1000);
         return () => clearInterval(timer);
-    }, [nextPrayerTime]);
+    }, [prayerTimes]);
 
     // Display formatted time (only on client after mount)
     const timeDisplay = currentTime
@@ -56,7 +92,7 @@ const TimeNow: React.FC<{ timeString?: string; nextPrayerTime?: number }> = ({
                 <div>
                     <div className="flex items-center gap-2 mb-2 opacity-80">
                         <IoLocationOutline className="text-xl" />
-                        <span className="text-sm font-medium">مواقيت الصلاة حسب موقعك الحالي</span>
+                        <span className="text-sm font-medium">  مواقيت الصلاة مصر/القاهرة  </span>
                     </div>
                     <h2 className="text-5xl md:text-7xl font-black tracking-tighter tabular-nums drop-shadow-lg">
                         {timeDisplay}
