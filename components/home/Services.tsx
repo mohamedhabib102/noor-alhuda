@@ -53,15 +53,12 @@ const services: Serve[] = [
     }
 ]
 
-/*
 
-
-*/
 
 
 const Services: React.FC = () => {
     return (
-        <section className="py-16 bg-gray-100 dark:bg-gray-900">
+        <section className="lg:py-16 py-8 bg-gray-100 dark:bg-gray-900">
             <CustomContainer>
                 <CustomTitle
                     success={false}

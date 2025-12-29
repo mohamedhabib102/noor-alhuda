@@ -5,7 +5,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 // import { FaGoogle } from "react-icons/fa";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 // import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 // import { FaCheck } from "react-icons/fa6";
@@ -20,7 +19,6 @@ interface ApiError {
 
 const JoinUsPage = () => {
     const { login, userData } = useAuth();
-    const { data: session } = useSession();
     const [loginData, setLoginData] = useState({
         personName: "",
         email: "",
@@ -83,7 +81,7 @@ const JoinUsPage = () => {
                 return
             }
 
-            if (!checked){
+            if (!checked) {
                 setErroChecked(" يجب الموافقة على التعليمات ")
                 return
             }
@@ -106,7 +104,7 @@ const JoinUsPage = () => {
                 }
             )
             login(res.data)
-            
+
             if (res.data?.role === "Admin") {
                 router.push("/control")
             } else {
@@ -123,7 +121,7 @@ const JoinUsPage = () => {
         }
     }
 
-    
+
     useEffect(() => {
         if (userData?.personID) {
             if (userData.role === "Admin") {
@@ -147,7 +145,7 @@ const JoinUsPage = () => {
     //                 formData.append("Email", session.user?.email || "");
     //                 formData.append("Password", "@GoogleOAuthDefaultPassword123");
     //                 formData.append("Role", "string");
-                    
+
 
     //                 if (session.user?.image) {
     //                     formData.append("Image", session.user.image);
@@ -321,43 +319,43 @@ const JoinUsPage = () => {
                     </label>
                 </div>
 
-                 <div className="flex items-center gap-2 mb-3 relative">
-                      <div className="w-5 h-5  bg-white dark:bg-gray-700 border border-gray-400 rounded-full 
+                <div className="flex items-center gap-2 mb-3 relative">
+                    <div className="w-5 h-5  bg-white dark:bg-gray-700 border border-gray-400 rounded-full 
                       flex items-center justify-center cursor-pointer">
                         <input
-                         type="checkbox"
-                         id="checked"
-                         className="peer hidden"
-                         checked={checked}
-                        onChange={(e) => {
-                            setChecked(e.target.checked);
-                            if (e.target.checked) setErroChecked(""); 
-                        }}
-                       />  
-                          <label
+                            type="checkbox"
+                            id="checked"
+                            className="peer hidden"
+                            checked={checked}
+                            onChange={(e) => {
+                                setChecked(e.target.checked);
+                                if (e.target.checked) setErroChecked("");
+                            }}
+                        />
+                        <label
                             htmlFor="checked"
                             className="relative cursor-pointer 
                             opacity-0 peer-checked:opacity-100 transition-transform duration-200"
-                          >
-                           <span
-                           className="absolute w-3 h-3 rounded-full z-20 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2
+                        >
+                            <span
+                                className="absolute w-3 h-3 rounded-full z-20 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2
                            bg-(--main-bg)"
-                           ></span>
-                          </label>
-                     </div>
-                     <p className="text-sm text-gray-500"> قرأت التعليمات وموافق عليها  ؟ </p>
-                 </div>
+                            ></span>
+                        </label>
+                    </div>
+                    <p className="text-sm text-gray-500"> قرأت التعليمات وموافق عليها  ؟ </p>
+                </div>
 
                 <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
-                  يجب قراءة التعليمات والموافقة عليها. الرجاء زيارة 
-                  <Link 
-                  href="/help"
-                  className="font-semibold text-red-600 dark:text-red-400 inline-block
+                    يجب قراءة التعليمات والموافقة عليها. الرجاء زيارة
+                    <Link
+                        href="/help"
+                        className="font-semibold text-red-600 dark:text-red-400 inline-block
                   mx-1 underline"
-                  >
-                   التعليمات
-                  </Link>
-                  قبل المتابعة.
+                    >
+                        التعليمات
+                    </Link>
+                    قبل المتابعة.
                 </div>
 
 

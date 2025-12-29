@@ -13,6 +13,11 @@ interface CreatePostProps {
     toggle: boolean;
     setToggle: React.Dispatch<React.SetStateAction<boolean>>;
     getAllPosts: () => void;
+    nameShare?: string;
+    namePostShare?: string;
+    titlePostShare?: string;
+    contentPostShare?: string;
+    imagePostShare?: string;
 }
 
 interface Emoji {
@@ -23,7 +28,7 @@ interface Emoji {
 const availableEmojis = ["👍", "❤️", "😂", "😮", "😢", "😡"];
 
 
-const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts }) => {
+const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts , nameShare}) => {
     const [formData, setFormData] = useState({
         PostTitle: '',
         PostContent: '',
@@ -84,6 +89,8 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
             setLoading(true);
             const data = new FormData();
             data.append("PersonID", userData?.personID.toString()||"")
+            data.append("PersonName", userData?.personName||"")
+            data.append("NameShare", nameShare||"Mohamed")
             data.append("PostTitle", formData.PostTitle)
             data.append("PostContent", formData.PostContent)
             data.append("Share", "false")
@@ -95,17 +102,17 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
+            }).then((res) => {
+               // Reset form
+               setFormData({
+                  PostTitle: '',
+                  PostContent: '',
+              });
+               removeImage();
+               alert('تم إضافة البوست بنجاح');
+               setToggle(!toggle);
+               getAllPosts();
             })
-            // Reset form
-            setFormData({
-               PostTitle: '',
-               PostContent: '',
-           });
-            removeImage();
-            alert('تم إضافة البوست بنجاح');
-            setToggle(!toggle);
-            getAllPosts();
-
         } catch (err) {
             console.error('Error adding post:', err);
             setError('حدث خطأ أثناء إضافة البوست، يرجى المحاولة مرة أخرى.');

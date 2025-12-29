@@ -1,16 +1,9 @@
 import req from "@/lib/axios";
+import { Post } from "@/types/Adhkar";
 import Image from "next/image";
 
 
-interface Post {
-    postID: number,
-    personID: number,
-    postTitle: string,
-    postContent: string,
-    createdAt: string,
-    personName: string,
-    image?: string
-}
+
 
 const DEFAULT_IMAGE = "/logo-share.png";
 
@@ -44,7 +37,7 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
         <article className=" dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="relative w-full h-48  dark:bg-gray-700">
                 <Image
-                    src={post.image || DEFAULT_IMAGE}
+                    src={post.image_Post || DEFAULT_IMAGE}
                     alt={post.postTitle || "Post image"}
                     fill
                     className="object-cover"

@@ -12,7 +12,7 @@ interface Decrement {
 }
 
 const reducer = (state: number, action: increment | Decrement) => {
-    switch(action.type){
+    switch (action.type) {
         case "increment":
             return state + 1
         case "decrement":
@@ -27,13 +27,17 @@ const LikePost: React.FC = () => {
     const [count, dispatch] = useReducer(reducer, 5)
     const [like, setLike] = useState<boolean>(false)
     return (
-        <div 
-        onClick={() => {
-            like ? dispatch({ type: "decrement" }) : dispatch({ type: "increment" })
-            setLike(!like)
-        }}
+        <div
+            onClick={() => {
+                if (like) {
+                    dispatch({ type: "decrement" });
+                } else {
+                    dispatch({ type: "increment" });
+                }
+                setLike(!like);
+            }}
 
-        className="select-none flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
+            className="select-none flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
             <span>{count}</span>
             <FaHeart size={23} />
         </div>

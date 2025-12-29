@@ -24,3 +24,15 @@ export interface Adhkar {
     filename: string;
     id: number;
 }
+
+export interface Post {
+    postID: number,
+    personID: number,
+    postTitle: string,
+    postContent: string,
+    createdAt: string,
+    personName: string,
+    image: string;
+    image_Person: string;
+    image_Post: string;
+}

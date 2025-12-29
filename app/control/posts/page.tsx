@@ -3,16 +3,7 @@
 import req from "@/lib/axios";
 import { useState, useEffect } from "react";
 import PostCard from "@/components/posts/PostCard";
-
-interface Post {
-    postID: number,
-    personID: number,
-    postTitle: string,
-    postContent: string,
-    createdAt: string,
-    personName: string,
-    image: string
-}
+import { Post } from "@/types/Adhkar";
 
 
 const PostsPage = () => {

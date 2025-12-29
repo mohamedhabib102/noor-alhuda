@@ -1,6 +1,5 @@
 import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
-import req from "@/lib/axios";
 import Image from "next/image";
 
 interface Book {

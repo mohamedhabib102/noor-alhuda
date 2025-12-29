@@ -1,6 +1,5 @@
 import TimeNow from "@/ui/TimeNow";
 import { JSX } from "react";
-import { IoTimeOutline, IoLocationOutline } from "react-icons/io5";
 import { MdDateRange, MdAccessTime } from "react-icons/md";
 
 interface PrayerTime {

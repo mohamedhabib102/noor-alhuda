@@ -56,7 +56,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
   const findHim = showQuestions.some(q => q.isFound === true);
   return (
     <section className={
-      `${state === "page" ? "" : "py-16 bg-gray-100 dark:bg-gray-900"}`
+      `${state === "page" ? "" : "lg:py-16 py-8 bg-gray-100 dark:bg-gray-900"}`
     }>
       <CustomContainer>
         {state !== "page" && (
