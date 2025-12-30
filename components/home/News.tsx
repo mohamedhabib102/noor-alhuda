@@ -213,10 +213,7 @@ const News: React.FC = () => {
                         </div>
 
                         {dailyMsg && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
+                            <div
                                 className="relative h-[210px] md:h-[320px] bg-emerald-800/90 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-lg md:rounded-lg p-4 md:p-8 text-white overflow-hidden shadow-xl flex flex-col justify-center text-center group"
                             >
                                 <div className="relative z-10 space-y-1 md:space-y-3">
@@ -244,7 +241,7 @@ const News: React.FC = () => {
                                 <div className="absolute top-10 right-10 opacity-10 rotate-12">
                                     <FaQuoteRight size={200} />
                                 </div>
-                            </motion.div>
+                            </div>
                         )}
                     </div>
 

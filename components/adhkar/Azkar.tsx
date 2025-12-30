@@ -12,20 +12,20 @@ const Azkar: React.FC<AzkarProps> = ({ list }) => {
     const [active, setActive] = useState<string>("أذكار الصباح");
     const [azkar, setAzkar] = useState<Adhkar[]>([]);
 
-    const allAzkar = async () => {
-        try {
-            const res = await fetch("/adhkar.json", {
-                cache: "force-cache"
-            });
-            const data = await res.json();
-            setAzkar(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     useEffect(() => {
-        allAzkar();
+        const fetchAzkar = async () => {
+            try {
+                const res = await fetch("/adhkar.json", {
+                    cache: "force-cache"
+                });
+                const data = await res.json();
+                setAzkar(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchAzkar();
     }, []);
 
     const handleDecrement = (category: string, zekrId: number) => {

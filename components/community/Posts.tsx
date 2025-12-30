@@ -194,61 +194,76 @@ const Posts: React.FC = () => {
                         <div className="lg:w-[75%] md:w-[60%] w-full">
                             <div className="">
                                 {postsPage.slice(0, visibleCount).map((post) => (
-                                    <div key={post.postID} className={post.share ? "bg-gray-200 dark:bg-gray-900 lg:p-5 md:p-5 p-2 pb-2! px-2! rounded-lg mb-14" : "mb-14 last:mb-0"}>
-                                        {post.share && (
-                                            <div className="flex items-center gap-1.5 mb-2 px-2">
-                                                <BiRepost size={20} className="text-(--main-bg)" />
-                                                <div className="font-medium text-sm flex items-center gap-1">
-                                                    <span className="font-bold">تم المشاركة من :</span>
-                                                    <span className="mx-1">{post.shareName}</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                        <div dir="rtl" className={`bg-gray-100 dark:bg-gray-800  mb-14 last:mb-0 lg:p-6 md:p-6 p-4 rounded-lg`}>
-                                            <div className="flex items-start justify-between">
+                                    <div key={post.postID} className="mb-6 md:mb-14 group">
+                                        {/* Official Brand Frame */}
+                                        <div className="relative border-2 border-(--main-bg)/20 dark:border-(--main-bg)/10 rounded-2xl p-1.5 md:p-2 bg-gray-200 dark:bg-gray-900 shadow-sm group-hover:shadow-md transition-all duration-500">
+
+                                            {/* Top Branding Section - Inside the Frame */}
+                                            <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300/30 dark:border-gray-700/30 mb-2">
                                                 <div className="flex items-center gap-2">
-                                                    {post.image_Person && (
-                                                        <Image
-                                                            src={post.image_Person}
-                                                            title={post.personName}
-                                                            alt={post.postContent}
-                                                            width={40}
-                                                            height={40}
-                                                            className="w-10 h-10 rounded-full object-contain"
-                                                        />
-                                                    )}
-                                                    <div>
-                                                        <h3 className="font-medium -mb-1.5 text-(--main-bg)">{userData?.personID === post.personID ? "أنت" : post.personName}</h3>
-                                                        <span className="text-xs text-gray-500 dark:text-gray-400">{post.postTitle}</span>
+                                                    <Image src="/logo.svg" alt="logo" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
+                                                    <span className="text-sm md:text-base font-black text-(--main-bg) tracking-tight">نور الهدى</span>
+                                                </div>
+                                                <div className="h-2 w-2 rounded-full bg-(--main-bg) opacity-50" />
+                                            </div>
+
+                                            {/* Share Content - Inside the Frame */}
+                                            {post.share && (
+                                                <div className="flex items-center gap-1.5 mb-3 px-4 py-2 bg-gray-300/50 dark:bg-black/20 rounded-2xl mx-2">
+                                                    <BiRepost size={20} className="text-(--main-bg)" />
+                                                    <div className="font-medium text-xs md:text-sm flex items-center gap-1">
+                                                        <span className="font-bold opacity-70">تم المشاركة من :</span>
+                                                        <span className="text-(--main-bg) font-bold">{post.shareName}</span>
                                                     </div>
                                                 </div>
-                                                <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
-                                            </div>
-                                            <div>
-                                                {post.image_Post ? (
-                                                    <div>
-                                                        <ExpandableText text={post.postContent} />
-                                                        {post.image_Post !== "null" && (
+                                            )}
+
+                                            {/* Actual Post Content - Nested within Frame */}
+                                            <div dir="rtl" className={`bg-gray-100 dark:bg-gray-800 lg:p-6 md:p-6 p-4 rounded-lg shadow-sm`}>
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        {post.image_Person && (
                                                             <Image
-                                                                src={post.image_Post}
-                                                                alt={post.personName}
-                                                                width={600}
-                                                                height={900}
-                                                                className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                                src={post.image_Person}
+                                                                title={post.personName}
+                                                                alt={post.postContent}
+                                                                width={44}
+                                                                height={44}
+                                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
                                                             />
                                                         )}
+                                                        <div>
+                                                            <h3 className="font-bold text-sm md:text-base text-(--main-bg)">{userData?.personID === post.personID ? "أنت" : post.personName}</h3>
+                                                            <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post.postTitle}</span>
+                                                        </div>
                                                     </div>
-                                                ) : (
-                                                    <ExpandableText text={post.postContent} />
-                                                )}
-                                                <div className="flex items-center justify-between gap-3 mt-4">
-                                                    <LikePost />
-                                                    <div
-                                                        className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer"
-                                                        onClick={() => handelShare(post)}
-                                                    >
-                                                        <span>Share</span>
-                                                        <FaShare size={23} />
+                                                    <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
+                                                </div>
+
+                                                <div className="mt-5 space-y-4">
+                                                    <div className="text-gray-800 dark:text-gray-200">
+                                                        <ExpandableText text={post.postContent} />
+                                                    </div>
+
+                                                    {post.image_Post && post.image_Post !== "null" && (
+                                                        <Image
+                                                            src={post.image_Post}
+                                                            alt={post.personName}
+                                                            width={600}
+                                                            height={900}
+                                                            className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                        />
+                                                    )}
+
+                                                    <div className="flex items-center justify-between gap-3 mt-4">
+                                                        <LikePost />
+                                                        <div
+                                                            className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer"
+                                                            onClick={() => handelShare(post)}
+                                                        >
+                                                            <span>Share</span>
+                                                            <FaShare size={23} />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,7 +280,7 @@ const Posts: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="bg-gray-200 dark:bg-gray-900 p-3 lg:w-[20%] md:w-[35%] w-full sticky top-0 rounded-lg">
+                        <div className="bg-gray-200 dark:bg-gray-900 p-3 lg:w-[20%] md:w-[35%] w-full sticky top-0 rounded-2xl">
                             {/* Desktop View */}
                             <div className="hidden md:block">
                                 {!loading && randomDhikr.map((dhikr) => (
