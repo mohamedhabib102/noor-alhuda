@@ -21,7 +21,7 @@ import {
     FaQuoteRight,
     FaMosque
 } from "react-icons/fa6";
-import { motion } from "framer-motion";
+
 
 // 1. Daily Spiritual Messages Data
 interface SpiritualMessage {
@@ -75,78 +75,78 @@ interface HijriMonthContent {
 }
 
 const hijriMonthsContent: Record<number, HijriMonthContent> = {
-  1: {
-    name: "محرم",
-    title: "فاتحة العام والطاعة",
-    desc: "شهر الله المحرم، وهو أحد الأشهر الحرم التي عظمها الله.",
-    icon: FaMosque
-  },
-  2: {
-    name: "صفر",
-    title: "العمل بلا تشاؤم",
-    desc: "شهر من شهور السنة الهجرية، نتقرب فيه إلى الله بالطاعات.",
-    icon: GiStarShuriken
-  },
-  3: {
-    name: "ربيع الأول",
-    title: "شهر ميلاد الرحمة",
-    desc: "فيه ولد الحبيب المصطفى صلى الله عليه وسلم، رحمة للعالمين.",
-    icon: FaMosque
-  },
-  4: {
-    name: "ربيع الثاني",
-    title: "دوام الذكر والاقتداء",
-    desc: "أيام مباركة نملأها بذكر الله تعالى وشكره على نعمه.",
-    icon: BsStars
-  },
-  5: {
-    name: "جمادى الأولى",
-    title: "الثبات على الطاعة",
-    desc: "الصبر والعمل الصالح هما زاد المؤمن في كل شهر.",
-    icon: GiHeartOrgan
-  },
-  6: {
-    name: "جمادى الآخر",
-    title: "الاعتماد على الله",
-    desc: "ثق بالله وأقبل عليه بقلبك في كل وقت حين.",
-    icon: GiPrayerBeads
-  },
-  7: {
-    name: "رجب",
-    title: "شهر التعظيم والاستعداد",
-    desc: "رجب شهر الاستعداد لرمضان، فازرع فيه بذور الخير.",
-    icon: BsStars
-  },
-  8: {
-    name: "شعبان",
-    title: "تهيئة القلوب للأجر",
-    desc: "تُرفع فيه الأعمال إلى الله، فاجعل عملك طاعة وإخلاصاً.",
-    icon: BsCloudSunFill
-  },
-  9: {
-    name: "رمضان",
-    title: "موسم القرب والمغفرة",
-    desc: "خير الشهور، فيه ليلة القدر التي هي خير من ألف شهر.",
-    icon: BsFillMoonStarsFill
-  },
-  10: {
-    name: "شوال",
-    title: "الاستمرار بعد الطاعة",
-    desc: "فيه عيد الفطر السعيد، وصيام الست من شوال كصيام الدهر.",
-    icon: BsStars
-  },
-  11: {
-    name: "ذو القعدة",
-    title: "السلام والاستعداد للحج",
-    desc: "أحد الأشهر الحرم المعظمة، نستعد فيه لرحلة الحج العظيمة.",
-    icon: GiPrayer
-  },
-  12: {
-    name: "ذو الحجة",
-    title: "ذروة القرب والتضحية",
-    desc: "أفضل أيام الدنيا، فيها الحج وعيد الأضحى والوقوف بعرفة.",
-    icon: GiKneeling
-  }
+    1: {
+        name: "محرم",
+        title: "فاتحة العام والطاعة",
+        desc: "شهر الله المحرم، وهو أحد الأشهر الحرم التي عظمها الله.",
+        icon: FaMosque
+    },
+    2: {
+        name: "صفر",
+        title: "العمل بلا تشاؤم",
+        desc: "شهر من شهور السنة الهجرية، نتقرب فيه إلى الله بالطاعات.",
+        icon: GiStarShuriken
+    },
+    3: {
+        name: "ربيع الأول",
+        title: "شهر ميلاد الرحمة",
+        desc: "فيه ولد الحبيب المصطفى صلى الله عليه وسلم، رحمة للعالمين.",
+        icon: FaMosque
+    },
+    4: {
+        name: "ربيع الثاني",
+        title: "دوام الذكر والاقتداء",
+        desc: "أيام مباركة نملأها بذكر الله تعالى وشكره على نعمه.",
+        icon: BsStars
+    },
+    5: {
+        name: "جمادى الأولى",
+        title: "الثبات على الطاعة",
+        desc: "الصبر والعمل الصالح هما زاد المؤمن في كل شهر.",
+        icon: GiHeartOrgan
+    },
+    6: {
+        name: "جمادى الآخر",
+        title: "الاعتماد على الله",
+        desc: "ثق بالله وأقبل عليه بقلبك في كل وقت حين.",
+        icon: GiPrayerBeads
+    },
+    7: {
+        name: "رجب",
+        title: "شهر التعظيم والاستعداد",
+        desc: "رجب شهر الاستعداد لرمضان، فازرع فيه بذور الخير.",
+        icon: BsStars
+    },
+    8: {
+        name: "شعبان",
+        title: "تهيئة القلوب للأجر",
+        desc: "تُرفع فيه الأعمال إلى الله، فاجعل عملك طاعة وإخلاصاً.",
+        icon: BsCloudSunFill
+    },
+    9: {
+        name: "رمضان",
+        title: "موسم القرب والمغفرة",
+        desc: "خير الشهور، فيه ليلة القدر التي هي خير من ألف شهر.",
+        icon: BsFillMoonStarsFill
+    },
+    10: {
+        name: "شوال",
+        title: "الاستمرار بعد الطاعة",
+        desc: "فيه عيد الفطر السعيد، وصيام الست من شوال كصيام الدهر.",
+        icon: BsStars
+    },
+    11: {
+        name: "ذو القعدة",
+        title: "السلام والاستعداد للحج",
+        desc: "أحد الأشهر الحرم المعظمة، نستعد فيه لرحلة الحج العظيمة.",
+        icon: GiPrayer
+    },
+    12: {
+        name: "ذو الحجة",
+        title: "ذروة القرب والتضحية",
+        desc: "أفضل أيام الدنيا، فيها الحج وعيد الأضحى والوقوف بعرفة.",
+        icon: GiKneeling
+    }
 };
 
 
@@ -255,9 +255,7 @@ const News: React.FC = () => {
                         </div>
 
                         {!loading && monthContent ? (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
+                            <div
                                 className="relative h-[210px] md:h-[320px] bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
                             >
                                 <div className="relative z-10">
@@ -293,7 +291,7 @@ const News: React.FC = () => {
                                 <div className="absolute -right-20 bottom-20 opacity-10">
                                     <monthContent.icon size={400} />
                                 </div>
-                            </motion.div>
+                            </div>
                         ) : (
                             <div className="h-[610px] bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
                                 <span className="text-gray-400">جاري تحميل نفحات الشهر...</span>

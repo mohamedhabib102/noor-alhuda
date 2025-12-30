@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import { FaEnvelope, FaGooglePlay, FaApple } from "react-icons/fa";
-import { motion } from "framer-motion";
+
 
 const Footer = () => {
     return (
@@ -15,10 +15,8 @@ const Footer = () => {
                             تواصل معنا
                         </h3>
                         <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <motion.a
+                            <a
                                 href="mailto:contact@nour-alhuda.com"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
                                 className="flex items-center gap-3 bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 hover:shadow-md transition-shadow cursor-pointer min-w-[200px]"
                             >
                                 <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
@@ -32,12 +30,10 @@ const Footer = () => {
                                         contact@nour-alhuda.com
                                     </span>
                                 </div>
-                            </motion.a>
+                            </a>
 
-                            <motion.a
+                            <a
                                 href="mailto:support@nour-alhuda.com"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
                                 className="flex items-center gap-3 bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 hover:shadow-md transition-shadow cursor-pointer min-w-[200px]"
                             >
                                 <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
@@ -51,7 +47,7 @@ const Footer = () => {
                                         support@nour-alhuda.com
                                     </span>
                                 </div>
-                            </motion.a>
+                            </a>
                         </div>
                     </div>
 
@@ -67,7 +63,7 @@ const Footer = () => {
                             {/* Coming Soon Overlay */}
 
                             <div className="group relative">
-                                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full z-10 shadow-sm animate-bounce font-medium">
+                                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full z-10 shadow-sm font-medium">
                                     قريباً
                                 </div>
                                 <button
@@ -87,7 +83,7 @@ const Footer = () => {
                             </div>
 
                             <div className="group relative">
-                                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full z-10 shadow-sm animate-bounce font-medium">
+                                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full z-10 shadow-sm font-medium">
                                     قريباً
                                 </div>
                                 <button

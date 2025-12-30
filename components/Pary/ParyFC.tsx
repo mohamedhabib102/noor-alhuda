@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useReducer, useState } from "react"
-import { motion } from "framer-motion"
 
 interface Actions {
   type: "increment";
@@ -67,15 +66,13 @@ const ParyFC: React.FC = () => {
 
         </div>
       </div>
-      <motion.div
-        whileTap={{ scale: 0.9 }}
-        whileHover={{ scale: 1.1 }}
+      <div
         onClick={handelClick} className="mt-20 mx-auto cursor-pointer lg:w-96 lg:h-96 w-72 h-72 rounded-full bg-white border-2 border-gray-400
-         dark:bg-gray-800 dark:border-gray-600">
+         dark:bg-gray-800 dark:border-gray-600 hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
         <div className="w-full h-full flex items-center justify-center">
           <p className="text-7xl font-bold select-none">{count <= 9 ? `0${count}` : count}</p>
         </div>
-      </motion.div>
+      </div>
     </>
   )
 }

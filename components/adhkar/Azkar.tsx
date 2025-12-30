@@ -73,9 +73,9 @@ const Azkar: React.FC<AzkarProps> = ({ list }) => {
                 {list.map((item) => (
                     <li
                         onClick={() => setActive(item.title)}
-                        className={`shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${active === item.title
-                            ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg scale-105'
-                            : 'bg-gray-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-200 dark:hover:border-emerald-900'
+                        className={`shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl cursor-pointer border-2 ${active === item.title
+                            ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg'
+                            : 'bg-gray-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-200'
                             }`}
                         key={item.id}>
                         <item.icon size={20} />
@@ -90,7 +90,7 @@ const Azkar: React.FC<AzkarProps> = ({ list }) => {
                         categoryItem.array.map((zekr, index) => (
                             <div
                                 key={`${categoryItem.id}-${zekr.id}-${index}`}
-                                className="group bg-gray-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl shadow-sm hover:shadow-xl hover:border-emerald-100 dark:hover:border-emerald-900 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4"
+                                className="group bg-gray-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-3xl shadow-sm hover:border-emerald-100 dark:hover:border-emerald-900"
                             >
                                 <p className="text-xl md:text-2xl leading-relaxed text-zinc-800 dark:text-zinc-100 font-medium text-right mb-6" dir="rtl">
                                     {zekr.text}
@@ -99,15 +99,15 @@ const Azkar: React.FC<AzkarProps> = ({ list }) => {
                                 <div className="flex flex-row-reverse items-center justify-between">
                                     <button
                                         onClick={() => handleDecrement(categoryItem.category, zekr.id)}
-                                        className="flex items-center flex-row-reverse gap-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-8 py-3 rounded-2xl font-black text-xl hover:bg-emerald-600 hover:text-white transition-all duration-300 shadow-sm active:scale-90"
+                                        className="flex items-center flex-row-reverse gap-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-8 py-3 rounded-2xl font-black text-xl hover:bg-emerald-600 hover:text-white"
                                     >
                                         <span className="min-w-[2ch]">{zekr.count}</span>
-                                        <BsArrowCounterclockwise size={24} className="group-hover:rotate-180 transition-transform duration-500" />
+                                        <BsArrowCounterclockwise size={24} />
                                     </button>
 
                                     <button
                                         onClick={() => handleShare(zekr.text)}
-                                        className="p-3 bg-zinc-50 dark:bg-zinc-800 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-2xl transition-colors active:scale-95"
+                                        className="p-3 bg-zinc-50 dark:bg-zinc-800 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-2xl"
                                         title="مشاركة الذكر"
                                     >
                                         <FaShare size={20} />
@@ -117,9 +117,9 @@ const Azkar: React.FC<AzkarProps> = ({ list }) => {
                         ))
                     ))
                 ) : (
-                    <div className="text-center py-20 animate-in fade-in zoom-in">
+                    <div className="text-center py-20">
                         <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">
-                            <BsArrowCounterclockwise size={40} className="animate-spin-slow" />
+                            <BsArrowCounterclockwise size={40} />
                         </div>
                         <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-100">تقبل الله منك طاعتك</h3>
                         <p className="text-zinc-500 mt-2">لقد أتممت جميع أذكار فئة {active}</p>

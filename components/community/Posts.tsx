@@ -99,11 +99,11 @@ const Posts: React.FC = () => {
             (entries) => {
                 if (entries[0].isIntersecting) {
                     setIsFetchingMore(true);
-                    // Simulate a delay (e.g., 1.5 seconds) before loading more
+                    // Load more immediately or with small delay
                     setTimeout(() => {
                         setVisibleCount((prev) => prev + 3);
                         setIsFetchingMore(false);
-                    }, 1500);
+                    }, 500); // Reduced delay
                 }
             },
             { threshold: 0.1 }
@@ -196,7 +196,7 @@ const Posts: React.FC = () => {
                                 {postsPage.slice(0, visibleCount).map((post) => (
                                     <div key={post.postID} className="mb-6 md:mb-14 group">
                                         {/* Official Brand Frame */}
-                                        <div className="relative border-2 border-(--main-bg)/20 dark:border-(--main-bg)/10 rounded-2xl p-1.5 md:p-2 bg-gray-200 dark:bg-gray-900 shadow-sm group-hover:shadow-md transition-all duration-500">
+                                        <div className="relative border-2 border-(--main-bg)/20 dark:border-(--main-bg)/10 rounded-2xl p-1.5 md:p-2 bg-gray-200 dark:bg-gray-900 shadow-sm transition-shadow">
 
                                             {/* Top Branding Section - Inside the Frame */}
                                             <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300/30 dark:border-gray-700/30 mb-2">
@@ -275,7 +275,7 @@ const Posts: React.FC = () => {
                                 {visibleCount < postsPage.length && (
                                     <div id="infinite-scroll-trigger" className="py-10 flex flex-col items-center justify-center gap-3">
                                         <div className="w-10 h-10 border-4 border-(--main-bg) border-t-transparent rounded-full animate-spin"></div>
-                                        <p className="text-(--main-bg) font-medium animate-pulse text-sm">جاري جلب المنشورات...</p>
+                                        <p className="text-(--main-bg) font-medium text-sm">جاري جلب المنشورات...</p>
                                     </div>
                                 )}
                             </div>
