@@ -19,8 +19,10 @@ import {
 import {
     FaHandsPraying,
     FaQuoteRight,
-    FaMosque
+    FaMosque,
+    FaArrowRight
 } from "react-icons/fa6";
+import Link from "next/link";
 
 
 // 1. Daily Spiritual Messages Data
@@ -29,6 +31,7 @@ interface SpiritualMessage {
     text: string;
     author: string;
     icon?: IconType;
+    link?: string;
 }
 
 const dailySpiritualMessages: SpiritualMessage[] = [
@@ -63,7 +66,8 @@ const fridayMessage: SpiritualMessage = {
     title: "سنة الجمعة",
     text: "نورٌ ما بين الجمعتين؛ لا تنسَ قراءة سورة الكهف والصلاة والسلام على رسول الله ﷺ.",
     author: "يوم الجمعة",
-    icon: FaMosque
+    icon: FaMosque,
+    link: "/quran/28"
 };
 
 // 2. Hijri Months Informational Data
@@ -156,6 +160,7 @@ const News: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     const [dailyMsg, setDailyMsg] = useState<SpiritualMessage | null>(null);
+    const [mesgGoma, setMesgGoma] = useState<boolean>(false);
 
     useEffect(() => {
         const today = new Date();
@@ -164,6 +169,7 @@ const News: React.FC = () => {
         // 1. Set Daily Message
         if (isFriday) {
             setDailyMsg(fridayMessage);
+            setMesgGoma(true);
         } else {
             const dayOfMonth = today.getDate();
             const index = dayOfMonth % dailySpiritualMessages.length;
@@ -228,7 +234,13 @@ const News: React.FC = () => {
                                     <h4 className="text-lg md:text-2xl font-black leading-tight max-w-2xl mx-auto italic text-white/90">
                                         &quot;{dailyMsg.text}&quot;
                                     </h4>
-
+                                    {mesgGoma && (
+                                        <Link 
+                                        href="/quran/18" 
+                                        className="text-lg font-bold text-(--main-color)">
+                                            اقرء الأن
+                                        </Link>
+                                    )}
                                     <div className="w-8 md:w-12 h-1 bg-white/40 mx-auto rounded-full" />
 
                                     <p className="text-xs md:text-base font-medium text-white/60">
@@ -256,7 +268,7 @@ const News: React.FC = () => {
 
                         {!loading && monthContent ? (
                             <div
-                                className="relative h-[210px] md:h-[320px] bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
+                                className="relative h-[240px] md:h-[320px] bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
                             >
                                 <div className="relative z-10">
                                     <div className="mb-2 md:mb-3 p-2 md:p-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg inline-block transition-transform group-hover:rotate-12">
@@ -268,7 +280,7 @@ const News: React.FC = () => {
                                             شهر {hijriMonthName || monthContent.name}
                                         </span>
                                         <h4 className="text-lg font-bold text-white">{monthContent.title}</h4>
-                                        <p className="text-sm md:text-base text-white/90 leading-snug pt-0.5 md:pt-1">
+                                        <p className="md:text-base text-sm text-white/90 leading-snug pt-0.5 md:pt-1 mb-1.5">
                                             {monthContent.desc}
                                         </p>
                                     </div>
