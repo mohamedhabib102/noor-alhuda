@@ -11,6 +11,7 @@ import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { BsFilePostFill } from "react-icons/bs";
 import Link from "next/link";
+import ShowImageProfile from "@/ui/ShowImageProfile";
 
 
 
@@ -23,6 +24,7 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const router = useRouter();
+  const [toggleImage, setToggleImage] =  useState<boolean>(false)
   const [formData, setFormData] = useState<{
     personName: string;
     email: string;
@@ -115,7 +117,13 @@ const ProfilePage: React.FC = () => {
   const userRole = role === "Admin" ? "مشرف" : "مستخدم";
 
   return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900">
+    <>
+    <ShowImageProfile 
+    toggleImage={toggleImage} 
+    setToggleImage={setToggleImage} 
+    image={userData.image || ""} 
+    />
+        <section className="py-16 bg-gray-50 dark:bg-gray-900">
       <CustomContainer>
         <CustomTitle
           title="الملف الشخصي"
@@ -137,7 +145,9 @@ const ProfilePage: React.FC = () => {
           <div className="mb-8 flex flex-col items-center text-center">
             <div className="flex flex-row-reverse items-center gap-4 relative">
 
-              <div className="w-20 h-20 rounded-full overflow-hidden mb-3 z-40">
+              <div 
+              onClick={() => setToggleImage(!toggleImage)}
+              className="cursor-pointer w-20 h-20 rounded-full overflow-hidden mb-3 z-40">
                 <Image
                   src={userData.image || "/images/default.png"}
                   alt="user"
@@ -347,6 +357,7 @@ const ProfilePage: React.FC = () => {
         </div>
       </CustomContainer>
     </section>
+    </>
   );
 };
 

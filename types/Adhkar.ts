@@ -32,7 +32,10 @@ export interface Post {
     postContent: string,
     createdAt: string,
     personName: string,
+    shareName: string;
     image: string;
     image_Person: string;
+    share: boolean;
+    imageShare: string;
     image_Post: string;
 }

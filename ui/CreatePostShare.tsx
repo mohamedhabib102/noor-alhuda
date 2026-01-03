@@ -55,13 +55,14 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             // "nameShare in api will be sent by the registered person"
 
             data.append("PersonID", userData?.personID.toString() || "");
-            data.append("PersonName", nameShare || ""); // Original author
-            data.append("NameShare", userData?.personName || ""); // Currently logged in user (the sharer)
+            data.append("PersonName", nameShare || ""); 
+            data.append("NameShare", userData?.personName || "");
 
             data.append("PostTitle", titlePostShare || "");
             data.append("PostContent", contentPostShare || "");
             data.append("Share", "true"); // It's a share
             data.append("CreatedAt", new Date().toISOString());
+            data.append("ImageShare", imagePostShare || "");
 
             // If there's an image, we send the URL or keep it as is? 
             // Usually, the API might take the image URL string if it's already uploaded.
@@ -69,6 +70,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             if (imagePostShare) {
                 data.append("image_Post", imagePostShare);
             }
+
 
             const res = await req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
                 headers: {
@@ -88,6 +90,22 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             alert('حدث خطأ أثناء مشاركة المنشور، يرجى المحاولة مرة أخرى.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const sharePostOutSite = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: titlePostShare,
+                    text: contentPostShare,
+                    url: window.location.origin
+                });
+            } catch (error) {
+                console.log("تم إلغاء المشاركة", error);
+            }
+        } else {
+            alert("خاصية المشاركة غير مدعومة في متصفحك");
         }
     };
 
@@ -164,27 +182,40 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
 
                 {/* Actions */}
                 <form onSubmit={handleSubmit}>
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`cursor-pointer w-full py-3 px-4 rounded-xl text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2
-                                ${loading
-                                ? 'bg-[#0e582d]/70 cursor-not-allowed'
-                                : 'bg-[#0e582d] hover:bg-[#0b4623] active:scale-[0.98]'
-                            }`}
-                    >
-                        {loading ? (
-                            <>
-                                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                                <span>جاري المشاركة...</span>
-                            </>
-                        ) : (
-                            <>
-                                <FaShare className="scale-x-[-1]" />
-                                <span>تأكيد المشاركة الآن</span>
-                            </>
-                        )}
-                    </button>
+                    <div className="space-y-3">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`cursor-pointer w-full py-3 px-4 rounded-xl text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2
+                                    ${loading
+                                    ? 'bg-[#0e582d]/70 cursor-not-allowed'
+                                    : 'bg-[#0e582d] hover:bg-[#0b4623] active:scale-[0.98]'
+                                }`}
+                        >
+                            {loading ? (
+                                <>
+                                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    <span>جاري المشاركة...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FaShare className="scale-x-[-1]" />
+                                    <span>تأكيد المشاركة الآن</span>
+                                </>
+                            )}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={sharePostOutSite}
+                            className={`cursor-pointer w-full py-3 px-4 rounded-xl bg-[#0e582d] hover:bg-[#0b4623] text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.98]`}
+                        >
+                            <FaShare />
+                            <span>شير خارج المنصة</span>
+                        </button>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
+                            شارك المنشور على وسائل التواصل الاجتماعي أو مع أصدقائك
+                        </p>
+                    </div>
                 </form>
             </div>
         </>
