@@ -3,11 +3,15 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import req from "@/lib/axios";
-import { FaShare } from "react-icons/fa6";
 import { BiRepost } from "react-icons/bi";
 import ExpandableText from "@/components/posts/ExpandableText";
 import CustomContainer from "@/ui/CustomContainer";
 import Link from "next/link";
+import { FaRegCopy } from "react-icons/fa";
+import { AiOutlineLoading } from "react-icons/ai";
+import ShowImageProfile from "@/ui/ShowImageProfile";
+
+
 
 interface PostPage {
     postID: number;
@@ -28,35 +32,43 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
     const [post, setPost] = useState<PostPage | null>(initialPost || null);
     const [loading, setLoading] = useState<boolean>(initialPost ? false : true);
     const [error, setError] = useState<boolean>(false);
+    const [copied, setCopied] = useState<boolean>(false);
+    const [showImage, setShowImage] = useState<boolean>(false);
+    const [origin, setOrigin] = useState("");
 
-    const getPostById = async () => {
-        try {
-            setLoading(true);
-            const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts");
-            const allPosts: PostPage[] = res.data;
-            
-            // فلتر البوست حسب الـ ID
-            const foundPost = allPosts.find(p => p.postID === parseInt(postId as string));
-            
-            if (foundPost) {
-                setPost(foundPost);
-            } else {
-                setError(true);
-            }
-        } catch (error) {
-            console.log(error);
-            setError(true);
-        } finally {
-            setLoading(false);
-        }
-    };
+
+
+    useEffect(() => {
+        setOrigin(window.location.origin);
+    }, []);
 
     useEffect(() => {
         // if an initial post was passed as prop, don't fetch
         if (initialPost) return;
-        if (postId) {
-            getPostById();
-        }
+        if (!postId) return;
+
+        const getPostById = async () => {
+            try {
+                setLoading(true);
+                const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts");
+                const allPosts: PostPage[] = res.data;
+                
+                const foundPost = allPosts.find(p => p.postID === parseInt(postId as string));
+                
+                if (foundPost) {
+                    setPost(foundPost);
+                } else {
+                    setError(true);
+                }
+            } catch (error) {
+                console.log(error);
+                setError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        getPostById();
     }, [postId, initialPost]);
 
     const currentName = (share: boolean, shareName: string, personName: string) => {
@@ -67,21 +79,18 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
         return name;
     };
 
-    const sharePostOutSite = async (post: PostPage) => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: post.postTitle,
-                    text: post.postContent,
-                    url: `${window.location.origin}/community/${post.postID}`
-                });
-            } catch (error) {
-                console.log("تم إلغاء المشاركة", error);
-            }
-        } else {
-            alert("خاصية المشاركة غير مدعومة في متصفحك");
+    const linkPost = `${origin}/community/${post?.postID}`;
+
+    const handleCopy  = async () => {
+        try {
+            await navigator.clipboard.writeText(linkPost);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 700);
+        } catch (error) {
+            console.error("Failed to copy link:", error);
         }
     };
+
 
     if (loading) {
         return (
@@ -113,15 +122,21 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                             البوست غير موجود
                         </h2>
                         <p className="text-gray-600 dark:text-gray-400">
-                            عذراً، لم نتمكن من العثور على هذا البوست
+                            عذراً، لم نتمكن من العثور على هذا البوست او تم حذفه
                         </p>
                     </div>
                 </CustomContainer>
             </section>
         );
     }
-
     return (
+        <>
+        <ShowImageProfile 
+        toggleImage={showImage} 
+        setToggleImage={setShowImage} 
+        image={post?.image_Person} 
+        nameUser={post?.personName}
+        />
         <section className="py-16">
             <CustomContainer>
                 <div className="max-w-3xl mx-auto">
@@ -134,11 +149,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                 <Image src="/logo.svg" alt="logo" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
                                 <span className="text-sm md:text-base font-black text-(--main-bg) tracking-tight">نور الهدى</span>
                             </div>
-                            <FaShare
-                                size={20}
-                                className="text-(--main-bg) cursor-pointer"
-                                onClick={() => post && sharePostOutSite(post)}
-                            />
+                             <div className="h-2 w-2 rounded-full bg-(--main-bg) opacity-50"/>
                         </div>
 
                         {/* Share Content - If share is true */}
@@ -164,11 +175,14 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                             alt={post.personName}
                                             width={44}
                                             height={44}
-                                            className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
+                                            onClick={() => setShowImage(!showImage)}
+                                            className="cursor-pointer w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
                                         />
                                     )}
                                     <div>
-                                        <h3 className="font-bold text-sm md:text-base text-(--main-bg)">
+                                        <h3 
+                                        onClick={() => setShowImage(!showImage)}
+                                        className="cursor-pointer font-bold text-sm md:text-base text-(--main-bg)">
                                             {currentName(post.share, post.shareName, post.personName)}
                                         </h3>
                                         <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">
@@ -221,12 +235,17 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                 <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-gray-700">
                                         <button
                                             className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 text-orange-600 cursor-pointer hover:bg-gray-400 dark:hover:bg-black/30 transition duration-200"
-                                            onClick={() => post && sharePostOutSite(post)}
+                                            onClick={() => handleCopy()}
                                         >
-                                        <span className="text-sm md:text-base">Share</span>
-                                        <FaShare size={20} />
+                                        <span className="text-sm md:text-base"> نسخ الرابط </span>
+                                        {copied ? <AiOutlineLoading className="animate-spin" /> 
+                                        : <FaRegCopy size={20} />}
+                                        
                                     </button>
                                 </div>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+                                    شارك المنشور على وسائل التواصل الاجتماعي أو مع أصدقائك
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -243,5 +262,6 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                 </div>
             </CustomContainer>
         </section>
+        </>
     );
 }; export default PostDetails;

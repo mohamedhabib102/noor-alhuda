@@ -19,8 +19,7 @@ import {
 import {
     FaHandsPraying,
     FaQuoteRight,
-    FaMosque,
-    FaArrowRight
+    FaMosque
 } from "react-icons/fa6";
 import Link from "next/link";
 

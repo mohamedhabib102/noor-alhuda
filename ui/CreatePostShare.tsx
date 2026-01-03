@@ -204,17 +204,6 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                                 </>
                             )}
                         </button>
-                        <button
-                            type="button"
-                            onClick={sharePostOutSite}
-                            className={`cursor-pointer w-full py-3 px-4 rounded-xl bg-[#0e582d] hover:bg-[#0b4623] text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.98]`}
-                        >
-                            <FaShare />
-                            <span>شير خارج المنصة</span>
-                        </button>
-                        <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                            شارك المنشور على وسائل التواصل الاجتماعي أو مع أصدقائك
-                        </p>
                     </div>
                 </form>
             </div>
