@@ -1,5 +1,5 @@
 import req from "@/lib/axios";
-import { Post } from "@/types/Adhkar";
+import { Post } from "@/types/Types";
 import Image from "next/image";
 
 

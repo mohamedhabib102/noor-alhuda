@@ -3,7 +3,7 @@
 import req from "@/lib/axios";
 import { useState, useEffect } from "react";
 import PostCard from "@/components/posts/PostCard";
-import { Post } from "@/types/Adhkar";
+import { Post } from "@/types/Types";
 
 
 const PostsPage = () => {

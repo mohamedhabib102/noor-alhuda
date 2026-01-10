@@ -4,7 +4,6 @@ import { IconType } from "react-icons";
 export interface AdhkarItem {
     id: number;
     title: string;
-    icon: IconType;
 }
 
 
@@ -38,4 +37,14 @@ export interface Post {
     share: boolean;
     imageShare: string;
     image_Post: string;
+}
+
+export interface Question {
+  questionID: number;
+  personID: number;
+  questionContent: string;
+  responseContent: string;
+  personName: string;
+  image: string;
+  isFound: boolean;
 }

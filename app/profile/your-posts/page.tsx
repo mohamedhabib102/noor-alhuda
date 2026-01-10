@@ -6,27 +6,31 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { BiSolidComment } from "react-icons/bi"
 import { FaHeart, FaShare } from "react-icons/fa6"
+import { Post } from "@/types/Types"
 
 
 
-interface PostPage {
-  postID: number;
-  personID: number;
-  postTitle: string;
-  postContent: string;
-  createdAt: string;
-  personName: string;
-  image_Post: string;
-  image_Person: string
-}
+const questionsData = [
+  {
+    id: 1,
+    title: " المقالات ",
+    value: "post"
+  },
+  {
+    id: 2,
+    title: " الأسئلة ",
+    value: "question"
+  }
+]
 
 
 const YourPosts = () => {
   const { userData } = useAuth()
-  const [posts, setPosts] = useState<PostPage[]>([])
+  const [posts, setPosts] = useState<Post[]>([])
+  const [question, setQuestion] = useState<Post[]>([])
   const [scroll, setScroll] = useState(false)
-
-
+  const [load, setLoad] = useState(false)
+  const [valueChange, setValueChange] = useState("")
 
 
   const getAllPosts = async () => {
@@ -38,13 +42,26 @@ const YourPosts = () => {
     }
   }
 
+  const getAllQuestions = async () => {
+    try {
+      const res = await req.get("/api/Alhoda_Alnabawya/GetAllQuestionsAndResponses")
+      setQuestion(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchData = async () => {
+      setLoad(true)
       await getAllPosts();
+      await getAllQuestions()
+      setLoad(false)
     }
 
-    fetchPosts();
+    fetchData();
   }, []);
+
 
 
   useEffect(() => {
@@ -66,14 +83,21 @@ const YourPosts = () => {
 
 
 
-
-
-
-
-
   const posoByID = posts.filter((p) => p.personID === userData?.personID)
+  // const questionByID = question.filter((p) => p.personID === userData?.personID)
+
+
+  // const filter =  
+  // valueChange === "post" ?
+  // posoByID : questionByID 
+
+  useEffect(() => {
+    console.log(valueChange)
+  }, [valueChange])
 
   return (
+    <>
+
     <section className="py-16 bg-gray-50 dark:bg-gray-900">
       <CustomContainer>
         <div
@@ -83,7 +107,7 @@ const YourPosts = () => {
                ${scroll ? "p-2! bg-linear-to-r from-[#121212] to-[#ceaf15]" : ""}
           `}>
           <div className="flex items-center gap-3.5">
-            {userData && (
+            {userData && load && (
               <Image
                 src={userData?.image || "/images/default.png"}
                 width={112}
@@ -96,11 +120,25 @@ const YourPosts = () => {
             )}
 
             <div>
-              <h4 className="mb-1 font-semibold text-lg">{userData?.personName}</h4>
+              <h4 className="mb-1 font-semibold text-lg">{load&&userData?.personName}</h4>
               <span className="text-sm bg-gray-400 dark:bg-gray-700 px-2 py-0.5 rounded-lg text-white">{userData?.role === "Admin" ? "مشرف" : "مستخدم"}</span>
             </div>
           </div>
         </div>
+         <ul className="flex items-center gap-4 overflow-x-auto pb-4 no-scrollbar">
+          {questionsData.map((item) => (
+              <li
+                  onClick={() => setValueChange(item.value)}
+                  className={`shrink-0 flex items-center gap-2 px-6 py-3 rounded-2xl cursor-pointer border-2 ${valueChange === item.value
+                      ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg'
+                      : 'bg-gray-200 dark:bg-gray-800 border-zinc-200 dark:border-zinc-600 text-zinc-500 hover:border-emerald-200'
+                      }`}
+                  key={item.id}>
+                  {/* <item.icon size={20} /> */}
+                  <span className="font-bold whitespace-nowrap">{item.title}</span>
+              </li>
+          ))}
+            </ul>
         <div className="">
           {posoByID.length === 0 ? (
             <p> لا يوجد منشورات حاليا يمكنك رفع منشوراتك من المجتمع </p>
@@ -173,6 +211,7 @@ const YourPosts = () => {
         </div>
       </CustomContainer>
     </section>
+    </>
   )
 }
 export default YourPosts

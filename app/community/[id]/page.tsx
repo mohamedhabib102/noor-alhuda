@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import req from "@/lib/axios";
 import PostDetails from "@/components/community/PostDetails";
-import { Post } from "@/types/Adhkar";
+import { Post } from "@/types/Types";
 
 // Next.js 15 App Router: params comes as a Promise
 type PageProps = {
@@ -42,6 +42,18 @@ export async function generateMetadata(
       ],
       type: "article",
     },
+    twitter: {
+    card: "summary",
+    title: post.postTitle,
+    description: post.postContent.slice(0, 160),
+    images:  [
+      {
+        url: imageUrl,
+        width: 1200,
+        height: 630,
+      }
+    ]
+  }
   };
 }
 

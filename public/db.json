@@ -21,8 +21,5 @@
       "description": " اللهم أعد على السودان أمنه وسلامه، واحفظ أهله وانصرهم على ما يواجهون ",
       "image": "/images/soudan.jpg"
     }
-  ],
-  "users": [
-    { "id": 1, "name": "Ali", "password": "123456" }
   ]
 }
