@@ -104,7 +104,7 @@ const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
            <AnimatePresence mode="wait">
              {filterAzkar.length > 0 && filterAzkar[0].array.length > 0 ? (
                filterAzkar.map((categoryItem) =>
-                 categoryItem.array.map((zekr, index) => (
+                 categoryItem.array.map((zekr) => (
                    <motion.div
                      key={zekr.id} 
                      initial={{ y: 20, opacity: 0 }}

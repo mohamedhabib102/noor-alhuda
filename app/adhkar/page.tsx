@@ -5,6 +5,7 @@ import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
 import Azkar from "@/components/adhkar/Azkar";
 import { AdhkarItem } from "@/types/Types";
+import { BsEmojiFrown } from "react-icons/bs";
 
 
 
@@ -29,6 +30,24 @@ const AdhkarPage: React.FC = () => {
     fetchData();
   }, []);
 
+
+ if (!loading && (!adhkar || adhkar.length === 0)) {
+    return (
+      <section className="py-16">
+        <CustomContainer>
+          <CustomTitle
+            success={false}
+            title=" الأذكار "
+            description="لمسة صباحية تملأ قلبك بالسكينة"
+          />
+          <div className="flex flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
+            <BsEmojiFrown size={60} className="mb-4 text-amber-500" />
+            <h3 className="text-xl font-bold mb-2">لا توجد أذكار حالياً</h3>
+          </div>
+        </CustomContainer>
+      </section>
+    );
+  }
   return (
     <section className="py-16">
       <CustomContainer>
