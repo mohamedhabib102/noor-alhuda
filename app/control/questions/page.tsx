@@ -43,7 +43,7 @@ const QuestionsPage = () => {
     const deleteQuestion = async (id: number) => {
         if (!confirm("هل أنت متأكد من حذف هذا السؤال؟")) return;
         try {
-            await req.delete(`/api/Alhoda_Alnabawya/DeleteQuestion/{${id}}`);
+            await req.delete(`/api/Alhoda_Alnabawya/DeleteQuestion/${id}`);
             setQuestions(questions.filter((q) => q.questionID !== id));
             alert("تم حذف السؤال بنجاح");
         } catch (error) {

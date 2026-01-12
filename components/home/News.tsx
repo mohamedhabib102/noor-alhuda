@@ -217,13 +217,13 @@ const News: React.FC = () => {
                             <h3 className="lg:text-3xl text-2xl font-bold dark:text-white">رسالة اليوم</h3>
                         </div>
 
-                        {dailyMsg && (
+                        {dailyMsg ? (
                             <div
-                                className="relative h-[210px] md:h-[320px] bg-emerald-800/90 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-lg md:rounded-lg p-4 md:p-8 text-white overflow-hidden shadow-xl flex flex-col justify-center text-center group"
+                                className="relative h-[210px] md:h-80 bg-emerald-800/90 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-lg md:rounded-lg p-4 md:p-8 text-white overflow-hidden shadow-xl flex flex-col justify-center text-center group"
                             >
                                 <div className="relative z-10 space-y-1 md:space-y-3">
                                     <div className="w-8 h-8 md:w-12 md:h-12 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-1 border border-white/20 transition-transform group-hover:scale-110">
-                                        {dailyMsg.icon ? <dailyMsg.icon size={18} className="md:size-[24px]" /> : <FaHandsPraying size={18} className="md:size-[24px]" />}
+                                        {dailyMsg.icon ? <dailyMsg.icon size={18} className="md:size-6" /> : <FaHandsPraying size={18} className="md:size-6" />}
                                     </div>
 
                                     <span className="inline-block px-2 py-0.5 bg-black/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">
@@ -253,6 +253,10 @@ const News: React.FC = () => {
                                     <FaQuoteRight size={200} />
                                 </div>
                             </div>
+                        ) : (
+                            <div className="h-[210px]  bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
+                                <span className="text-gray-400">  جاري تحميل رسائل اليوم... </span>
+                            </div>
                         )}
                     </div>
 
@@ -267,11 +271,11 @@ const News: React.FC = () => {
 
                         {!loading && monthContent ? (
                             <div
-                                className="relative h-[240px] md:h-[320px] bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
+                                className="relative h-60 md:h-80 bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
                             >
                                 <div className="relative z-10">
                                     <div className="mb-2 md:mb-3 p-2 md:p-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg inline-block transition-transform group-hover:rotate-12">
-                                        <monthContent.icon size={20} className="md:size-[32px] text-white" />
+                                        <monthContent.icon size={20} className="md:size-8 text-white" />
                                     </div>
 
                                     <div className="space-y-1 md:space-y-2">
@@ -304,7 +308,7 @@ const News: React.FC = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="h-[610px] bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
+                            <div className="h-[210px] bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
                                 <span className="text-gray-400">جاري تحميل نفحات الشهر...</span>
                             </div>
                         )}

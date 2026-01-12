@@ -95,6 +95,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
             data.append("PostContent", formData.PostContent)
             data.append("Share", "false")
             data.append("CreatedAt", now.toISOString()||"")
+            data.append("ImageShare", "no share")
             if (image) {
                 data.append("image", image||"")
             }

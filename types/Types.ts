@@ -25,18 +25,17 @@ export interface Adhkar {
 }
 
 export interface Post {
-    postID: number,
-    personID: number,
-    postTitle: string,
-    postContent: string,
-    createdAt: string,
-    personName: string,
+    postID: number;
+    personID: number;
+    postTitle: string;
+    postContent: string;
+    createdAt: string;
+    personName: string;
     shareName: string;
-    image: string;
+    image_Post: string;
     image_Person: string;
     share: boolean;
     imageShare: string;
-    image_Post: string;
 }
 
 export interface Question {
@@ -47,4 +46,13 @@ export interface Question {
   personName: string;
   image: string;
   isFound: boolean;
+}
+
+export interface Hero {
+    id: number;
+    type: string;
+    title: string;
+    link: string;
+    image: string;
+    description?: string;
 }

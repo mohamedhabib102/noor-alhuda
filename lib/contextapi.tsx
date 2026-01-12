@@ -48,7 +48,7 @@ const ContextProvider = ({ children }: ContextProps) => {
 
     const login = (user: User) => {
         setUserData(user);
-        jsCookie.set("user", JSON.stringify(user));
+        jsCookie.set("user", JSON.stringify(user), {expires: 120, sameSite: "Lax"});
     }
 
    const logout = async ({ url }: { url: string }) => {

@@ -61,8 +61,8 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
       <CustomContainer>
         {state !== "page" && (
           <CustomTitle
-            title="الأسئلة الشائعة"
-            description="شارك بسؤالك الديني واكتشف إجابات الأسئلة الشائعة"
+            title="الأسئلة"
+            description="شارك بسؤالك الديني واكتشف إجابات الأسئلة "
             success={false}
           />
         )}

@@ -8,7 +8,7 @@ import CustomTitle from "@/ui/CustomTitle"
 
 const Community = () => {
     return (
-        <section className="py-16">
+        <section className="lg:py-16 py-8">
             <CustomContainer>
                 <CustomTitle
                     title="المجتمع"

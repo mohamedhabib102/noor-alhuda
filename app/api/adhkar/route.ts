@@ -16,6 +16,6 @@ export async function GET(req: NextRequest){
         return NextResponse.json(adhkar, {status: 200})
     } catch (error) {
         console.log(error);
-        return NextResponse.json({message: "Error fetching data"}, {status: 200})
+        return NextResponse.json({message: "Error fetching data"}, {status: 400})
     }
 }

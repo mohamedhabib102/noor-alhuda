@@ -24,7 +24,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
   return (
     <div className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 overflow-hidden">
       <button
-        className="accordion-header w-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 p-4 cursor-pointer select-none flex flex-row justify-between items-center transition duration-300"
+        className="accordion-header w-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 lg:p-4 p-2 cursor-pointer select-none flex flex-row justify-between items-center transition duration-300"
         onClick={() => setIsOpen(!isOpen)}
       >
         <h3 className="text-lg text-right font-semibold text-(--main-bg)">{title}</h3>

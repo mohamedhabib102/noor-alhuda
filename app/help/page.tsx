@@ -60,12 +60,11 @@ const HelpPage = () => {
                                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">المجتمع والمنشورات</h3>
                                 </div>
                                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                                    يمكنك المشاركة في المجتمع من خلال حسابك الشخصي، مع ميزة اختيار النشر 
-                                    <span className="font-semibold"> كمجهول الهوية</span> إذا رغبت بذلك. 
-                                    هذه الميزة تمنحك الخصوصية بينما يظل المنشور مرتبطاً بحسابك.
+                                    يمكنك المشاركة في المجتمع من خلال حسابك الشخصي لنشر المعرفة وتبادل الخبرات.
+                                    تساهم منشوراتك في بناء مجتمع إسلامي واعي ومترابط يسعى للخير دائماً.
                                 </p>
                                 <div className="text-sm text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/10 p-2 rounded-lg inline-block">
-                                    * تظهر المنشورات مباشرة بعد النشر، مع إمكانية تفعيل النشر كمجهول الهوية من إعدادات الحساب
+                                    * تظهر المنشورات مباشرة بعد النشر لمن يتابعونك وفي الصفحة العامة للمجتمع
                                 </div>
                             </div>
 
@@ -76,14 +75,14 @@ const HelpPage = () => {
                                     <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
                                         <BsPatchQuestionFill size={28} />
                                     </div>
-                                    <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">الأسئلة والاستفسارات</h3>
+                                    <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">شارك خبرتك وعلمك</h3>
                                 </div>
                                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                                    لديك سؤال ديني؟ يمكنك طرحه هنا، سواء بحسابك أو كمجهول الهوية (Anonymous).
-                                    نحرص بشدة على دقة المعلومات، لذا فإن الأسئلة تخضع للمراجعة قبل الظهور.
+                                    هل لديك معلومة دينية أو فقهية تود نشرها؟ يمكنك طرح السؤال مع إجابته الصحيحة لتعم الفائدة.
+                                    نحرص بشدة على دقة المعلومات، لذا تخضع المشاركات للمراجعة العلمية قبل الظهور للعامة.
                                 </p>
                                 <div className="text-sm text-purple-600 dark:text-purple-400 font-medium bg-purple-50 dark:bg-purple-900/10 p-2 rounded-lg inline-block">
-                                    * يتطلب موافقة الإدارة قبل النشر
+                                    * ترفع السؤال مع إجابته الموثوقة ويتم مراجعتها قبل النشر
                                 </div>
                             </div>
                         </div>
@@ -116,9 +115,9 @@ const HelpPage = () => {
                                     <FaUserSecret className="text-green-600" size={20} />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">المشاركة كمجهول الهوية </h4>
+                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">الاحترام والتقدير</h4>
                                     <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                                        نحترم خصوصيتك، يمكنك المشاركة كـ  مجهول لكن تذكر، الله يراك استخدم هذه الميزة بمسؤولية لنشر الخير.
+                                        يجب الالتزام بآداب الحوار الإسلامي، وتجنب الإساءة لأي شخص أو جهة. المنصة مكان للتعلم والرقي الأخلاقي.
                                     </p>
                                 </div>
                             </div>
@@ -151,6 +150,60 @@ const HelpPage = () => {
                                         3. عند المرة الثالثة، يتم <span className="font-bold">حظر المستخدم نهائياً</span> من المنصة.
                                     </p>
                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Section 4: Privacy and Security */}
+                    <section className="relative overflow-hidden bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/5 rounded-br-full -ml-10 -mt-10"></div>
+
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="p-3 bg-blue-100 dark:bg-blue-900/40 rounded-xl text-blue-600 dark:text-blue-400">
+                                    <MdOutlineSecurity size={28} />
+                                </div>
+                                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                                    الخصوصية وأمان بياناتك
+                                </h2>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="space-y-3">
+                                    <div className="w-10 h-10 bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center text-green-600">
+                                        <FaClipboardCheck size={20} />
+                                    </div>
+                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">حماية البيانات</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        نحن نستخدم أحدث تقنيات التشفير لضمان أن بياناتك الشخصية ومراسلاتك في أمان تام ولا يمكن لأي طرف ثالث الوصول إليها.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-full flex items-center justify-center text-purple-600">
+                                        <MdOutlineSecurity size={20} />
+                                    </div>
+                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">سرية المعلومات</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        بياناتك ملك لك وحدك. نحن لا نقوم ببيع أو مشاركة أي معلومات شخصية مع شركات الإعلانات أو أي جهات خارجية مهما كانت الظروف.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center text-red-600">
+                                        <FaUserSecret size={20} />
+                                    </div>
+                                    <h4 className="font-bold text-gray-800 dark:text-gray-200">التحكم الكامل</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        لديك الحق دائماً في تعديل بياناتك أو حذف حسابك بشكل نهائي من قاعدة بياناتنا في أي وقت ترغب فيه ومن خلال إعدادات حسابك.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 p-4 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30 text-center">
+                                <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                    ثقتك هي أغلى ما نملك، ونحن ملتزمون بتوفير بيئة رقمية آمنة تليق بمجتمعنا الإسلامي.
+                                </p>
                             </div>
                         </div>
                     </section>

@@ -1,30 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# منصة نور الهدى | Noor Al-Huda Platform
 
-## Getting Started
+![Noor Al-Huda Logo](/logo-share.png)
 
-First, run the development server:
+## 🌟 عن المشروع
+**نور الهدى** هي منصة إسلامية متكاملة تهدف إلى نشر آداب الإسلام وتعزيز الوعي الديني بين المسلمين. يسعى المشروع إلى جمع الأمة الإسلامية على كلمة سواء وتوفير الأدوات الروحانية والعلمية التي تعين المسلم في حياته اليومية.
 
-```bash
-npm run dev
-```
+## 🎯 الأهداف
+- نشر العلم النافع والوعي الديني والشرعي.
+- تعزيز قيم آداب الإسلام في التعاملات اليومية.
+- خلق بيئة تفاعلية للمجتمع المسلم لتبادل المعرفة.
+- توفير مصادر دينية موثوقة (قرآن، أذكار، كتب).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ مميزات المنصة
+- **📖 القرآن الكريم:** تلاوة وقراءة السور مع واجهة مريحة للعين.
+- **📿 الأذكار:** قسم متكامل لأذكار الصباح والمساء وأذكار المسلم اليومية.
+- **🤝 المجتمع:** مساحة لمشاركة المنشورات الهادفة والتفاعل مع الآخرين.
+- **❓ الأسئلة والفتاوى:** ركن خاص لطرح الاستفسارات الدينية والحصول على إجابات موثوقة.
+- **📚 المكتبة الإسلامية:** قسم للكتب والمصادر التعليمية.
+- **🕋 مواقيت الصلاة:** تتبع دقيق لمواقيت الصلاة حسب الموقع الجغرافي.
+- **💳 دعم المشروع:** صفحة مخصصة لمن يرغب في المساهمة في استمرار وتطوير المنصة.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ التقنيات المستخدمة
+- **Next.js 15 (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Axios** (للتواصل مع API)
+- **Swiper.js** (للعناصر التفاعلية)
+- **React Icons**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 التشغيل المحلي
 
-## Learn More
+1. قم بتحميل المستودع:
+   ```bash
+   git clone https://github.com/your-username/noor-alhuda.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. انتقل إلى مجلد المشروع:
+   ```bash
+   cd my-app
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. قم بتثبيت المكتبات:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. ابدأ تشغيل المشروع:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## 📈 تحسين محركات البحث (SEO)
+تم ضبط المنصة لتكون صديقة لمحركات البحث مع دعم كامل لـ:
+- Open Graph (للمشاركة عبر فيسبوك وواتساب).
+- Twitter Cards (للمشاركة عبر منصة X).
+- العناوين والكلمات المفتاحية المخصصة لكل صفحة.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+**دعمك لنا يعني الكثير، ونسأل الله أن يتقبل منا ومنكم صالح الأعمال.**

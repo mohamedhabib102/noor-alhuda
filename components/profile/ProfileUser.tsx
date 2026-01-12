@@ -94,8 +94,6 @@ const ProfileUser: React.FC = () => {
             setDateToggle(true)
         }
     } 
-    console.log(dateToggle);
-    
     setMounted(true);
   }, []);
 
@@ -121,7 +119,7 @@ const ProfileUser: React.FC = () => {
 
   const { personID, personName, email, role, createdAt } = userData;
 
-  const userRole = role === "Admin" ? "مشرف" : "مستخدم";
+  const userRole = userData && role === "Admin" ? "مشرف" : "مستخدم";
 
   return (
     <>

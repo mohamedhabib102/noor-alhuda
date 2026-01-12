@@ -4,7 +4,7 @@ import { MdOutlineHomeMax } from "react-icons/md";
 import { FaMosque, FaHandHoldingHeart, FaUser } from "react-icons/fa6";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaQuran } from "react-icons/fa";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
@@ -43,15 +43,15 @@ const NavbarText: Navbar[] = [
     },
     {
         id: 3,
-        title: " مساعدة  ",
-        link: "/help",
+        title: " الأسئلة  ",
+        link: "/quran",
         icon: IoIosHelpCircleOutline
     },
     {
         id: 4,
-        title: " دعمنا ",
+        title: " القرآن الكريم ",
         link: "/",
-        icon: FaHandHoldingHeart
+        icon: FaQuran
     },
     {
         id: 5,

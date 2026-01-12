@@ -14,7 +14,6 @@ interface CreatePostShareProps {
     setToggle: React.Dispatch<React.SetStateAction<boolean>>;
     getAllPosts: () => void;
     nameShare?: string; // This will be sent as personName to the API
-    namePostShare?: string;
     titlePostShare?: string;
     contentPostShare?: string;
     imagePostShare?: string;
@@ -26,7 +25,6 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
     setToggle,
     getAllPosts,
     nameShare,
-    namePostShare,
     titlePostShare,
     contentPostShare,
     imagePostShare,
@@ -93,21 +91,6 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
         }
     };
 
-    const sharePostOutSite = async () => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: titlePostShare,
-                    text: contentPostShare,
-                    url: window.location.origin
-                });
-            } catch (error) {
-                console.log("تم إلغاء المشاركة", error);
-            }
-        } else {
-            alert("خاصية المشاركة غير مدعومة في متصفحك");
-        }
-    };
 
     return (
         <>

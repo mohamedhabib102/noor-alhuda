@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -10,6 +10,8 @@ import { MdClose } from "react-icons/md";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Hero } from "@/types/Types";
+import req from "@/lib/axios";
 
 export interface HeroProps {
   id: number;
@@ -21,18 +23,38 @@ export interface HeroProps {
 }
 
 interface Props {
-  slides: HeroProps[];
   skipFirstSSR?: boolean;
 }
 
-const HeroSliderClient: React.FC<Props> = ({ slides, skipFirstSSR = false }) => {
+const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
   const [playingId, setPlayingId] = useState<number | null>(null);
-  const localSlides = skipFirstSSR ? slides.slice(1) : slides;
+  const [hero, setHero] = useState<Hero[]>([])
+  const localSlides = skipFirstSSR ? hero.slice(1) : hero;
+
+
 
   const getVideoId = (url: string) => {
     const match = url.match(/v=([a-zA-Z0-9_-]+)/);
     return match ? match[1] : "";
   };
+
+
+  const getHeroData = async () => {
+     try {
+        const res = await req.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`)
+        setHero(res.data)
+     } catch (error) {
+        console.log(error);
+     }
+  }
+
+   useEffect(() => {
+     const fetchHero = async () => {
+       await getHeroData();
+     };
+     fetchHero();
+   }, []);
+
 
   return (
     <Swiper
