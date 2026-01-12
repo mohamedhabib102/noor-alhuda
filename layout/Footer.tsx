@@ -17,7 +17,7 @@ const Footer = () => {
                         </h3>
                         <div className="flex flex-col gap-3 w-full">
                             <a
-                                href="mailto:contact@nour-alhuda.com"
+                                href="mailto:byaalkhty43@gmail.com"
                                 className="flex items-center gap-3 bg-white dark:bg-gray-900 p-3 rounded-xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 hover:shadow-md transition-shadow cursor-pointer"
                             >
                                 <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
@@ -25,12 +25,12 @@ const Footer = () => {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-none mb-1">تواصل عام</span>
-                                    <span className="text-xs font-medium text-gray-800 dark:text-gray-200">contact@nour-alhuda.com</span>
+                                    <span className="text-xs font-medium text-gray-800 dark:text-gray-200">byaalkhty43@gmail.com</span>
                                 </div>
                             </a>
 
                             <a
-                                href="mailto:support@nour-alhuda.com"
+                                href="mailto:byaalkhty43@gmail.com"
                                 className="flex items-center gap-3 bg-white dark:bg-gray-900 p-3 rounded-xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 hover:shadow-md transition-shadow cursor-pointer"
                             >
                                 <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
@@ -38,7 +38,7 @@ const Footer = () => {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-none mb-1">الدعم الفني</span>
-                                    <span className="text-xs font-medium text-gray-800 dark:text-gray-200">support@nour-alhuda.com</span>
+                                    <span className="text-xs font-medium text-gray-800 dark:text-gray-200">byaalkhty43@gmail.com</span>
                                 </div>
                             </a>
                         </div>
