@@ -44,13 +44,13 @@ const NavbarText: Navbar[] = [
     {
         id: 3,
         title: " الأسئلة  ",
-        link: "/quran",
+        link: "/questions",
         icon: IoIosHelpCircleOutline
     },
     {
         id: 4,
         title: " القرآن الكريم ",
-        link: "/",
+        link: "/quran",
         icon: FaQuran
     },
     {
