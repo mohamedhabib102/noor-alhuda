@@ -87,7 +87,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                           alt="avatar"
                           width={40}
                           height={40}
-                          className="rounded-full"
+                          className="w-10 h-10 rounded-full object-cover"
                         />
                       )
                     }
@@ -113,7 +113,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
             )
           ))
           ) : (
-            showQuestions.slice(0, 3).map((ques) => (
+            showQuestions.slice(0, 4).map((ques) => (
             ques.isFound && (
               <AccordionItem key={ques.questionID}
                 title={ques.questionContent}>
@@ -127,7 +127,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                           alt="avatar"
                           width={40}
                           height={40}
-                          className="w-10 h-10 rounded-full object-contain"
+                          className="w-10 h-10 rounded-full object-cover"
                         />
                       )
                     }

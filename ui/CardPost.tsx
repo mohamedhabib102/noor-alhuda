@@ -35,17 +35,19 @@ const CardPost: React.FC<CardPostProps> = ({stateCard}) => {
 
 
     useEffect(() => {
-        if (!userData?.personID) return;
-
         const getUserPosts = async () => {
             try {
                 setLoading(true);
                 const allPosts = await getAllPosts();
-                const userPosts = stateCard === "profile" ? allPosts.filter(
-                    post => post.personID === userData.personID
-                ) : allPosts;
-                
-                setPosts(userPosts);
+                if (stateCard === "profile"){
+                      if (!userData?.personID) return;
+                      const userPosts = allPosts.filter(
+                          post => post.personID === userData?.personID
+                      )
+                      setPosts(userPosts)
+                } else{
+                    setPosts(allPosts)
+                }
             } catch (err) {
                 console.log(err);
                 setError(true);
