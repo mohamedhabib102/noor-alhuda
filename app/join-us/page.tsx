@@ -9,13 +9,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 // import { FaCheck } from "react-icons/fa6";
 import Link from "next/link";
-
-interface ApiError {
-    response?: {
-        status: number;
-    };
-    message?: string;
-}
+import { FaGoogle } from "react-icons/fa6";
+import { signIn, useSession } from "next-auth/react";
+import { ApiError } from "@/types/Types";
 
 const JoinUsPage = () => {
     const { login, userData } = useAuth();
@@ -32,6 +28,7 @@ const JoinUsPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter()
     const [imageShow, setImageShow] = useState<string>("");
+    const {data: session} = useSession()
 
 
     const handelImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -134,55 +131,53 @@ const JoinUsPage = () => {
     }, [userData, router])
 
 
-    // useEffect(() => {
-    //     // Only sync if session exists, user is NOT logged in in our system, and not currently loading
-    //     if (session?.user && !userData?.personID && !loading) {
-    //         const syncWithBackend = async () => {
-    //             try {
-    //                 setLoading(true);
-    //                 // Mapping Google session to Backend expectations
-    //                 const formData = new FormData();
-    //                 formData.append("PersonName", session.user?.name || "");
-    //                 formData.append("Email", session.user?.email || "");
-    //                 formData.append("Password", "@GoogleOAuthDefaultPassword123");
-    //                 formData.append("Role", "string");
+    useEffect(() => {
+        // Only sync if session exists, user is NOT logged in in our system, and not currently loading
+        if (session?.user && !userData?.personID && !loading) {
+            const syncWithBackend = async () => {
+                try {
+                    setLoading(true);
+                    // Mapping Google session to Backend expectations
+                    const formData = new FormData();
+                    formData.append("PersonName", session.user?.name || "");
+                    formData.append("Email", session.user?.email || "");
+                    formData.append("Password", (`${session.user?.name}/@Google/${session.user?.email}`).toString());
+                    formData.append("Role", "string");
+    
+                    if (session.user?.image) {
+                        formData.append("ImageGoogle", session.user.image);
+                    }
 
+                    const res = await req.post("/api/Alhoda_Alnabawya/Login", 
+                        formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        }
+                        });
 
-    //                 if (session.user?.image) {
-    //                     formData.append("Image", session.user.image);
-    //                 }
-
-    //                 const res = await req.post("/api/Alhoda_Alnabawya/Login", 
-    //                     formData, {
-    //                     headers: {
-    //                         "Content-Type": "multipart/form-data",
-    //                     }
-    //                     });
-
-    //                 if (res.data) {
-    //                     login(res.data);
-    //                     // تحويل بناءً على الـ role
-    //                     if (res.data?.role === "Admin") {
-    //                         router.push("/control")
-    //                     } else {
-    //                         router.push("/")
-    //                     }
-    //                 }
-    //             } catch (error: unknown) {
-    //                 const err = error as ApiError;
-    //                 console.log("Google Sync Error:", err);
-    //                 // Only show error if it's not a duplicate request issue
-    //                 if (err.response?.status === 400) {
-    //                     setError(" البريد الالكتروني موجود بالفعل ");
-    //                 }
-    //             } finally {
-    //                 setLoading(false);
-    //             }
-    //         };
-    //         syncWithBackend();
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [session, userData]);
+                    if (res.data) {
+                        login(res.data);
+                        if (res.data?.role === "Admin") {
+                            router.push("/control")
+                        } else {
+                            router.push("/")
+                        }
+                    }
+                } catch (error: unknown) {
+                    const err = error as ApiError;
+                    console.log("Google Sync Error:", err);
+                    // Only show error if it's not a duplicate request issue
+                    if (err.response?.status === 400) {
+                        setError(" البريد الالكتروني موجود بالفعل ");
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            };
+            syncWithBackend();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session, userData]);
 
     return (
         <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
@@ -371,7 +366,7 @@ const JoinUsPage = () => {
                     {loading ? "جاري التحميل..." : "تسجيل"}
                 </button>
 
-                {/* <button
+                <button
                     type="button"
                     onClick={() => signIn("google")}
                     className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
@@ -381,7 +376,7 @@ const JoinUsPage = () => {
 
                     <span> التسجيل باستخدام </span>
                     <FaGoogle size={20} />
-                </button> */}
+                </button>
             </form>
         </section>
     );

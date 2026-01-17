@@ -11,6 +11,7 @@ interface User {
     role: string;
     createdAt: string;
     image: string;
+    imageGoogle: string;
 }
 
 interface ContextValue {
@@ -57,7 +58,7 @@ const ContextProvider = ({ children }: ContextProps) => {
         setUserData(null);
         jsCookie.remove("user");
         // Call next-auth signOut to clear server-side httpOnly cookies
-        // await signOut({ callbackUrl: url });
+        await signOut({ callbackUrl: url });
     } catch (error) {
         console.log(error);
         // Fallback redirect if signOut fails

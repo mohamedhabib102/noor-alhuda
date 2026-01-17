@@ -18,41 +18,43 @@ const Header: React.FC = () => {
     const { userData } = useAuth();
     const [mounted, setMounted] = useState(false);
 
-     useEffect(() => {
-       setMounted(true);
-     }, []);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     return (
         <>
-        <OverlayHelp 
-        toggle={toggle} 
-        setToggle={setToggle} />
-        <section className="bg-linear-to-r from-[#121212] to-[#ceaf15] py-2 relative" dir="ltr">
-            <CustomContainer>
-                <nav className="flex items-center justify-between">
-                    <Logo />
-                    <div className="flex items-center gap-2.5 flex-row-reverse">
-                    <ToggleNavbar setToggle={setToggle} toggle={toggle} />
-                    <DarkModeToggle />
-                    {mounted && userData?.personID && (
-                        <Link href={`/profile/`} 
-                        className="">
-                            {mounted && userData.personID &&(
-                            <Image
-                                src={userData.image || "/images/default.png"}
-                                alt="user"
-                                width={40}
-                                height={40}
-                                className="w-10 h-10 rounded-full object-contain"
-                            />
-                            )
-                           }
-                        </Link>
-                    )}
-                    </div>
-                </nav>
-            </CustomContainer>
-        </section>
+            <OverlayHelp
+                toggle={toggle}
+                setToggle={setToggle} />
+            <section className="bg-linear-to-r from-[#121212] to-[#ceaf15] py-2 relative" dir="ltr">
+                <CustomContainer>
+                    <nav className="flex items-center justify-between">
+                        <Logo />
+                        <div className="flex items-center gap-2.5 flex-row-reverse">
+                            <ToggleNavbar setToggle={setToggle} toggle={toggle} />
+                            <DarkModeToggle />
+                            {mounted && userData?.personID && (
+                                <Link href={`/profile/`}
+                                    className="">
+                                    {mounted && userData.personID && (
+                                        <Image
+                                            src={(typeof userData.image === 'string' && (userData.image.startsWith('http') || userData.image.startsWith('/')) ? userData.image : '') ||
+                                                (typeof userData.imageGoogle === 'string' && (userData.imageGoogle.startsWith('http') || userData.imageGoogle.startsWith('/')) ? userData.imageGoogle : '') ||
+                                                "/images/default.png"}
+                                            alt="user"
+                                            width={40}
+                                            height={40}
+                                            className="w-10 h-10 rounded-full object-contain"
+                                        />
+                                    )
+                                    }
+                                </Link>
+                            )}
+                        </div>
+                    </nav>
+                </CustomContainer>
+            </section>
         </>
     )
 }

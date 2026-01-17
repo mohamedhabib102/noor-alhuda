@@ -56,3 +56,29 @@ export interface Hero {
     image: string;
     description?: string;
 }
+
+export interface SessionProps {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  expires: string;
+}
+
+export interface User {
+    personID: number;
+    personName: string;
+    email: string;
+    role: string;
+    createdAt: string;
+    image: string;
+}
+
+export interface ApiError {
+    response?: {
+        status: number;
+    };
+    message?: string;
+}
+

@@ -6,13 +6,18 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'hkddkxgelkhgseiskulz.supabase.co',
-        pathname: '/storage/v1/object/public/**', // أي مسار داخل public
+        pathname: '/storage/v1/object/public/**', 
       },
       {
         protocol: 'https',
         hostname: 'alhodaalnabawya.runasp.net',
         pathname: '/images/**',
       },
+       {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '/**',
+      }
     ],
   },
 };
