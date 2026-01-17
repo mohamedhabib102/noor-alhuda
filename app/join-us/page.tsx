@@ -90,6 +90,7 @@ const JoinUsPage = () => {
             formData.append("Email", loginData.email);
             formData.append("Password", loginData.password);
             formData.append("Role", "string");
+            formData.append("ImageGoogle", "string");
 
             if (loginData.image && typeof loginData.image === 'object' && 'name' in loginData.image) {
                 formData.append("Image", loginData.image);

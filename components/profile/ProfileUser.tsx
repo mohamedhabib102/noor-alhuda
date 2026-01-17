@@ -53,15 +53,17 @@ const ProfileUser: React.FC = () => {
     try {
       setLoading(true);
 
-      const data ={
-        personID: userData?.personID,
-        personName: formData.personName || userData?.personName,
-        email: formData.email || userData?.email,
-        image: formData.image || userData?.image
+
+      const data =  new FormData();
+      data.append("PersonID", userData?.personID.toString()||"")
+      data.append("PersonName", formData.personName || userData?.personName ||"")
+      data.append("Email", formData.email || userData?.email || "")
+      data.append("Image", "string")
+
+      if (formData.image){
+        data.append("image", formData.image ||"")
       }
-
-
-      const res = await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data).
+      await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data).
       then(() => localStorage.setItem("lastDateEdit", 
         new Date().toISOString()))
       const updatedUserData: typeof userData = {
@@ -71,7 +73,7 @@ const ProfileUser: React.FC = () => {
         // image: userData!.image, // Safely handle response data
       };
 
-      login(updatedUserData);
+      // login(updatedUserData);
       setIsEdit(false);
     } catch (error) {
       console.log(error);
