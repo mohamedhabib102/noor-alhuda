@@ -2,6 +2,7 @@
 import { createContext, useContext, useState } from "react";
 import jsCookie from "js-cookie";
 import { signOut } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
 interface User {
     personID: number;
@@ -56,7 +57,7 @@ const ContextProvider = ({ children }: ContextProps) => {
         setUserData(null);
         jsCookie.remove("user");
         // Call next-auth signOut to clear server-side httpOnly cookies
-        await signOut({ callbackUrl: url });
+        // await signOut({ callbackUrl: url });
     } catch (error) {
         console.log(error);
         // Fallback redirect if signOut fails
@@ -77,7 +78,7 @@ const ContextProvider = ({ children }: ContextProps) => {
 };
 export default Context;
 
-import { SessionProvider } from "next-auth/react";
+
 
 export const ContextProviderWrapper = ({ children }: { children: React.ReactNode }) => {
     return (
