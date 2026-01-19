@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/contextapi";
 import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
 import Image from "next/image";
-import { IoArrowForward, IoCloudUploadOutline, IoPersonOutline, IoMailOutline } from "react-icons/io5";
+import { IoArrowForward, IoCloudUploadOutline, IoPersonOutline, IoMailOutline, IoInformationCircleOutline } from "react-icons/io5";
 import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -109,12 +109,13 @@ const SettingsPage: React.FC = () => {
                     />
 
                     <div className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                        {/* Google User Notice */}
+                        {/* Google User Notice - Conditional */}
                         {(userData.imageGoogle && userData.imageGoogle !== "nulll") && (
-                            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 border-b border-blue-100 dark:border-blue-800" dir="rtl">
-                                <p className="text-blue-800 dark:text-blue-300 text-sm flex items-center gap-2 font-medium leading-relaxed">
-                                    <span className="shrink-0 w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                                    <span>تنبيه: إذا كان حسابك مرتبطاً بـ Google، فنحن ننصحك بالإبقاء على بريدك الإلكتروني كما هو لضمان مزامنة حسابك، ولكن يمكنك تعديله إذا أردت ذلك.</span>
+                            <div className="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-800/50 p-6 flex gap-4 text-amber-800 dark:text-amber-300 text-sm leading-relaxed" dir="rtl">
+                                <IoInformationCircleOutline className="shrink-0 text-2xl text-amber-500" />
+                                <p>
+                                    <span className="font-bold block text-base mb-1">حسابك مرتبط بـ Google</span>
+                                    بما أنك قمت بالتسجيل عبر Google، فنحن ننصحك بالإبقاء على بريدك الإلكتروني الحالي كما هو. تغيير البريد قد يؤدي إلى فقدان القدرة على تسجيل الدخول السريع أو مزامنة بياناتك المستقبلية مع حساب Google الخاص بك.
                                 </p>
                             </div>
                         )}
