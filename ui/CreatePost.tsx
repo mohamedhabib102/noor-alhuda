@@ -12,12 +12,7 @@ import { useRouter } from 'next/navigation';
 interface CreatePostProps {
     toggle: boolean;
     setToggle: React.Dispatch<React.SetStateAction<boolean>>;
-    getAllPosts: () => void;
-    nameShare?: string;
-    namePostShare?: string;
-    titlePostShare?: string;
-    contentPostShare?: string;
-    imagePostShare?: string;
+    refresh?: () => void;
 }
 
 interface Emoji {
@@ -28,18 +23,18 @@ interface Emoji {
 const availableEmojis = ["👍", "❤️", "😂", "😮", "😢", "😡"];
 
 
-const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts , nameShare}) => {
+const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) => {
     const [formData, setFormData] = useState({
         PostTitle: '',
         PostContent: '',
     });
-    const {userData} = useAuth()
+    const { userData } = useAuth()
     const [image, setImage] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const  router =  useRouter()
+    const router = useRouter()
     const [open, setOpen] = useState<boolean>(false)
 
     const handleEmojis = (em: string) => {
@@ -73,7 +68,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
         setError(null);
 
 
-        if (!userData?.personID){
+        if (!userData?.personID) {
             router.push("/join-us")
             return;
         }
@@ -88,31 +83,34 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
         try {
             setLoading(true);
             const data = new FormData();
-            data.append("PersonID", userData?.personID.toString()||"")
-            data.append("PersonName", userData?.personName||"")
-            data.append("NameShare", nameShare||"Mohamed")
+            data.append("PersonID", userData?.personID.toString() || "")
+            data.append("PersonName", userData?.personName || "")
+            data.append("NameShare", "null")
             data.append("PostTitle", formData.PostTitle)
             data.append("PostContent", formData.PostContent)
             data.append("Share", "false")
-            data.append("CreatedAt", now.toISOString()||"")
-            data.append("ImageShare", "no share")
+            data.append("CreatedAt", now.toISOString() || "")
+            data.append("ImageShare", "null")
+            data.append("PersonImageShare", "null")
             if (image) {
-                data.append("image", image||"")
+                data.append("image", image || "")
             }
             req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             }).then((res) => {
-               // Reset form
-               setFormData({
-                  PostTitle: '',
-                  PostContent: '',
-              });
-               removeImage();
-               alert('تم إضافة البوست بنجاح');
-               setToggle(!toggle);
-               getAllPosts();
+                // Reset form
+                setFormData({
+                    PostTitle: '',
+                    PostContent: '',
+                });
+                removeImage();
+                alert('تم إضافة البوست بنجاح');
+                setToggle(false);
+                if (refresh) {
+                    refresh();
+                }
             })
         } catch (err) {
             console.error('Error adding post:', err);
@@ -124,7 +122,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
 
     return (
         <>
-            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-10 bg-black/50 backdrop-blur-sm`}></div>
+            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/50 backdrop-blur-sm`}></div>
             <div className={
                 `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}  fixed z-50 top-1/2 left-1/2 -translate-1/2 w-[90%] h-[550px] overflow-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition no-scrollbar`
             }>
@@ -150,7 +148,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                             name="PostTitle"
                             value={formData.PostTitle}
                             onChange={handleChange}
-                             placeholder=" مثال: عن القرآن الكريم , عن الأمة الأسلامية"
+                            placeholder=" مثال: عن القرآن الكريم , عن الأمة الأسلامية"
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                         />
                     </div>
@@ -167,31 +165,31 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, getAllPosts 
                             className="w-full px-4 py-2 pl-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-y text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
                             no-scrollbar"
                         />
-                        <FaSmile 
-                        size={20}
-                        className='absolute top-8 left-3 cursor-pointer
+                        <FaSmile
+                            size={20}
+                            className='absolute top-8 left-3 cursor-pointer
                         text-(--main-bg)'
-                        onClick={() => setOpen(!open)}
-                         />
+                            onClick={() => setOpen(!open)}
+                        />
 
-                         <div className={
+                        <div className={
                             `dark:bg-gray-600 bg-gray-300 rounded-lg
                          flex items-center gap-2 p-1 w-fit mr-auto
                          ${open ? "visible opacity-100 scale-100" : "invisible opacity-0 scale-0"}
                          transition-all duration-300 
                          `
-                         }>
+                        }>
                             {availableEmojis.map((em, index) => (
-                                <button 
-                                key={index}
-                                className='text-lg cursor-pointer'
-                                onClick={() => handleEmojis(em)}
-                                type='button'
+                                <button
+                                    key={index}
+                                    className='text-lg cursor-pointer'
+                                    onClick={() => handleEmojis(em)}
+                                    type='button'
                                 >
                                     {em}
                                 </button>
                             ))}
-                         </div>
+                        </div>
                     </div>
 
                     {/* Image Upload Section */}

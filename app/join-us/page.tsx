@@ -48,6 +48,8 @@ const JoinUsPage = () => {
 
 
     // MowafyAdmin324
+    //mhabib7000881@gmail.com
+    // @Habib7000880
 
     const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, type, value, files } = e.target;
@@ -87,7 +89,7 @@ const JoinUsPage = () => {
             formData.append("Email", loginData.email);
             formData.append("Password", loginData.password);
             formData.append("Role", "string");
-            formData.append("ImageGoogle", "string");
+            formData.append("ImageGoogle", "nulll");
 
             if (loginData.image && typeof loginData.image === 'object' && 'name' in loginData.image) {
                 formData.append("Image", loginData.image);

@@ -34,6 +34,7 @@ export interface Post {
     shareName: string;
     image_Post: string;
     image_Person: string;
+    personImageShare: string;
     share: boolean;
     imageShare: string;
 }

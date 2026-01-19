@@ -12,10 +12,10 @@ export async function GET(req: NextRequest){
         if (type === "category"){
             return NextResponse.json(categories, {status: 200})
         }
-
         return NextResponse.json(adhkar, {status: 200})
     } catch (error) {
         console.log(error);
-        return NextResponse.json({message: "Error fetching data"}, {status: 400})
+        return NextResponse.json({message: "Error fetching data"}, 
+        {status: 400})
     }
 }

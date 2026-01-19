@@ -1,11 +1,9 @@
 "use client"
 import Image from "next/image";
-import AddPostForm from "@/ui/CreatePost";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import CardPost from "@/ui/CardPost";
-import { getAllPosts } from "@/lib/methods";
 
 
 
@@ -44,14 +42,13 @@ const randomDhikr: Dhikr[] = [
 
 
 const Posts: React.FC = () => {
-    const [toggle, setToggle] = useState(false);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-      const timer = setTimeout(() => setLoading(false), 0);
-      return () => clearTimeout(timer);
+        const timer = setTimeout(() => setLoading(false), 0);
+        return () => clearTimeout(timer);
     }, []);
-    
+
 
 
 
@@ -94,19 +91,11 @@ const Posts: React.FC = () => {
 
     return (
         <>
-        <AddPostForm
-            toggle={toggle}
-            setToggle={setToggle}
-            getAllPosts={getAllPosts}
-        />
             <div>
                 <div className="lg:py-6 py-4">
-                    <button className="bg-(--main-bg) text-white p-2 rounded-lg w-[200px] block ml-auto mb-8 cursor-pointer hover:opacity-80 transition duration-300"
-                        onClick={() => setToggle(!toggle)}
-                    > اضافة منشور </button>
                     <div className="flex items-start justify-between lg:flex-row-reverse md:flex-row flex-col-reverse gap-8">
                         <div className="lg:w-[75%]  w-full">
-                         <CardPost stateCard="page"/>
+                            <CardPost stateCard="page" />
                         </div>
                         <div className="lg:block hidden bg-gray-200 dark:bg-gray-900 p-3 lg:w-[20%] md:w-[35%]  sticky top-0 rounded-2xl">
                             {/* Desktop View */}

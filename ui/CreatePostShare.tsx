@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import Image from 'next/image';
 import { MdClose } from "react-icons/md";
 import { BiRepost } from "react-icons/bi";
@@ -18,6 +18,9 @@ interface CreatePostShareProps {
     contentPostShare?: string;
     imagePostShare?: string;
     authorImageShare?: string;
+    imageSharePostPlatform: string;
+    imageSharePersonPlatform: string;
+    sharePaltform: boolean
 }
 
 const CreatePostShare: React.FC<CreatePostShareProps> = ({
@@ -28,7 +31,10 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
     titlePostShare,
     contentPostShare,
     imagePostShare,
-    authorImageShare
+    authorImageShare,
+    imageSharePostPlatform,
+    imageSharePersonPlatform,
+    sharePaltform
 }) => {
     const { userData } = useAuth();
     const [loading, setLoading] = useState(false);
@@ -60,15 +66,13 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             data.append("PostContent", contentPostShare || "");
             data.append("Share", "true"); // It's a share
             data.append("CreatedAt", new Date().toISOString());
-            data.append("ImageShare", imagePostShare || "");
+            data.append("ImageShare", imagePostShare ?  imagePostShare : "null");
+            data.append("PersonImageShare", authorImageShare ?  authorImageShare : "null");
 
-            // If there's an image, we send the URL or keep it as is? 
-            // Usually, the API might take the image URL string if it's already uploaded.
-            // In the original CreatePost it was a File. Let's see if we can pass the string.
-            if (imagePostShare) {
-                data.append("image_Post", imagePostShare);
+
+            for (const [key, value] of data.entries()){
+                console.log(key, value)
             }
-
 
             const res = await req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
                 headers: {
@@ -90,6 +94,28 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             setLoading(false);
         }
     };
+
+
+    const isValidNextImageSrc = (src?: string) => {
+    if (!src || typeof src !== "string") return false;
+
+    const value = src.trim();
+
+    if (
+        value === "" ||
+        value === "null" ||
+        value === "nulll" ||
+        value === "undefined"
+    ) {
+        return false;
+    }
+
+    return (
+        value.startsWith("/") ||
+        value.startsWith("http://") ||
+        value.startsWith("https://")
+    );
+};
 
 
     return (
@@ -126,18 +152,44 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                         <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-sm border dark:border-gray-700">
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-(--main-bg) font-bold text-lg overflow-hidden">
-                                    {authorImageShare && authorImageShare !== "" && authorImageShare !== "null" ? (
-                                        <Image
-                                            src={authorImageShare}
-                                            title={nameShare}
-                                            alt="author image"
-                                            width={40}
-                                            height={40}
-                                            className="w-10 h-10 rounded-full object-cover"
-                                        />
-                                    ) : (
-                                        <span>{nameShare?.charAt(0) || "ن"}</span>
-                                    )}
+                                   {imageSharePersonPlatform ? (
+  imageSharePersonPlatform.startsWith("blob:") ? (
+    <img
+      src={imageSharePersonPlatform}
+      title={nameShare}
+      alt="author image"
+      className="w-10 h-10 rounded-full object-cover"
+    />
+  ) : isValidNextImageSrc(imageSharePersonPlatform) ? (
+    <Image
+      src={imageSharePersonPlatform}
+      title={nameShare}
+      alt="author image"
+      width={40}
+      height={40}
+      className="w-10 h-10 rounded-full object-cover"
+    />
+  ) : (
+    <Image
+      src="/images/default.png"
+      title={nameShare}
+      alt="author image"
+      width={40}
+      height={40}
+      className="w-10 h-10 rounded-full object-cover"
+    />
+  )
+) : (
+  <Image
+    src="/images/default.png"
+    title={nameShare}
+    alt="author image"
+    width={40}
+    height={40}
+    className="w-10 h-10 rounded-full object-cover"
+  />
+)}
+
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-(--main-bg) text-sm">{nameShare}</h3>
@@ -150,16 +202,38 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                             <ExpandableText text={contentPostShare || ""} />
                         </div>
 
-                        {imagePostShare && imagePostShare !== "null" && (
+                        {sharePaltform ? (
+                          isValidNextImageSrc(imageSharePostPlatform) ? (
                             <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
-                                <Image
-                                    src={imagePostShare}
-                                    alt="Post Preview"
-                                    fill
-                                    className="object-contain"
-                                />
+                              <Image
+                                src={imageSharePostPlatform}
+                                alt="Post Preview"
+                                fill
+                                className="object-contain"
+                              />
                             </div>
+                          ) : imageSharePostPlatform?.startsWith("blob:") ? (
+                            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
+                              <img
+                                src={imageSharePostPlatform || "/images/default.png"}
+                                alt="Post Preview"
+                                className="object-contain w-full h-full"
+                              />
+                            </div>
+                          ) : null
+                        ) : (
+                          isValidNextImageSrc(imagePostShare) && (
+                            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
+                              <Image
+                                src={imagePostShare ||"/images/default.png"}
+                                alt="Post Preview"
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                          )
                         )}
+
                     </div>
                 </div>
 

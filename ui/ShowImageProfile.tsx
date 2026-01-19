@@ -23,6 +23,13 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
 }) => {
 
 
+    const isValidImage =
+  image &&
+  image !== "null" &&
+  image !== "nulll" &&
+  image !== "undefined" &&
+  image.trim() !== "";
+
 
     return (
         <>
@@ -38,8 +45,8 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-                            {image ? (
-                                <Image src={image} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
+                            {isValidImage ? (
+                                <Image src={image ||""} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
                             ) : (
                                 <span className="text-sm font-semibold text-(--main-bg)">{(nameUser || 'ن').charAt(0)}</span>
                             )}
@@ -57,7 +64,7 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
 
                 <div className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700">
                     <div className="relative w-full h-[60vh] md:h-[52vh] lg:h-[48vh]">
-                        {image ? (
+                        {isValidImage ? (
                             <Image src={image} alt={nameUser || 'profile image'} fill className="object-contain blur-[3px]" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">لا توجد صورة</div>

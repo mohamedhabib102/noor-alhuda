@@ -15,6 +15,11 @@ const nextConfig = {
       },
        {
         protocol: 'https',
+        hostname: 'alhodaalnabawya.runasp.netimages',
+        pathname: '/**',
+      },
+       {
+        protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         pathname: '/**',
       }

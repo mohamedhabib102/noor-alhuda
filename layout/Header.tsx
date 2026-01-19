@@ -22,6 +22,12 @@ const Header: React.FC = () => {
         setMounted(true);
     }, []);
 
+    const iImage = 
+    userData?.image ?
+    userData.image 
+    : userData?.imageGoogle && userData.imageGoogle !== "nulll" ? 
+    userData.imageGoogle : "/images/default.png"
+
     return (
         <>
             <OverlayHelp
@@ -39,9 +45,9 @@ const Header: React.FC = () => {
                                     className="">
                                     {mounted && userData.personID && (
                                         <Image
-                                            src={(typeof userData.image === 'string' && (userData.image.startsWith('http') || userData.image.startsWith('/')) ? userData.image : '') ||
-                                                (typeof userData.imageGoogle === 'string' && (userData.imageGoogle.startsWith('http') || userData.imageGoogle.startsWith('/')) ? userData.imageGoogle : '') ||
-                                                "/images/default.png"}
+                                            src={
+                                                iImage
+                                            }
                                             alt="user"
                                             width={40}
                                             height={40}
