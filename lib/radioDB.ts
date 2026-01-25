@@ -114,12 +114,12 @@ export const Radios = [
         "url": "https://n0e.radiojar.com/8s5u5tpdtwzuv?rj-ttl=5&rj-tok=AAABjW7yROAA0TUU8cXhXIAi6g",
         img: "/images/default.png"
     },
-    {
-        id: 20,
-        name: "إذاعة السنة النبوية",
-        "url": "https://n01.radiojar.com/x0vs2vzy6k0uv?rj-ttl=5&rj-tok=AAABjW751GcA4NgCI8-5DCpCHQ",
-        img: "https://i.pinimg.com/564x/55/16/ab/5516abd3744c3d0b0a7b28bedd5474c0.jpg"
-    },
+    // {
+    //     id: 20,
+    //     name: "إذاعة السنة النبوية",
+    //     "url": "https://n01.radiojar.com/x0vs2vzy6k0uv?rj-ttl=5&rj-tok=AAABjW751GcA4NgCI8-5DCpCHQ",
+    //     img: "https://i.pinimg.com/564x/55/16/ab/5516abd3744c3d0b0a7b28bedd5474c0.jpg"
+    // },
     {
         id: 21,
         name: "إذاعة تلاوات خاشعة",

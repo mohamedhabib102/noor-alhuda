@@ -86,21 +86,20 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
                                     <button
                                         key={eye.title}
                                         onClick={() => setSwitchOption(idx)}
-                                        className={`flex items-center lg:gap-3  gap-2 p-4 rounded-xl transition-all duration-500 relative z-10 cursor-pointer 
-                                        ${switchOption === idx ? "text-main-bg dark:text-white" : "text-main-bg dark:text-white"}`}
+                                        className={`flex items-center lg:gap-3 gap-2 p-4 rounded-xl transition-colors duration-200 relative z-10 cursor-pointer 
+                                        ${switchOption === idx ? "text-white dark:text-main" : "text-main dark:text-white/70"}`}
                                     >
-                                        <eye.icon size={22} className="transition-transform duration-500" style={{ transform: switchOption === idx ? 'scale(1.1)' : 'scale(1)' }} />
+                                        <eye.icon size={22} />
                                         <span className="font-bold lg:text-lg text-sm whitespace-nowrap">{eye.title}</span>
                                     </button>
                                 ))}
 
-                                {/* Sliding Background Highlight */}
+                                {/* Sliding Background Highlight - Non-elastic, fast transition */}
                                 <div
-                                    className="absolute top-1.5 bottom-1.5 bg-main dark:bg-emerald-600 rounded-xl transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-lg shadow-emerald-900/10"
+                                    className="absolute top-1.5 bottom-1.5 bg-main dark:bg-main-bg rounded-xl transition-all duration-200 shadow-md"
                                     style={{
                                         left: switchOption === 0 ? "6px" : "50%",
                                         width: "calc(50% - 9px)",
-                                        transform: switchOption === 0 ? "translateX(0)" : "translateX(3px)"
                                     }}
                                 />
                             </div>
