@@ -12,7 +12,7 @@ interface Props {
 
 const getSurah = async (surahNumber: string) => {
   const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`, {
-    cache: "no-store"
+    cache: "force-cache"
   })
   const data = await res.json()
   return data.data
@@ -20,7 +20,7 @@ const getSurah = async (surahNumber: string) => {
 
 const getTafsir = async (surahNumber: string) => {
   const res = await fetch(`https://quranenc.com/api/v1/translation/sura/arabic_moyassar/${surahNumber}`, {
-    cache: "no-store"
+    cache: "force-cache"
   })
   const data = await res.json()
   // console.log(data.result);

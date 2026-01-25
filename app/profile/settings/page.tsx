@@ -210,7 +210,7 @@ const SettingsPage: React.FC = () => {
                         </form>
                     </div>
 
-                    <div className="mt-10 p-8 bg-white dark:bg-[#0a1a0f] rounded-[2rem] border border-main/10 dark:border-main/20 shadow-sm" dir="rtl">
+                    <div className="mt-10 p-8 bg-white dark:bg-[#0a1a0f] rounded-4xl border border-main/10 dark:border-main/20 shadow-sm" dir="rtl">
                         <p className="text-main-bg dark:text-gray-400 text-sm leading-relaxed text-center font-bold">
                             <span className="text-main mr-1">نصيحة:</span> احرص على استخدام اسم لائق وصورة محتشمة تعبر عن هويتنا الإسلامية.
                         </p>

@@ -2,12 +2,12 @@ import Link from "next/link"
 
 
 
-const getSurahs = async() => {
+const getSurahs = async () => {
   const res = await fetch("https://api.alquran.cloud/v1/surah", {
     cache: "force-cache"
   })
   const data = await res.json()
-  return data.data  
+  return data.data
 }
 
 interface Surah {
@@ -31,20 +31,26 @@ const GetAllSurahs: React.FC = async () => {
           <Link
             href={`/quran/${sur.number}`}
             key={sur.number}
-            className="font-quran flex items-center justify-between bg-gray-100 dark:bg-gray-800 border-2 border-gray-400 dark:border-gray-600 p-4 rounded-lg
-                    transition duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer hover:border-(--main-color)"
-
+            className="group font-quran flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-main/5 border border-main/10 dark:border-main/20 hover:border-main-bg dark:hover:border-main-bg hover:shadow-lg transition-all duration-300 relative overflow-hidden"
           >
-            <div className="flex items-center gap-6">
+            {/* Subtle decoration */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-main/5 dark:bg-main/10 rounded-full -mr-12 -mt-12 group-hover:scale-110 transition-transform duration-500" />
+
+            <div className="flex items-center gap-5 relative z-10">
               <div
-                className="w-11 h-11 text-white flex justify-center items-center text-lg rounded-sm rotate-45"
-                style={{ backgroundColor: "var(--main-color)" }}
+                className="w-12 h-12 flex justify-center items-center text-lg font-bold rounded-xl rotate-45 bg-main/10 dark:bg-main/20 text-main group-hover:bg-main group-hover:text-white transition-all duration-300 shadow-inner"
               >
                 <span className="-rotate-45">{sur.number}</span>
               </div>
-              <h3 className="text-2xl">{sur.name}</h3>
+              <div>
+                <h3 className="text-2xl font-bold text-main dark:text-gray-100 group-hover:text-main-bg transition-colors duration-300">{sur.name}</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-sans tracking-tight">{sur.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}</p>
+              </div>
             </div>
-            <p className="text-lg"> آيات {sur.numberOfAyahs}</p>
+            <div className="text-left relative z-10">
+              <p className="text-lg font-bold text-main-bg">{sur.numberOfAyahs}</p>
+              <p className="text-[10px] text-gray-400 uppercase font-sans tracking-widest leading-none">آيات</p>
+            </div>
           </Link>
 
         ))}

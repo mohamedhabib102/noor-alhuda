@@ -97,7 +97,7 @@ const RadioSound = () => {
 
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:w-96 bg-white dark:bg-zinc-900 border border-main/20 shadow-2xl rounded-2xl p-4 z-50 animate-slideUp">
+        <div className="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 md:w-96 bg-main dark:bg-main-bg border border-white/10 dark:border-main/20 shadow-2xl rounded-4xl p-5 z-50 animate-slideUp backdrop-blur-md transition-colors duration-500">
             <audio
                 ref={audioRef}
                 onWaiting={() => setIsLoading(true)}
@@ -110,56 +110,58 @@ const RadioSound = () => {
             />
 
             <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-main/10 flex items-center justify-center text-main">
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white/10 dark:bg-main/10 flex items-center justify-center text-main-bg dark:text-main shadow-inner">
                     {isLoading ? (
-                        <AiOutlineLoading3Quarters className="animate-spin" size={24} />
+                        <AiOutlineLoading3Quarters className="animate-spin" size={28} />
                     ) : radioData.img ? (
-                        <img src={radioData.img} alt={radioData.name} className="w-full h-full object-cover" />
+                        <img src={radioData.img} alt={radioData.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
-                        <FaPlay size={20} />
+                        <FaPlay size={24} />
                     )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-black text-main-bg dark:text-gray-100 truncate">{radioData.name}</h4>
-                    <p className="text-xs text-gray-500 font-bold overflow-hidden flex items-center gap-1">
+                    <h4 className="text-base font-black text-white dark:text-main truncate">{radioData.name}</h4>
+                    <p className="text-xs font-bold overflow-hidden flex items-center gap-1">
                         {isError ? (
-                            <span className="text-red-500 text-[10px]">نعتذر، المصدر غير متاح حالياً</span>
+                            <span className="text-red-400 dark:text-red-700">عذراً، المصدر غير متاح</span>
                         ) : isLoading ? (
-                            "جاري الاتصال..."
+                            <span className="text-white/60 dark:text-main/60 animate-pulse">جاري الاتصال...</span>
                         ) : (
-                            "بث مباشر"
+                            <span className="text-white/90 dark:text-main/80">بث مباشر الآن</span>
                         )}
                     </p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     <button
                         onClick={togglePlay}
                         disabled={isLoading || isError}
-                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isLoading || isError ? 'bg-gray-300 cursor-not-allowed' : 'bg-main text-white hover:scale-105'
+                        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg ${isLoading || isError
+                            ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                            : 'bg-main-bg dark:bg-main text-white hover:scale-110 active:scale-95'
                             }`}
                     >
                         {isLoading ? (
-                            <AiOutlineLoading3Quarters className="animate-spin" size={14} />
+                            <AiOutlineLoading3Quarters className="animate-spin" size={18} />
                         ) : isPlaying ? (
-                            <FaPause size={14} />
+                            <FaPause size={18} />
                         ) : (
-                            <FaPlay size={14} className="ml-0.5" />
+                            <FaPlay size={18} className="ml-1" />
                         )}
                     </button>
                     <button
                         onClick={clearRadio}
-                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center"
+                        className="w-8 h-8 rounded-full bg-black/20 dark:bg-main/20 text-white/50 dark:text-main/50 hover:text-red-400 dark:hover:text-red-700 transition-all flex items-center justify-center"
                     >
                         <IoClose size={20} />
                     </button>
                 </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-2 px-1">
-                <button onClick={() => setVolume(volume === 0 ? 1 : 0)} className="text-gray-400">
-                    {volume === 0 ? <FaVolumeMute size={14} /> : <FaVolumeUp size={14} />}
+            <div className="mt-5 flex items-center gap-3 px-1">
+                <button onClick={() => setVolume(volume === 0 ? 1 : 0)} className="text-white/70 dark:text-main/70 hover:text-white dark:hover:text-main transition-colors">
+                    {volume === 0 ? <FaVolumeMute size={16} /> : <FaVolumeUp size={16} />}
                 </button>
                 <input
                     type="range"
@@ -168,7 +170,7 @@ const RadioSound = () => {
                     step="0.01"
                     value={volume}
                     onChange={handleVolumeChange}
-                    className="flex-1 h-1.5 bg-gray-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-main"
+                    className="flex-1 h-1.5 bg-white/20 dark:bg-main/20 rounded-lg appearance-none cursor-pointer accent-main-bg dark:accent-main"
                 />
             </div>
         </div>

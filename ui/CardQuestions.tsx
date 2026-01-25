@@ -85,7 +85,7 @@ const CardQuations: React.FC<CardQuationsProps> = ({ state }) => {
                       className="rounded-full"
                     />
                     <div>
-                      <h4 className="text-(--main-color) dark:text-[#4ade80] font-semibold">
+                      <h4 className="text-main dark:text-[#4ade80] font-semibold">
                         {ques.personName}
                       </h4>
                     </div>
@@ -105,7 +105,7 @@ const CardQuations: React.FC<CardQuationsProps> = ({ state }) => {
                 <p className="p-3 leading-8 text-right ml-auto text-gray-800 dark:text-gray-200">
                   {ques.responseContent.split(/(".*?")/).map((part, index) =>
                     part.startsWith('"') && part.endsWith('"') ? (
-                      <span key={index} className="text-(--main-color) mx-1 font-semibold underline">
+                      <span key={index} className="text-main mx-1 font-semibold underline">
                         {part.replace(/"/g, "")}
                       </span>
                     ) : part

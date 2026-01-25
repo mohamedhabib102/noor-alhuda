@@ -92,16 +92,15 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/40 backdrop-blur-sm`}></div>
             <div ref={ref} className={`${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}
-        transition-all duration-300 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-10/12 m-auto bg-gray-100 dark:bg-gray-800 py-6 px-4 rounded-lg`}>
-                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-(--main-color) dark:text-gray-200 absolute top-2 right-2">
-                    <MdClose size={30} />
+        transition-all duration-300 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-11/12 max-w-sm m-auto bg-white dark:bg-main p-6 shadow-2xl rounded-4xl border border-main/5 dark:border-white/10`}>
+                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-300 text-gray-400 hover:text-main dark:text-white/50 dark:hover:text-main-bg absolute top-4 right-4">
+                    <MdClose size={28} />
                 </button>
-                <ul className="text-right flex justify-end flex-col gap-3 mt-7">
+                <ul className="grid grid-cols-1 gap-3 mt-12">
                     {NavbarText.map((nav) => (
                         <li key={nav.id} className="">
                             <Link href={nav.link}
-                                className="flex items-center gap-2 justify-start flex-row
-                    p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <nav.icon size={20} />
@@ -113,8 +112,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && userData?.personID && (
                         <li className="">
                             <Link href="/profile"
-                                className="flex items-center gap-2 justify-start flex-row
-                         p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaUser size={20} />
@@ -126,8 +124,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && userData?.role === "Admin" && (
                         <li className="">
                             <Link href="/control"
-                                className="flex items-center gap-2 justify-start flex-row
-                         p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaChartBar size={20} />
@@ -139,8 +136,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && !userData?.personID && (
                         <li className="">
                             <Link href="/join-us"
-                                className="flex items-center gap-2 justify-start flex-row
-                         p-2 bg-[#0e582dd6] rounded-lg hover:bg-[#0e582d] text-white cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaUser size={20} />

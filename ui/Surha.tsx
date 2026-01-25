@@ -162,7 +162,7 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
           })}
         </div>
       ) : (
-        <div className="bg-main-bg/5 dark:bg-main/5 lg:p-8 p-4 md:p-12 rounded-[2.5rem] border border-main-bg/20 shadow-sm text-center lg:leading-[5.5] leading-[4.2] dir-rtl">
+        <div className="bg-main-bg/5 dark:bg-main/5 lg:p-8 p-4 md:p-12 rounded-[2.5rem] border border-main-bg/20 shadow-sm text-center lg:leading-[6.5] leading-[4.2] dir-rtl">
           {surah.ayahs.map((ayah, index) => {
             const isActive = playingIndex === index;
             return (

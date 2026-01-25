@@ -12,15 +12,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const contentClasses = isOpen
-    ? 'max-h-screen opacity-100'
-    : 'max-h-0 opacity-0';
-
-
-  const iconClasses = isOpen
-    ? 'transform rotate-45'
-    : 'transform rotate-0';
-
   return (
     <div className="border border-brand-gold/15 dark:border-main/30 rounded-2xl mb-4 overflow-hidden shadow-sm transition-all duration-300">
       <button
@@ -29,7 +20,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
       >
         <h3 className="text-lg text-right font-bold text-foreground dark:text-gray-100">{title}</h3>
 
-        <span className={`text-xl font-bold transition-transform duration-300 ${iconClasses}`}>
+        <span className={`text-xl font-bold transition-transform duration-300 ${isOpen ? 'rotate-45' : 'rotate-0'}`}>
           <FaPlus
             size={22}
             className='text-main dark:text-brand-gold'
@@ -37,10 +28,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
         </span>
       </button>
       <div
-        className={`accordion-content ${contentClasses} transition-all duration-500 ease-in-out bg-white dark:bg-main/5`}
+        className={`grid transition-all duration-500 ease-in-out bg-white dark:bg-main/5 ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+          }`}
       >
-        <div className="p-5 border-t border-brand-gold/10 dark:border-main/10 text-right dark:text-gray-200">
-          {children}
+        <div className="overflow-hidden">
+          <div className="p-5 border-t border-brand-gold/10 dark:border-main/10 text-right dark:text-gray-200">
+            {children}
+          </div>
         </div>
       </div>
     </div>
