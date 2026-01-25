@@ -58,7 +58,7 @@ const services: Serve[] = [
 
 const Services: React.FC = () => {
     return (
-        <section className="lg:py-16 py-8 bg-gray-100 dark:bg-gray-900">
+        <section className="lg:py-16 py-8 bg-background dark:bg-background border-t border-gray-100 dark:border-transparent">
             <CustomContainer>
                 <CustomTitle
                     success={false}
@@ -66,18 +66,20 @@ const Services: React.FC = () => {
                     description="لمسة صباحية تملأ قلبك بالسكينة"
                 />
 
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mt-10">
                     {services.map((serv) => (
                         <Link
                             href={serv.link}
                             key={serv.id}
-                            className="text-center bg-[#ceaf1584] dark:bg-gray-800 transition duration-300 hover:bg-(--main-bg) dark:hover:bg-gray-700 py-6 rounded-2xl border border-transparent dark:border-gray-700"
+                            className="group text-center bg-brand-gold/5 dark:bg-main/10 transition-all duration-300 hover:bg-main dark:hover:bg-brand-gold py-10 rounded-[2.5rem] border border-brand-gold/20 dark:border-main/20 shadow-sm hover:shadow-xl hover:-translate-y-2"
                         >
-                            <serv.icon
-                                size={60}
-                                className="m-auto mb-3 text-(--main-color) dark:text-[#4ade80]"
-                            />
-                            <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{serv.title}</h3>
+                            <div className="w-20 h-20 m-auto mb-6 bg-white dark:bg-main/30 rounded-2xl flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
+                                <serv.icon
+                                    size={40}
+                                    className="text-main dark:text-brand-gold group-hover:text-white transition-colors"
+                                />
+                            </div>
+                            <h3 className="font-bold text-xl text-main dark:text-brand-gold group-hover:text-white transition-colors">{serv.title}</h3>
                         </Link>
                     ))}
                 </div>

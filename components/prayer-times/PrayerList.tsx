@@ -59,21 +59,20 @@ const PrayerList: React.FC<PrayerListProps> = ({ prayerTimesList }) => {
             {prayerTimesList.map((prayer, index) => (
                 <div
                     key={prayer.name}
-                    className={`relative p-6 rounded-3xl transition-all duration-300 border ${index === nextPrayerIndex
-                        ? "bg-[#0e582d] border-[#0e582d] text-white shadow-lg shadow-green-900/20"
-                        : "bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200"
-                        } hover:-translate-y-2.5`}
+                    className={`relative p-8 rounded-4xl transition-all duration-500 border-2 ${index === nextPrayerIndex
+                        ? "bg-main border-main text-white shadow-2xl shadow-main/20 scale-105 z-10"
+                        : "bg-white dark:bg-main-bg/10 border-main-bg/5 dark:border-main-bg/20 text-main-bg dark:text-gray-200"
+                        } hover:-translate-y-2 group`}
                 >
-                    <div className="flex flex-col items-center gap-3">
-                        <div className={`text-2xl ${index === nextPrayerIndex ? "text-white" : "text-[#0e582d]"}`}>
+                    <div className="flex flex-col items-center gap-4">
+                        <div className={`text-3xl transition-transform duration-500 group-hover:scale-110 ${index === nextPrayerIndex ? "text-white" : "text-main"}`}>
                             {prayer.icon}
                         </div>
-                        <span className={`font-bold ${index === nextPrayerIndex ? "text-white" : "text-gray-500"}`}>{prayer.name}</span>
-                        <span className="text-2xl font-black tabular-nums">{prayer.time}</span>
+                        <span className={`text-sm font-black uppercase tracking-widest ${index === nextPrayerIndex ? "text-white/80" : "text-gray-400"}`}>{prayer.name}</span>
+                        <span className="text-3xl font-black tabular-nums">{prayer.time}</span>
                     </div>
                     {index === nextPrayerIndex && (
-                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-[#ab900b] text-white text-[10px] font-bold rounded-full shadow-sm
-                        text-center">
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-main-bg text-white text-[10px] font-black rounded-full shadow-lg text-center uppercase tracking-tighter border-2 border-white dark:border-main-bg/20">
                             الصلاة القادمة
                         </div>
                     )}

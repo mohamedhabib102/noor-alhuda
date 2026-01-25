@@ -83,3 +83,10 @@ export interface ApiError {
     message?: string;
 }
 
+export interface Radio {
+    id: number;
+    name: string;
+    url: string;
+    img: string;
+}
+

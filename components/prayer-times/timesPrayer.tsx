@@ -78,28 +78,28 @@ const TimesPrayer = async () => {
                     timeString={timeString}
                 />
                 {/* Date Card */}
-                <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-8 rounded-lg shadow-xl flex flex-col justify-between">
+                <div className="bg-white dark:bg-main-bg/10 border border-main-bg/5 dark:border-main-bg/20 p-8 rounded-4xl shadow-2xl flex flex-col justify-between">
                     <div className="space-y-6">
                         <div className="flex items-center gap-3">
-                            <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl text-[#ab900b]">
+                            <div className="p-3 bg-main-bg/10 dark:bg-main-bg/20 rounded-2xl text-main-bg">
                                 <MdDateRange size={24} />
                             </div>
                             <div>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">تاريخ اليوم</p>
-                                <h3 className="text-lg font-bold text-gray-800 dark:text-white">التقويم الهجري والميلادي</h3>
+                                <p className="text-[10px] font-black text-main-bg opacity-70 uppercase tracking-[0.2em]">تاريخ اليوم</p>
+                                <h3 className="text-xl font-black text-main-bg dark:text-white">التقويم الهجري والميلادي</h3>
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <div className="p-4 bg-green-50/50 dark:bg-green-900/10 rounded-2xl border border-green-100/50 dark:border-green-900/20 group">
-                                <span className="text-[10px] font-black text-[#0e582d] uppercase block mb-1">الهجري</span>
-                                <span className="text-xl font-bold text-gray-800 dark:text-gray-100 group-hover:text-[#0e582d] transition-colors whitespace-nowrap">
+                            <div className="p-4 bg-main/5 dark:bg-main/10 rounded-2xl border border-main/10 dark:border-main/20 group">
+                                <span className="text-[10px] font-black text-main uppercase block mb-1">الهجري</span>
+                                <span className="text-xl font-black text-main-bg dark:text-gray-100 group-hover:text-main transition-colors whitespace-nowrap">
                                     {hijriDateDisplay}
                                 </span>
                             </div>
-                            <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700 group">
+                            <div className="p-4 bg-main-bg/5 dark:bg-white/5 rounded-2xl border border-main-bg/5 dark:border-white/10 group">
                                 <span className="text-[10px] font-black text-gray-400 uppercase block mb-1">الميلادي</span>
-                                <span className="text-lg font-bold text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                                <span className="text-lg font-bold text-gray-500 dark:text-gray-400 group-hover:text-main-bg dark:group-hover:text-white transition-colors">
                                     {gregorianDate}
                                 </span>
                             </div>

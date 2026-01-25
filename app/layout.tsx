@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
-import { Rubik, Rakkas } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Rakkas } from "next/font/google";
 import "./globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
-import  { ContextProviderWrapper } from "@/lib/contextapi";
+import { ContextProviderWrapper } from "@/lib/contextapi";
 
-const rubik = Rubik({
-  variable: "--font-rubik",
-  subsets: ["latin"],
+
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-ibm-plex-sans-arabic",
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "700"],
   display: 'swap',
 });
 
 const rakkas = Rakkas({
   variable: "--font-rakkas",
-  subsets: ["arabic"],
-  weight: "400",
+  subsets: ["arabic", "latin"],
+  weight: ["400"],
   display: 'swap',
 });
 
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  
+
 
   twitter: {
     card: "summary_large_image",
@@ -78,14 +79,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${rubik.variable} ${rakkas.variable}`}>
+    <html lang="ar" dir="rtl" className={`${ibmPlexSansArabic.variable} ${rakkas.variable}`}>
       <body className={`antialiased`}>
         <ContextProviderWrapper>
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
         </ContextProviderWrapper>
       </body>
     </html>

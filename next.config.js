@@ -6,23 +6,27 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'hkddkxgelkhgseiskulz.supabase.co',
-        pathname: '/storage/v1/object/public/**', 
+        pathname: '/storage/v1/object/public/**',
       },
       {
         protocol: 'https',
         hostname: 'alhodaalnabawya.runasp.net',
         pathname: '/images/**',
       },
-       {
+      {
         protocol: 'https',
-        hostname: 'alhodaalnabawya.runasp.netimages',
+        hostname: 'alhodaalnabawya.runasp.net',
         pathname: '/**',
       },
-       {
+      {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 };

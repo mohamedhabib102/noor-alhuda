@@ -91,14 +91,14 @@ const SettingsPage: React.FC = () => {
     const currentImage = previewImage || userData.image || userData.imageGoogle || "/images/default.png";
 
     return (
-        <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <section className="py-12 bg-main/5 dark:bg-black min-h-screen">
             <CustomContainer>
                 <div className="max-w-2xl mx-auto">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-8" dir="rtl">
-                        <Link href="/profile" className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-(--main-color) transition-colors">
-                            <IoArrowForward size={24} />
-                            <span className="font-bold">العودة للملف الشخصي</span>
+                        <Link href="/profile" className="flex items-center gap-2 text-main-bg dark:text-gray-300 hover:text-main transition-colors group">
+                            <IoArrowForward size={24} className="group-hover:translate-x-1 transition-transform" />
+                            <span className="font-black text-sm">العودة للملف الشخصي</span>
                         </Link>
                     </div>
 
@@ -108,23 +108,23 @@ const SettingsPage: React.FC = () => {
                         success={true}
                     />
 
-                    <div className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div className="mt-8 bg-white dark:bg-main/10 rounded-[2.5rem] shadow-2xl overflow-hidden border border-main/10 dark:border-main/20">
                         {/* Google User Notice - Conditional */}
                         {(userData.imageGoogle && userData.imageGoogle !== "nulll") && (
-                            <div className="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-800/50 p-6 flex gap-4 text-amber-800 dark:text-amber-300 text-sm leading-relaxed" dir="rtl">
-                                <IoInformationCircleOutline className="shrink-0 text-2xl text-amber-500" />
-                                <p>
-                                    <span className="font-bold block text-base mb-1">حسابك مرتبط بـ Google</span>
+                            <div className="bg-main-bg/5 dark:bg-white/5 border-b border-main-bg/10 dark:border-main/10 p-8 flex gap-5 text-main-bg dark:text-gray-300 text-sm leading-relaxed" dir="rtl">
+                                <IoInformationCircleOutline className="shrink-0 text-3xl text-main" />
+                                <p className="font-medium">
+                                    <span className="font-black block text-lg mb-1 text-main">حسابك مرتبط بـ Google</span>
                                     بما أنك قمت بالتسجيل عبر Google، فنحن ننصحك بالإبقاء على بريدك الإلكتروني الحالي كما هو. تغيير البريد قد يؤدي إلى فقدان القدرة على تسجيل الدخول السريع أو مزامنة بياناتك المستقبلية مع حساب Google الخاص بك.
                                 </p>
                             </div>
                         )}
-                        <form onSubmit={updateProfile} className="p-8 md:p-12 space-y-8" dir="rtl">
+                        <form onSubmit={updateProfile} className="p-8 md:p-14 space-y-10" dir="rtl">
 
                             {/* Avatar Section */}
                             <div className="flex flex-col items-center">
                                 <div className="relative group">
-                                    <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-(--main-color)/20 shadow-lg relative">
+                                    <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-main/10 shadow-xl relative group-hover:border-main/30 transition-all duration-500">
                                         <Image
                                             src={currentImage}
                                             alt="Avatar"
@@ -134,9 +134,9 @@ const SettingsPage: React.FC = () => {
                                     </div>
                                     <label
                                         htmlFor="imageInput"
-                                        className="absolute bottom-0 right-0 p-2 bg-(--main-color) text-white rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform"
+                                        className="absolute bottom-1 right-1 p-3 bg-main text-white rounded-full cursor-pointer shadow-xl hover:scale-110 active:scale-90 transition-all border-4 border-white dark:border-[#0a1a0f]"
                                     >
-                                        <IoCloudUploadOutline size={22} />
+                                        <IoCloudUploadOutline size={24} />
                                         <input
                                             type="file"
                                             id="imageInput"
@@ -146,38 +146,38 @@ const SettingsPage: React.FC = () => {
                                         />
                                     </label>
                                 </div>
-                                <p className="mt-3 text-sm text-gray-500 font-medium">انقر على الأيقونة لتغيير الصورة</p>
+                                <p className="mt-4 text-xs text-gray-400 font-black uppercase tracking-widest">انقر لتغيير الصورة</p>
                             </div>
 
                             {/* Inputs Section */}
-                            <div className="space-y-6">
+                            <div className="space-y-8">
                                 {/* Name Input */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                                        <IoPersonOutline className="text-(--main-color)" />
+                                <div className="space-y-3">
+                                    <label className="text-sm font-black text-main-bg dark:text-gray-300 flex items-center gap-2">
+                                        <IoPersonOutline className="text-main" size={20} />
                                         <span>الأسم الكامل</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.personName}
                                         onChange={(e) => setFormData({ ...formData, personName: e.target.value })}
-                                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 focus:border-(--main-color) focus:ring-2 focus:ring-(--main-color)/20 outline-none transition-all dark:text-white"
+                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold"
                                         placeholder="ادخل اسمك الجديد"
                                         required
                                     />
                                 </div>
 
                                 {/* Email Input */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                                        <IoMailOutline className="text-(--main-color)" />
+                                <div className="space-y-3">
+                                    <label className="text-sm font-black text-main-bg dark:text-gray-300 flex items-center gap-2">
+                                        <IoMailOutline className="text-main" size={20} />
                                         <span>البريد الإلكتروني</span>
                                     </label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 focus:border-(--main-color) focus:ring-2 focus:ring-(--main-color)/20 outline-none transition-all dark:text-white"
+                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold"
                                         placeholder="example@mail.com"
                                         required
                                     />
@@ -185,14 +185,14 @@ const SettingsPage: React.FC = () => {
                             </div>
 
                             {/* Submit Button */}
-                            <div className="pt-4">
+                            <div className="pt-6">
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 bg-(--main-color) hover:bg-(--main-color)/90 text-white rounded-2xl font-bold shadow-lg shadow-(--main-color)/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
+                                    className="w-full py-5 bg-main hover:bg-emerald-900 text-white rounded-2xl font-black text-lg shadow-xl shadow-main/10 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group active:scale-95 border-b-4 border-emerald-950/20"
                                 >
                                     {loading ? (
-                                        <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        <div className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
                                     ) : (
                                         <>
                                             <span>حفظ التغييرات</span>
@@ -202,17 +202,17 @@ const SettingsPage: React.FC = () => {
 
                                 <Link
                                     href="/profile"
-                                    className="block w-full text-center mt-4 py-4 text-gray-500 font-bold hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                                    className="block w-full text-center mt-6 py-2 text-gray-400 font-black text-sm hover:text-main-bg transition-colors"
                                 >
-                                    إلغاء
+                                    إلغاء وتجاهل التغييرات
                                 </Link>
                             </div>
                         </form>
                     </div>
 
-                    <div className="mt-8 p-6 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 dark:border-amber-800/30" dir="rtl">
-                        <p className="text-amber-800 dark:text-amber-400 text-sm leading-relaxed text-center">
-                            نصيحة: احرص على استخدام اسم لائق وصورة محتشمة تعبر عن هويتنا الإسلامية.
+                    <div className="mt-10 p-8 bg-white dark:bg-[#0a1a0f] rounded-[2rem] border border-main/10 dark:border-main/20 shadow-sm" dir="rtl">
+                        <p className="text-main-bg dark:text-gray-400 text-sm leading-relaxed text-center font-bold">
+                            <span className="text-main mr-1">نصيحة:</span> احرص على استخدام اسم لائق وصورة محتشمة تعبر عن هويتنا الإسلامية.
                         </p>
                     </div>
                 </div>

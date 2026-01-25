@@ -198,7 +198,7 @@ const News: React.FC = () => {
     const monthContent = hijriMonth ? hijriMonthsContent[hijriMonth] : null;
 
     return (
-        <section className="lg:py-16 py-8 bg-gray-100 dark:bg-gray-900 transition-colors duration-500 overflow-hidden">
+        <section className="lg:py-16 py-8 bg-background dark:bg-background transition-colors duration-500 overflow-hidden">
             <CustomContainer>
                 <CustomTitle
                     title="نفحات إيمانية"
@@ -211,7 +211,7 @@ const News: React.FC = () => {
                     {/* --- Section 1: Daily Spiritual Message --- */}
                     <div className="lg:col-span-8 order-2 lg:order-1">
                         <div className="flex items-center mb-8">
-                            <div className="p-3 bg-secondary/10 rounded-2xl text-secondary">
+                            <div className="p-3 bg-main/10 rounded-2xl text-main ml-3">
                                 <FaQuoteRight size={28} />
                             </div>
                             <h3 className="lg:text-3xl text-2xl font-bold dark:text-white">رسالة اليوم</h3>
@@ -219,30 +219,30 @@ const News: React.FC = () => {
 
                         {dailyMsg ? (
                             <div
-                                className="relative h-[210px] md:h-80 bg-emerald-800/90 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-lg md:rounded-lg p-4 md:p-8 text-white overflow-hidden shadow-xl flex flex-col justify-center text-center group"
+                                className="relative h-[210px] md:h-80 bg-linear-to-br from-main to-emerald-900 dark:from-main/40 dark:to-main/10 border border-white/20 rounded-2xl p-4 md:p-8 text-white overflow-hidden shadow-xl flex flex-col justify-center text-center group transition-all"
                             >
                                 <div className="relative z-10 space-y-1 md:space-y-3">
                                     <div className="w-8 h-8 md:w-12 md:h-12 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-1 border border-white/20 transition-transform group-hover:scale-110">
-                                        {dailyMsg.icon ? <dailyMsg.icon size={18} className="md:size-6" /> : <FaHandsPraying size={18} className="md:size-6" />}
+                                        {dailyMsg.icon ? <dailyMsg.icon size={18} className="md:size-6 text-white" /> : <FaHandsPraying size={18} className="md:size-6 text-white" />}
                                     </div>
 
-                                    <span className="inline-block px-2 py-0.5 bg-black/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">
+                                    <span className="inline-block px-2 py-0.5 bg-black/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-white/90 border border-white/10">
                                         {dailyMsg.title}
                                     </span>
 
-                                    <h4 className="text-lg md:text-2xl font-black leading-tight max-w-2xl mx-auto italic text-white/90">
+                                    <h4 className="text-lg md:text-2xl font-black leading-tight max-w-2xl mx-auto italic text-white/95">
                                         &quot;{dailyMsg.text}&quot;
                                     </h4>
                                     {mesgGoma && (
-                                        <Link 
-                                        href="/quran/18" 
-                                        className="text-lg font-bold text-(--main-color)">
-                                            اقرء الأن
+                                        <Link
+                                            href="/quran/18"
+                                            className="text-lg font-bold text-main dark:text-brand-gold hover:underline">
+                                            اقرأ الآن
                                         </Link>
                                     )}
                                     <div className="w-8 md:w-12 h-1 bg-white/40 mx-auto rounded-full" />
 
-                                    <p className="text-xs md:text-base font-medium text-white/60">
+                                    <p className="text-xs md:text-base font-medium text-white/80">
                                         — {dailyMsg.author}
                                     </p>
                                 </div>
@@ -254,8 +254,8 @@ const News: React.FC = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="h-[210px]  bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
-                                <span className="text-gray-400">  جاري تحميل رسائل اليوم... </span>
+                            <div className="h-[210px] bg-main/5 dark:bg-main/10 rounded-2xl animate-pulse flex items-center justify-center border border-main/10">
+                                <span className="text-main/40 dark:text-emerald-500/40 font-bold">  جاري تحميل رسائل اليوم... </span>
                             </div>
                         )}
                     </div>
@@ -263,7 +263,7 @@ const News: React.FC = () => {
                     {/* --- Section 2: Hijri Month Feature (Dynamic API) --- */}
                     <div className="lg:col-span-4 order-1 lg:order-2">
                         <div className="flex items-center mb-8">
-                            <div className="p-3 bg-primary/10 rounded-2xl text-primary">
+                            <div className="p-3 bg-main-bg/10 rounded-2xl text-main-bg ml-3">
                                 <BsFillCalendarCheckFill size={28} />
                             </div>
                             <h3 className="text-2xl md:text-3xl font-bold dark:text-white">حدث الآن</h3>
@@ -271,7 +271,7 @@ const News: React.FC = () => {
 
                         {!loading && monthContent ? (
                             <div
-                                className="relative h-60 md:h-80 bg-amber-800/90 dark:bg-amber-950/40 border border-amber-400/20 rounded-lg md:rounded-lg p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group"
+                                className="relative h-60 md:h-80 bg-linear-to-br from-main-bg to-amber-700 dark:from-main-bg/40 dark:to-main-bg/10 border border-white/20 rounded-2xl p-4 md:p-8 shadow-xl overflow-hidden text-white flex flex-col justify-between group transition-all"
                             >
                                 <div className="relative z-10">
                                     <div className="mb-2 md:mb-3 p-2 md:p-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg inline-block transition-transform group-hover:rotate-12">
@@ -279,7 +279,7 @@ const News: React.FC = () => {
                                     </div>
 
                                     <div className="space-y-1 md:space-y-2">
-                                        <span className="inline-block px-2 py-0.5 bg-black/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase">
+                                        <span className="inline-block px-2 py-0.5 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase border border-white/10 text-white/90">
                                             شهر {hijriMonthName || monthContent.name}
                                         </span>
                                         <h4 className="text-lg font-bold text-white">{monthContent.title}</h4>
@@ -290,10 +290,10 @@ const News: React.FC = () => {
                                 </div>
 
                                 <div className="relative z-10 mt-auto">
-                                    <div className="p-2 md:p-3 bg-black/20 backdrop-blur-md border border-white/10 rounded-xl">
+                                    <div className="p-2 md:p-3 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl">
                                         <div className="flex items-center gap-2 mb-1 opacity-70">
                                             <FaHandsPraying className="text-white size-2 md:size-3" />
-                                            <span className="text-[9px] font-bold uppercase">نفحات إيمانية</span>
+                                            <span className="text-[9px] font-bold uppercase text-white">نفحات إيمانية</span>
                                         </div>
                                         <p className="text-[12px] md:text-sm italic font-medium leading-tight text-white/90">
                                             &quot;اللهم اجعلنا ممن يقال لهم ادخلوها بسلام آمنين&quot;
@@ -308,8 +308,8 @@ const News: React.FC = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="h-[210px] bg-gray-200 dark:bg-gray-800 rounded-[2.5rem] animate-pulse flex items-center justify-center">
-                                <span className="text-gray-400">جاري تحميل نفحات الشهر...</span>
+                            <div className="h-[210px] bg-main-bg/5 dark:bg-main-bg/10 rounded-2xl animate-pulse flex items-center justify-center border border-main-bg/10">
+                                <span className="text-main-bg/50 font-bold">جاري تحميل نفحات الشهر...</span>
                             </div>
                         )}
                     </div>

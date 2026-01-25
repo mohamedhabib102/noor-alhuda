@@ -124,15 +124,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/50 backdrop-blur-sm`}></div>
             <div className={
-                `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}  fixed z-50 top-1/2 left-1/2 -translate-1/2 w-[90%] h-[550px] overflow-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition no-scrollbar`
+                `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}  fixed z-50 top-1/2 left-1/2 -translate-1/2 w-[90%] h-[550px] overflow-auto max-w-2xl mx-auto bg-white dark:bg-[#0a1a0f] rounded-2xl shadow-2xl p-6 md:p-8 transition no-scrollbar border border-main/20`
             }>
-                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-(--main-color) dark:text-gray-200 absolute top-2 right-2">
+                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-main dark:text-gray-200 absolute top-2 right-2">
                     <MdClose size={30} />
                 </button>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center mt-6">إضافة مشاركة جديدة</h2>
+                <h2 className="text-2xl font-bold text-main-bg dark:text-gray-100 mb-6 text-center mt-6">إضافة مشاركة جديدة</h2>
 
                 {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                    <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-xl mb-4 text-sm text-right border border-red-100 dark:border-red-800">
                         {error}
                     </div>
                 )}
@@ -141,7 +141,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
 
                     {/* Name Input */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right"> نوع البوست </label>
+                        <label htmlFor="name" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right"> نوع البوست </label>
                         <input
                             type="text"
                             id="name"
@@ -149,12 +149,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                             value={formData.PostTitle}
                             onChange={handleChange}
                             placeholder=" مثال: عن القرآن الكريم , عن الأمة الأسلامية"
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            className="w-full px-4 py-3 border border-main-bg/20 dark:border-main/20 rounded-xl focus:ring-2 focus:ring-main focus:border-transparent outline-none transition-all text-right dark:bg-main/5 dark:text-white dark:placeholder-gray-500"
                         />
                     </div>
                     {/* Content Input */}
                     <div className='relative'>
-                        <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-right">محتوى البوست</label>
+                        <label htmlFor="content" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right">محتوى البوست</label>
                         <textarea
                             id="content"
                             name="PostContent"
@@ -162,27 +162,26 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                             onChange={handleChange}
                             placeholder="اكتب محتوى البوست هنا"
                             rows={5}
-                            className="w-full px-4 py-2 pl-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#0e582d] focus:border-transparent outline-none transition-all resize-y text-right dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
+                            className="w-full px-4 py-3 pl-10 border border-main-bg/20 dark:border-main/20 rounded-xl focus:ring-2 focus:ring-main focus:border-transparent outline-none transition-all resize-y text-right dark:bg-main/5 dark:text-white dark:placeholder-gray-500
                             no-scrollbar"
                         />
                         <FaSmile
-                            size={20}
-                            className='absolute top-8 left-3 cursor-pointer
-                        text-(--main-bg)'
+                            size={22}
+                            className='absolute top-9 left-3 cursor-pointer text-main'
                             onClick={() => setOpen(!open)}
                         />
 
                         <div className={
-                            `dark:bg-gray-600 bg-gray-300 rounded-lg
-                         flex items-center gap-2 p-1 w-fit mr-auto
+                            `dark:bg-main/20 bg-main/5 border border-main/10 rounded-xl
+                         flex items-center gap-2 p-2 w-fit mr-auto
                          ${open ? "visible opacity-100 scale-100" : "invisible opacity-0 scale-0"}
-                         transition-all duration-300 
+                         transition-all duration-300 shadow-lg
                          `
                         }>
                             {availableEmojis.map((em, index) => (
                                 <button
                                     key={index}
-                                    className='text-lg cursor-pointer'
+                                    className='text-xl cursor-pointer hover:scale-120 transition-transform'
                                     onClick={() => handleEmojis(em)}
                                     type='button'
                                 >
@@ -195,7 +194,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                     {/* Image Upload Section */}
                     <div className="flex items-center justify-end gap-4">
                         {preview && (
-                            <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 group">
+                            <div className="relative w-16 h-16 rounded-xl overflow-hidden border border-main-bg/20 dark:border-main/30 group">
                                 <Image
                                     src={preview}
                                     alt="Preview"
@@ -223,11 +222,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-[#0e582d] dark:hover:text-[#4ade80] transition-colors px-3 py-2 rounded-lg hover:bg-[#0e582d]/10 dark:hover:bg-[#4ade80]/10"
+                            className="flex items-center gap-2 text-main-bg dark:text-gray-300 hover:text-main transition-colors px-4 py-2 rounded-xl hover:bg-main/5 border border-transparent hover:border-main/10"
                             title="إضافة صورة"
                         >
-                            <span className="text-sm font-medium">إضافة صورة (اختياري)</span>
-                            <FaImage size={24} />
+                            <span className="text-sm font-bold">إضافة صورة (اختياري)</span>
+                            <FaImage size={24} className="text-main" />
                         </button>
                     </div>
 
@@ -235,10 +234,10 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`cursor-pointer w-full py-3 px-4 rounded-lg text-white font-semibold shadow-md transition-all
+                        className={`cursor-pointer w-full py-3.5 px-4 rounded-xl text-white font-bold shadow-lg transition-all active:scale-[0.98]
                        ${loading
-                                ? 'bg-[#0e582d]/70 cursor-not-allowed'
-                                : 'bg-[#0e582d] hover:bg-[#0b4623] hover:shadow-lg active:transform active:scale-[0.99]'
+                                ? 'bg-main/70 cursor-not-allowed text-white/70'
+                                : 'bg-main hover:bg-emerald-900 border-b-4 border-emerald-950/20'
                             }`}
                     >
                         {loading ? 'جاري النشر...' : 'نشر البوست'}

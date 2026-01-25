@@ -1,70 +1,84 @@
+"use client";
+
+import Broadcast from "@/components/books/Broadcast";
 import CustomContainer from "@/ui/CustomContainer";
 import CustomTitle from "@/ui/CustomTitle";
-import { FaBook, FaClock } from "react-icons/fa";
+import { useState } from "react";
+import { FaBook, FaMicrophone, FaHistory, FaClock } from "react-icons/fa";
+
+const Categories = [
+    { id: 1, title: "الكتب الإسلامية", value: "books", icon: <FaBook /> },
+    { id: 2, title: "إذاعة القرآن الكريم", value: "radio", icon: <FaMicrophone /> },
+    { id: 3, title: "السيرة النبوية", value: "sira", icon: <FaHistory /> },
+];
 
 const BooksPage = () => {
+    const [active, setActive] = useState("books");
+
     return (
-        <section className="py-16">
+        <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
             <CustomContainer>
                 <CustomTitle
-                    title="الكتب الإسلامية"
-                    description="مكتبة شاملة تضم كتب الدين الإسلامي، السيرة النبوية الشريفة، التفسير، الفقه، والعقيدة وغيرها من الكتب الدينية النافعة"
+                    title="المكتبة والوسائط"
+                    description="وجهتكم الشاملة للكتب الإسلامية، السيرة النبوية العطرة، وبث إذاعة القرآن الكريم على مدار الساعة"
                     success={true}
                 />
 
-                {/* قسم تحت الإنشاء */}
-                <div className="min-h-[50vh] flex flex-col items-center justify-center px-4 text-center mt-12">
-                    {/* Status Code */}
-                    <div className="relative mb-6">
-                        <h2 className="text-8xl md:text-9xl font-bold text-gray-200 dark:text-gray-800">
-                            503
-                        </h2>
-                    </div>
+                {/* Filter Section */}
+                <ul className="flex items-center justify-center gap-4 mt-12 mb-16 overflow-x-auto pb-4 no-scrollbar" dir="rtl">
+                    {Categories.map((cat) => (
+                        <li
+                            key={cat.id}
+                            onClick={() => setActive(cat.value)}
+                            className={`shrink-0 flex items-center gap-3 px-8 py-4 rounded-2xl cursor-pointer border-2 transition-all duration-300 font-black active:scale-95 shadow-sm
+                                ${active === cat.value
+                                    ? "bg-main border-main text-white shadow-main/20"
+                                    : "bg-white dark:bg-main-bg/10 border-main-bg/10 dark:border-main-bg/20 text-main-bg dark:text-gray-400 hover:border-main/30"
+                                }`}
+                        >
+                            <span className="text-xl">{cat.icon}</span>
+                            <span className="text-lg whitespace-nowrap">{cat.title}</span>
+                        </li>
+                    ))}
+                </ul>
 
-                    {/* العنوان */}
-                    <div className="flex items-center gap-3 mb-4">
-                        <FaBook className="text-[#0e582d] dark:text-green-400 text-3xl" />
-                        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 font-quran">
-                            الصفحة تحت الإنشاء
-                        </h1>
-                    </div>
-
-                    {/* الوصف */}
-                    <p className="text-gray-600 dark:text-gray-400 max-w-2xl mb-6 text-base md:text-lg leading-relaxed">
-                        نعمل حالياً على إعداد مكتبة إسلامية متكاملة لكم.
-                        ستتمكنون قريباً من الوصول إلى مجموعة واسعة من الكتب الدينية القيمة.
-                    </p>
-
-                    {/* معلومات إضافية */}
-                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 max-w-md">
-                        <div className="flex items-start gap-3 text-right">
-                            <FaClock className="text-yellow-600 dark:text-yellow-400 text-xl mt-1 shrink-0" />
-                            <div>
-                                <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">
-                                    قريباً بإذن الله
-                                </h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
-                                    نعمل بجد لتوفير أفضل تجربة قراءة للكتب الإسلامية.
-                                    شكراً لصبركم وانتظاركم.
-                                </p>
+                {/* Content Section */}
+                <div className="mt-8">
+                    {active === "books" && (
+                        <div className="text-center py-20 bg-white dark:bg-main-bg/5 rounded-4xl border border-main/10 shadow-xl">
+                            <div className="w-20 h-20 bg-main/10 rounded-full flex items-center justify-center mx-auto mb-6 text-main">
+                                <FaBook size={40} />
+                            </div>
+                            <h2 className="text-3xl font-black text-main-bg dark:text-white mb-4">قسم الكتب الإسلامية</h2>
+                            <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto font-bold">نعمل حالياً على أرشفة مكتبة ضخمة تضم أمهات الكتب الإسلامية والتفسير والحديث.</p>
+                            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-main-bg/10 text-main-bg rounded-full text-sm font-black">
+                                <FaClock />
+                                <span>قريباً بإذن الله</span>
                             </div>
                         </div>
-                    </div>
+                    )}
 
-                    {/* شريط التقدم */}
-                    <div className="mt-8 w-full max-w-md">
-                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <span>التقدم في الإنشاء</span>
-                            <span>30%</span>
+                    {active === "radio" && (
+                        <div className="text-center py-20 px-8 bg-white dark:bg-main-bg/5 rounded-4xl border border-main/10 shadow-xl">
+                           <Broadcast/>
                         </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                            <div
-                                className="bg-linear-to-r from-[#0e582d] to-green-500 h-full rounded-full transition-all duration-500"
-                                style={{ width: '30%' }}
-                            ></div>
+                    )}
+
+                    {active === "sira" && (
+                        <div className="text-center py-20 bg-white dark:bg-main-bg/5 rounded-4xl border border-main/10 shadow-xl">
+                            <div className="w-20 h-20 bg-main/10 rounded-full flex items-center justify-center mx-auto mb-6 text-main">
+                                <FaHistory size={40} />
+                            </div>
+                            <h2 className="text-3xl font-black text-main-bg dark:text-white mb-4">السيرة النبوية العطرة</h2>
+                            <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto font-bold">موسوعة كاملة عن حياة خير البرية صلى الله عليه وسلم، من الميلاد حتى الوفاة بالتفصيل.</p>
+                            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-main-bg/10 text-main-bg rounded-full text-sm font-black">
+                                <FaClock />
+                                <span>قريباً بإذن الله</span>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
+
             </CustomContainer>
         </section>
     );

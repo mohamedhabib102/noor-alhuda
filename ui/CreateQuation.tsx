@@ -18,15 +18,15 @@ interface PropsFun {
 }
 
 // component add new Question
-const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
-    const {userData} = useAuth()
+const CreateQuestion: React.FC<PropsFun> = ({ getAllQuestion }) => {
+    const { userData } = useAuth()
     const [question, setQuestion] = useState<CreateQuestionProps>({
         questionContent: "",
         responseContent: ""
     });
     const [message, setMessage] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const router =  useRouter()
+    const router = useRouter()
 
     const handelChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -38,7 +38,7 @@ const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
     const sendQuestion = async (e: FormEvent) => {
         setLoading(true)
         e.preventDefault();
-        if (!userData?.personID){
+        if (!userData?.personID) {
             router.push("/join-us");
             return;
         }
@@ -86,37 +86,35 @@ const CreateQuestion: React.FC<PropsFun> = ({getAllQuestion}) => {
                     type="text"
                     name="questionContent"
                     id="questionContent"
-                    placeholder=" أضف السوال "
-                    className="w-full p-2 mb-4 border border-gray-300 dark:border-gray-600 rounded-lg
-                text-right outline-none focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color)
-                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    placeholder=" أضف السؤال "
+                    className="w-full p-3 mb-4 border border-brand-gold/20 dark:border-main/30 rounded-xl
+                text-right outline-none focus:border-main focus:ring-2 focus:ring-main/20
+                bg-white dark:bg-main/10 dark:text-white transition-all shadow-sm"
                     onChange={handelChange}
                     value={question.questionContent}
                 />
                 <textarea
                     name="responseContent"
                     id="responseContent"
-                    placeholder=" أضف الأجابة "
-                    className="resize-y w-full h-30 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                text-right mb-4 outline-none focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color)
-                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    placeholder=" أضف الإجابة "
+                    className="resize-y w-full h-32 p-3 border border-brand-gold/20 dark:border-main/30 rounded-xl
+                text-right mb-4 outline-none focus:border-main focus:ring-2 focus:ring-main/20
+                bg-white dark:bg-main/10 dark:text-white transition-all shadow-sm"
                     onChange={handelChange}
                     value={question.responseContent}
-                >
+                />
 
-                </textarea>
-                
-                <p className="text-sm"> إذا أضفت جملة بين علامات التنصيص  " " يتم عرض الجمله هكذا  :
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2"> إذا أضفت جملة بين علامات التنصيص  " " يتم عرض الجملة هكذا  :
 
-                    <span className="text-(--main-color) mx-1 font-semibold underline">مثال</span>
+                    <span className="text-main mx-1 font-bold italic">مثال</span>
                 </p>
 
                 <button
                     type="submit"
-                    className="block ml-auto mt-4 p-2 bg-(--main-color) text-white rounded-lg
-                    cursor-pointer  hover:text-white hover:bg-[#264f37] transition-all duration-300
-                    w-33 text-right text-[20px]"
-                > {loading ? " جاري الأضافة... " : "أضف"} </button>
+                    className="block ml-auto mt-2 px-10 py-3 bg-main hover:bg-emerald-900 text-white rounded-xl font-bold
+                    cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg active:scale-95
+                    w-fit text-center text-lg"
+                > {loading ? " جاري الإضافة... " : "أضف السؤال"} </button>
 
             </form>
         </div>

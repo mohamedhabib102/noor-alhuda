@@ -37,9 +37,13 @@ const LikePost: React.FC = () => {
                 setLike(!like);
             }}
 
-            className="select-none flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-red-500 cursor-pointer">
-            <span>{count}</span>
-            <FaHeart size={23} />
+            className={`select-none flex items-center justify-center p-2.5 rounded-xl gap-2 w-[30%] cursor-pointer transition-all active:scale-95 border
+                ${like
+                    ? "bg-red-50 dark:bg-red-900/20 text-red-600 border-red-100 dark:border-red-900/30"
+                    : "bg-main/5 dark:bg-white/5 text-main-bg border-main-bg/5 hover:bg-main-bg/10"
+                }`}>
+            <span className="font-bold text-sm">{count}</span>
+            <FaHeart size={20} className={`transition-transform duration-300 ${like ? "scale-110" : "scale-100"}`} />
         </div>
     )
 }

@@ -50,11 +50,11 @@ const ParyFC: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center gap-3 select-none bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+      <div className="flex items-center gap-3 select-none bg-main/60 text-white dark:bg-main-bg/10 p-4 rounded-lg">
         <span className="text-lg font-semibold"> عدد جميع التسبيحات </span>
         <div className="text-lg font-semibold relative text-white
           ">
-          <span className="absolute top-1/2 left-1/2 -translate-1/2 w-10 p-2 h-10 bg-(--main-color) z-10 rounded-r-3xl rounded-b-2xl"></span>
+          <span className="absolute top-1/2 left-1/2 -translate-1/2 w-10 p-2 h-10 bg-main dark:bg-main-bg/50 z-10 rounded-r-3xl rounded-b-2xl"></span>
           <span className="z-20 relative">
             {allNums <= 9 ? `0${allNums}` :
               allNums === 1000 ? `1K+` :
@@ -67,8 +67,8 @@ const ParyFC: React.FC = () => {
         </div>
       </div>
       <div
-        onClick={handelClick} className="mt-20 mx-auto cursor-pointer lg:w-96 lg:h-96 w-72 h-72 rounded-full bg-white border-2 border-gray-400
-         dark:bg-gray-800 dark:border-gray-600 hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
+        onClick={handelClick} className="mt-20 mx-auto cursor-pointer lg:w-96 lg:h-96 w-72 h-72 rounded-full bg-white border-2 border-main
+         dark:bg-main-bg/10 dark:border-main-bg/50 hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
         <div className="w-full h-full flex items-center justify-center">
           <p className="text-7xl font-bold select-none">{count <= 9 ? `0${count}` : count}</p>
         </div>

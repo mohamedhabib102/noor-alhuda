@@ -88,9 +88,9 @@ const TimeNow: React.FC<TimeNowProps> = ({
         : timeString || "--:--:--";
 
     return (
-        <div className="lg:col-span-2 relative overflow-hidden bg-linear-to-br from-[#0e582d] to-[#0a4524] p-8 rounded-lg text-white shadow-2xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 -mr-20 -mt-20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#ab900b] opacity-10 -ml-10 -mb-10 rounded-full blur-2xl"></div>
+        <div className="lg:col-span-2 relative overflow-hidden bg-linear-to-br from-main to-emerald-950 p-10 rounded-4xl text-white shadow-2xl border border-main/20">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-white opacity-5 -mr-20 -mt-20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-60 h-60 bg-main-bg opacity-10 -ml-10 -mb-10 rounded-full blur-3xl"></div>
             <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-2 mb-2 opacity-80">
@@ -101,9 +101,9 @@ const TimeNow: React.FC<TimeNowProps> = ({
                         {timeDisplay}
                     </h2>
                 </div>
-                <div className="flex flex-col items-start md:items-end gap-1 border-t md:border-t-0 md:border-r border-white/20 pt-4 md:pt-0 md:pr-6 mt-4 md:mt-0">
-                    <span className="text-sm uppercase tracking-widest opacity-70 font-bold">باقي على الأذان التالي</span>
-                    <span className="text-3xl font-bold text-[#ab900b] tabular-nums">
+                <div className="flex flex-col items-start md:items-end gap-2 border-t md:border-t-0 md:border-r border-white/20 pt-6 md:pt-0 md:pr-10 mt-6 md:mt-0">
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-80 font-black">باقي على الأذان التالي</span>
+                    <span className="text-4xl font-black text-main-bg tabular-nums drop-shadow-sm">
                         {`${timeLeft[0]}:${timeLeft[1]}:${timeLeft[2]}`}
                     </span>
                 </div>

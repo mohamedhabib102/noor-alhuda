@@ -59,18 +59,18 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             // "nameShare in api will be sent by the registered person"
 
             data.append("PersonID", userData?.personID.toString() || "");
-            data.append("PersonName", nameShare || ""); 
+            data.append("PersonName", nameShare || "");
             data.append("NameShare", userData?.personName || "");
 
             data.append("PostTitle", titlePostShare || "");
             data.append("PostContent", contentPostShare || "");
             data.append("Share", "true"); // It's a share
             data.append("CreatedAt", new Date().toISOString());
-            data.append("ImageShare", imagePostShare ?  imagePostShare : "null");
-            data.append("PersonImageShare", authorImageShare ?  authorImageShare : "null");
+            data.append("ImageShare", imagePostShare ? imagePostShare : "null");
+            data.append("PersonImageShare", authorImageShare ? authorImageShare : "null");
 
 
-            for (const [key, value] of data.entries()){
+            for (const [key, value] of data.entries()) {
                 console.log(key, value)
             }
 
@@ -97,38 +97,38 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
 
 
     const isValidNextImageSrc = (src?: string) => {
-    if (!src || typeof src !== "string") return false;
+        if (!src || typeof src !== "string") return false;
 
-    const value = src.trim();
+        const value = src.trim();
 
-    if (
-        value === "" ||
-        value === "null" ||
-        value === "nulll" ||
-        value === "undefined"
-    ) {
-        return false;
-    }
+        if (
+            value === "" ||
+            value === "null" ||
+            value === "nulll" ||
+            value === "undefined"
+        ) {
+            return false;
+        }
 
-    return (
-        value.startsWith("/") ||
-        value.startsWith("http://") ||
-        value.startsWith("https://")
-    );
-};
+        return (
+            value.startsWith("/") ||
+            value.startsWith("http://") ||
+            value.startsWith("https://")
+        );
+    };
 
 
     return (
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-50 bg-black/60 backdrop-blur-sm transition-all duration-300`}></div>
             <div className={
-                `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-60 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 transition-all duration-300 overflow-y-auto max-h-[90vh] no-scrollbar`
+                `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-60 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-xl bg-white dark:bg-[#0a1a0f] rounded-2xl shadow-2xl p-6 transition-all duration-300 overflow-y-auto max-h-[90vh] no-scrollbar border border-main/20`
             } dir="rtl">
-                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-red-500 dark:text-gray-200 absolute top-4 left-4">
+                <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-main dark:text-gray-200 absolute top-4 left-4">
                     <MdClose size={28} />
                 </button>
 
-                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 border-b dark:border-gray-700 pb-3">مشاركة منشور</h2>
+                <h2 className="text-xl font-bold text-main-bg dark:text-gray-100 mb-6 border-b border-main-bg/10 dark:border-main/10 pb-3">مشاركة منشور</h2>
 
                 {error && (
                     <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm border border-red-100 dark:border-red-800">
@@ -138,115 +138,115 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
 
                 <div className="space-y-6">
                     {/* Post Preview (Unified Share Style) */}
-                    <div className="bg-gray-200 dark:bg-gray-900 p-3 rounded-xl">
+                    <div className="bg-main/5 dark:bg-main/10 p-4 rounded-xl border border-main/10">
                         {/* Header: Shared By */}
-                        <div className="flex items-center gap-1.5 mb-2 px-1">
-                            <BiRepost size={20} className="text-(--main-bg)" />
-                            <div className="font-medium text-sm flex items-center gap-1">
-                                <span className="font-bold">سيتم المشاركة بواسطة :</span>
-                                <span className="mx-1 text-(--main-bg) font-bold">{userData?.personName}</span>
+                        <div className="flex items-center gap-1.5 mb-2 px-1 text-main-bg">
+                            <BiRepost size={24} className="text-main" />
+                            <div className="font-bold text-sm flex items-center gap-1">
+                                <span>سيتم المشاركة بواسطة :</span>
+                                <span className="mx-1 text-main">{userData?.personName}</span>
                             </div>
                         </div>
 
-                        {/* Original Post Card */}
-                        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-sm border dark:border-gray-700">
+                        {/* Original Post Card Preview */}
+                        <div className="bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-main-bg/10 dark:border-main/10">
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-(--main-bg) font-bold text-lg overflow-hidden">
-                                   {imageSharePersonPlatform ? (
-  imageSharePersonPlatform.startsWith("blob:") ? (
-    <img
-      src={imageSharePersonPlatform}
-      title={nameShare}
-      alt="author image"
-      className="w-10 h-10 rounded-full object-cover"
-    />
-  ) : isValidNextImageSrc(imageSharePersonPlatform) ? (
-    <Image
-      src={imageSharePersonPlatform}
-      title={nameShare}
-      alt="author image"
-      width={40}
-      height={40}
-      className="w-10 h-10 rounded-full object-cover"
-    />
-  ) : (
-    <Image
-      src="/images/default.png"
-      title={nameShare}
-      alt="author image"
-      width={40}
-      height={40}
-      className="w-10 h-10 rounded-full object-cover"
-    />
-  )
-) : (
-  <Image
-    src="/images/default.png"
-    title={nameShare}
-    alt="author image"
-    width={40}
-    height={40}
-    className="w-10 h-10 rounded-full object-cover"
-  />
-)}
+                                <div className="w-10 h-10 rounded-full bg-main/10 dark:bg-main/20 flex items-center justify-center text-main font-bold text-lg overflow-hidden border border-main/10">
+                                    {imageSharePersonPlatform ? (
+                                        imageSharePersonPlatform.startsWith("blob:") ? (
+                                            <img
+                                                src={imageSharePersonPlatform}
+                                                title={nameShare}
+                                                alt="author image"
+                                                className="w-10 h-10 rounded-full object-cover"
+                                            />
+                                        ) : isValidNextImageSrc(imageSharePersonPlatform) ? (
+                                            <Image
+                                                src={imageSharePersonPlatform}
+                                                title={nameShare}
+                                                alt="author image"
+                                                width={40}
+                                                height={40}
+                                                className="w-10 h-10 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <Image
+                                                src="/images/default.png"
+                                                title={nameShare}
+                                                alt="author image"
+                                                width={40}
+                                                height={40}
+                                                className="w-10 h-10 rounded-full object-cover"
+                                            />
+                                        )
+                                    ) : (
+                                        <Image
+                                            src="/images/default.png"
+                                            title={nameShare}
+                                            alt="author image"
+                                            width={40}
+                                            height={40}
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
+                                    )}
 
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-(--main-bg) text-sm">{nameShare}</h3>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">{titlePostShare}</p>
+                                    <h3 className="font-bold text-main-bg text-sm">{nameShare}</h3>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{titlePostShare}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="py-1 px-2 text-gray-700 dark:text-gray-200 mb-2 text-base leading-relaxed">
+                        <div className="py-1 px-2 text-gray-700 dark:text-gray-200 my-3 text-base leading-relaxed font-medium">
                             <ExpandableText text={contentPostShare || ""} />
                         </div>
 
                         {sharePaltform ? (
-                          isValidNextImageSrc(imageSharePostPlatform) ? (
-                            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
-                              <Image
-                                src={imageSharePostPlatform}
-                                alt="Post Preview"
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                          ) : imageSharePostPlatform?.startsWith("blob:") ? (
-                            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
-                              <img
-                                src={imageSharePostPlatform || "/images/default.png"}
-                                alt="Post Preview"
-                                className="object-contain w-full h-full"
-                              />
-                            </div>
-                          ) : null
+                            isValidNextImageSrc(imageSharePostPlatform) ? (
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
+                                    <Image
+                                        src={imageSharePostPlatform}
+                                        alt="Post Preview"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                            ) : imageSharePostPlatform?.startsWith("blob:") ? (
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
+                                    <img
+                                        src={imageSharePostPlatform || "/images/default.png"}
+                                        alt="Post Preview"
+                                        className="object-contain w-full h-full"
+                                    />
+                                </div>
+                            ) : null
                         ) : (
-                          isValidNextImageSrc(imagePostShare) && (
-                            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/10">
-                              <Image
-                                src={imagePostShare ||"/images/default.png"}
-                                alt="Post Preview"
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                          )
+                            isValidNextImageSrc(imagePostShare) && (
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
+                                    <Image
+                                        src={imagePostShare || "/images/default.png"}
+                                        alt="Post Preview"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                            )
                         )}
 
                     </div>
                 </div>
 
                 {/* Actions */}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="mt-8">
                     <div className="space-y-3">
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`cursor-pointer w-full py-3 px-4 rounded-xl text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2
+                            className={`cursor-pointer w-full py-3.5 px-4 rounded-xl text-white font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95
                                     ${loading
-                                    ? 'bg-[#0e582d]/70 cursor-not-allowed'
-                                    : 'bg-[#0e582d] hover:bg-[#0b4623] active:scale-[0.98]'
+                                    ? 'bg-main/70 cursor-not-allowed'
+                                    : 'bg-main hover:bg-emerald-900 border-b-4 border-emerald-950/20'
                                 }`}
                         >
                             {loading ? (

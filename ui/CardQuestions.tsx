@@ -50,7 +50,7 @@ const CardQuations: React.FC<CardQuationsProps> = ({state}) => {
 
     if (loading) {
         return (
-             <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-8 text-center">
+             <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-main/10 rounded-2xl p-8 text-center">
                 <h2 className="text-2xl font-bold mb-2">
                     جاري تحميل الأسئلة...
                 </h2>
@@ -60,7 +60,7 @@ const CardQuations: React.FC<CardQuationsProps> = ({state}) => {
 
      if (error || showQuestions.length === 0) {
         return (
-            <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-8 text-center">
+            <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-main/10 rounded-2xl p-8 text-center">
                 <h2 className="text-2xl font-bold mb-2">لا يوجد أسئلة</h2>
             </div>
         );

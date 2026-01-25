@@ -22,24 +22,24 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
     : 'transform rotate-0';
 
   return (
-    <div className="border border-gray-300 dark:border-gray-700 rounded-lg mb-4 overflow-hidden">
+    <div className="border border-brand-gold/15 dark:border-main/30 rounded-2xl mb-4 overflow-hidden shadow-sm transition-all duration-300">
       <button
-        className="accordion-header w-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 lg:p-4 p-2 cursor-pointer select-none flex flex-row justify-between items-center transition duration-300"
+        className="accordion-header w-full bg-brand-gold/5 dark:bg-main/10 hover:bg-brand-gold/10 dark:hover:bg-main/10 lg:p-5 p-4 cursor-pointer select-none flex flex-row justify-between items-center transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h3 className="text-lg text-right font-semibold text-(--main-bg)">{title}</h3>
+        <h3 className="text-lg text-right font-bold text-foreground dark:text-gray-100">{title}</h3>
 
         <span className={`text-xl font-bold transition-transform duration-300 ${iconClasses}`}>
           <FaPlus
-            size={25}
-            className='text-(--main-color) dark:text-[#4ade80]'
+            size={22}
+            className='text-main dark:text-brand-gold'
           />
         </span>
       </button>
       <div
-        className={`accordion-content ${contentClasses} transition-all duration-500 ease-in-out`}
+        className={`accordion-content ${contentClasses} transition-all duration-500 ease-in-out bg-white dark:bg-main/5`}
       >
-        <div className="p-4 border-t border-gray-300 dark:border-gray-700 text-right dark:text-gray-200">
+        <div className="p-5 border-t border-brand-gold/10 dark:border-main/10 text-right dark:text-gray-200">
           {children}
         </div>
       </div>

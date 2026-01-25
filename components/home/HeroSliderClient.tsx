@@ -40,20 +40,20 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
 
 
   const getHeroData = async () => {
-     try {
-        const res = await req.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`)
-        setHero(res.data)
-     } catch (error) {
-        console.log(error);
-     }
+    try {
+      const res = await req.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`)
+      setHero(res.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-   useEffect(() => {
-     const fetchHero = async () => {
-       await getHeroData();
-     };
-     fetchHero();
-   }, []);
+  useEffect(() => {
+    const fetchHero = async () => {
+      await getHeroData();
+    };
+    fetchHero();
+  }, []);
 
 
   return (
@@ -110,8 +110,8 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                       blurDataURL="/placeholder.png"
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-[#ceaf15] rounded-full flex items-center justify-center">
-                        <CiPlay1 size={30} />
+                      <div className="w-16 h-16 bg-brand-gold rounded-full flex items-center justify-center shadow-lg">
+                        <CiPlay1 size={30} className="text-white ml-1" />
                       </div>
                     </div>
                   </div>
@@ -129,8 +129,8 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                     blurDataURL="/placeholder.png"
                   />
                   <div className="absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white z-50">
-                    <h3 className="text-lg font-bold text-(--main-color)">{slide.title}</h3>
-                    <p className="text-3xl leading-11 lg:w-[450px] md:w-96">{slide.description}</p>
+                    <h3 className="text-xl font-bold text-brand-gold mb-2">{slide.title}</h3>
+                    <p className="text-3xl lg:text-5xl font-black leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
                   </div>
                 </div>
               )}

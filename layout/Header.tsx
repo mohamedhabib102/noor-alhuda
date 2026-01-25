@@ -33,7 +33,7 @@ const Header: React.FC = () => {
             <OverlayHelp
                 toggle={toggle}
                 setToggle={setToggle} />
-            <section className="bg-linear-to-r from-[#121212] to-[#ceaf15] py-2 relative" dir="ltr">
+            <section className="bg-green-950 py-2" dir="ltr">
                 <CustomContainer>
                     <nav className="flex items-center justify-between">
                         <Logo />

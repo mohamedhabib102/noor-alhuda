@@ -7,6 +7,7 @@ import { BiRepost } from "react-icons/bi";
 import ExpandableText from "@/components/posts/ExpandableText";
 import CustomContainer from "@/ui/CustomContainer";
 import Link from "next/link";
+import { IoArrowForward } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa";
 import { AiOutlineLoading } from "react-icons/ai";
 import ShowImageProfile from "@/ui/ShowImageProfile";
@@ -52,9 +53,9 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                 setLoading(true);
                 const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts");
                 const allPosts: PostPage[] = res.data;
-                
+
                 const foundPost = allPosts.find(p => p.postID === parseInt(postId as string));
-                
+
                 if (foundPost) {
                     setPost(foundPost);
                 } else {
@@ -81,7 +82,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
 
     const linkPost = `${origin}/community/${post?.postID}`;
 
-    const handleCopy  = async () => {
+    const handleCopy = async () => {
         try {
             await navigator.clipboard.writeText(linkPost);
             setCopied(true);
@@ -94,16 +95,16 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
 
     if (loading) {
         return (
-            <section className="py-16">
+            <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
                 <CustomContainer>
                     <div className="animate-pulse">
                         <div className="max-w-3xl mx-auto">
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
-                                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-                                <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-                                <div className="space-y-3">
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                            <div className="bg-white dark:bg-main/10 rounded-[2.5rem] p-8 border border-main/10">
+                                <div className="h-8 bg-main/10 dark:bg-white/5 rounded-xl w-3/4 mb-6"></div>
+                                <div className="h-72 bg-main/5 dark:bg-white/5 rounded-2xl mb-6"></div>
+                                <div className="space-y-4">
+                                    <div className="h-5 bg-main/5 dark:bg-white/5 rounded w-full"></div>
+                                    <div className="h-5 bg-main/5 dark:bg-white/5 rounded w-5/6"></div>
                                 </div>
                             </div>
                         </div>
@@ -115,153 +116,155 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
 
     if (error || !post) {
         return (
-            <section className="py-16">
+            <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
                 <CustomContainer>
-                    <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-8 text-center">
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    <div className="max-w-3xl mx-auto bg-white dark:bg-main/10 rounded-[2.5rem] p-12 text-center border border-main/10 shadow-xl">
+                        <h2 className="text-3xl font-black text-main-bg dark:text-white mb-4">
                             البوست غير موجود
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-gray-600 dark:text-gray-400 font-bold">
                             عذراً، لم نتمكن من العثور على هذا البوست او تم حذفه
                         </p>
+                        <Link href="/community" className="inline-block mt-8 text-main font-black hover:underline">العودة للمجتمع</Link>
                     </div>
                 </CustomContainer>
             </section>
         );
     }
+
     return (
         <>
-        <ShowImageProfile 
-        toggleImage={showImage} 
-        setToggleImage={setShowImage} 
-        image={post?.image_Person} 
-        nameUser={post?.personName}
-        />
-        <section className="py-16">
-            <CustomContainer>
-                <div className="max-w-3xl mx-auto">
-                    {/* Official Brand Frame */}
-                    <div className="relative border-2 border-(--main-bg)/20 dark:border-(--main-bg)/10 rounded-2xl p-1.5 md:p-2 bg-gray-200 dark:bg-gray-900 shadow-sm transition-shadow">
-                        
-                        {/* Top Branding Section */}
-                        <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300/30 dark:border-gray-700/30 mb-2">
-                            <div className="flex items-center gap-2">
-                                <Image src="/logo.svg" alt="logo" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
-                                <span className="text-sm md:text-base font-black text-(--main-bg) tracking-tight">نور الهدى</span>
-                            </div>
-                             <div className="h-2 w-2 rounded-full bg-(--main-bg) opacity-50"/>
-                        </div>
+            <ShowImageProfile
+                toggleImage={showImage}
+                setToggleImage={setShowImage}
+                image={post?.image_Person}
+                nameUser={post?.personName}
+            />
+            <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
+                <CustomContainer>
+                    <div className="max-w-3xl mx-auto">
+                        {/* Official Brand Frame */}
+                        <div className="relative border-2 border-main-bg/15 dark:border-main/20 rounded-2xl p-1.5 md:p-2 bg-main/5 dark:bg-main/10 shadow-2xl transition-all hover:shadow-main/5">
 
-                        {/* Share Content - If share is true */}
-                        {post?.share && (
-                            <div className="flex items-center gap-1.5 mb-3 px-4 py-2 bg-gray-300/50 dark:bg-black/20 rounded-2xl mx-2">
-                                <BiRepost size={20} className="text-(--main-bg)" />
-                                <div className="font-medium text-xs md:text-sm flex items-center gap-1">
-                                    <span className="font-bold opacity-70">تم المشاركة من :</span>
-                                    <span className="text-(--main-bg) font-bold">{post.shareName}</span>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Main Post Content */}
-                        <div dir="rtl" className="bg-gray-100 dark:bg-gray-800 lg:p-6 md:p-6 p-4 rounded-lg shadow-sm">
-                            {/* Post Header */}
-                            <div className="flex items-start justify-between mb-4">
+                            {/* Top Branding Section */}
+                            <div className="flex items-center justify-between px-8 py-5 border-b border-main-bg/10 dark:border-main/10 mb-2">
                                 <div className="flex items-center gap-3">
-                                    {post?.image_Person && (
-                                        <Image
-                                            src={post.image_Person}
-                                            title={post.personName}
-                                            alt={post.personName}
-                                            width={44}
-                                            height={44}
-                                            onClick={() => setShowImage(!showImage)}
-                                            className="cursor-pointer w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
-                                        />
-                                    )}
-                                    <div>
-                                        <h3 
-                                        onClick={() => setShowImage(!showImage)}
-                                        className="cursor-pointer font-bold text-sm md:text-base text-(--main-bg)">
-                                            {currentName(post.share, post.shareName, post.personName)}
-                                        </h3>
-                                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                            {post.postTitle}
-                                        </span>
+                                    <Image src="/logo.svg" alt="logo" width={32} height={32} className="w-8 h-8 md:w-9 md:h-9" />
+                                    <span className="text-base md:text-lg font-black text-main-bg tracking-tight">نور الهدى</span>
+                                </div>
+                                <div className="h-3 w-3 rounded-full bg-main-bg opacity-50 shadow-sm" />
+                            </div>
+
+                            {/* Share Content - If share is true */}
+                            {post?.share && (
+                                <div className="flex items-center gap-2 mb-4 px-6 py-3 bg-main-bg/10 dark:bg-white/5 rounded-2xl mx-3 border border-main-bg/5">
+                                    <BiRepost size={24} className="text-main-bg" />
+                                    <div className="font-bold text-sm md:text-base flex items-center gap-1">
+                                        <span className="text-gray-600 dark:text-gray-400">تم المشاركة من :</span>
+                                        <span className="text-main-bg font-black">{post.shareName}</span>
                                     </div>
                                 </div>
-                                    <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap ml-4">
-                                    {post ? new Date(post.createdAt).toLocaleDateString("ar-EG") : ""}
-                                </span>
-                            </div>
+                            )}
 
-                            {/* Post Content */}
-                            <div className="mt-5 space-y-4">
-                                    <div className="text-gray-800 dark:text-gray-200 text-base leading-relaxed">
-                                    <ExpandableText text={post?.postContent || ""} />
+                            {/* Main Post Content */}
+                            <div dir="rtl" className="bg-white dark:bg-main/10 lg:p-8 md:p-8 p-6 rounded-2xl shadow-sm border border-main/5">
+                                {/* Post Header */}
+                                <div className="flex items-start justify-between mb-6">
+                                    <div className="flex items-center gap-4">
+                                        {post?.image_Person && (
+                                            <Image
+                                                src={post.image_Person}
+                                                title={post.personName}
+                                                alt={post.personName}
+                                                width={52}
+                                                height={52}
+                                                onClick={() => setShowImage(!showImage)}
+                                                className="cursor-pointer w-12 h-12 md:w-14 md:h-14 rounded-full object-contain border-2 border-main/10 shadow-sm"
+                                            />
+                                        )}
+                                        <div>
+                                            <h3
+                                                onClick={() => setShowImage(!showImage)}
+                                                className="cursor-pointer font-black text-base md:text-lg text-main-bg hover:text-main transition-colors">
+                                                {currentName(post.share, post.shareName, post.personName)}
+                                            </h3>
+                                            <span className="text-xs md:text-sm text-main font-bold opacity-80">
+                                                {post.postTitle}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className="text-[10px] md:text-xs text-gray-400 font-bold whitespace-nowrap ml-4 uppercase tracking-widest">
+                                        {post ? new Date(post.createdAt).toLocaleDateString("ar-EG") : ""}
+                                    </span>
                                 </div>
 
-                                {/* Post Image */}
-                                {post.share
-                                    ? (
-                                        <>
-                                            {post?.imageShare && post.imageShare !== "null" && (
-                                                <Image
-                                                    src={post.imageShare}
-                                                    alt={post.shareName}
-                                                    width={600}
-                                                    height={900}
-                                                    className="rounded-lg w-full max-h-[600px] object-contain bg-black/20 dark:bg-black/40"
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            {post?.image_Post && post.image_Post !== "null" && (
-                                                <Image
-                                                    src={post.image_Post}
-                                                    alt={post.personName}
-                                                    width={600}
-                                                    height={900}
-                                                    className="rounded-lg w-full max-h-[600px] object-contain bg-black/20 dark:bg-black/40"
-                                                />
-                                            )}
-                                        </>
-                                    )
-                                }
+                                {/* Post Content */}
+                                <div className="mt-8 space-y-6">
+                                    <div className="text-main-bg dark:text-gray-200 text-lg md:text-xl leading-relaxed font-medium">
+                                        <ExpandableText text={post?.postContent || ""} />
+                                    </div>
 
-                                {/* Share Button */}
-                                <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-gray-700">
+                                    {/* Post Image */}
+                                    {post.share
+                                        ? (
+                                            <>
+                                                {post?.imageShare && post.imageShare !== "null" && (
+                                                    <Image
+                                                        src={post.imageShare}
+                                                        alt={post.shareName}
+                                                        width={800}
+                                                        height={1200}
+                                                        className="rounded-2xl w-full max-h-[700px] object-contain bg-black/5 dark:bg-black/20 border border-main/10 shadow-inner"
+                                                    />
+                                                )}
+                                            </>
+                                        )
+                                        : (
+                                            <>
+                                                {post?.image_Post && post.image_Post !== "null" && (
+                                                    <Image
+                                                        src={post.image_Post}
+                                                        alt={post.personName}
+                                                        width={800}
+                                                        height={1200}
+                                                        className="rounded-2xl w-full max-h-[700px] object-contain bg-black/5 dark:bg-black/20 border border-main/10 shadow-inner"
+                                                    />
+                                                )}
+                                            </>
+                                        )
+                                    }
+
+                                    {/* Copy Link Button */}
+                                    <div className="flex items-center justify-center gap-3 mt-10 pt-8 border-t border-main-bg/10 dark:border-main/10">
                                         <button
-                                            className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 text-orange-600 cursor-pointer hover:bg-gray-400 dark:hover:bg-black/30 transition duration-200"
+                                            className="flex items-center justify-center bg-main text-white px-8 py-4 rounded-2xl gap-3 font-black text-lg shadow-xl shadow-main/20 cursor-pointer hover:bg-emerald-900 transition-all active:scale-95 group border-b-4 border-emerald-950/30"
                                             onClick={() => handleCopy()}
                                         >
-                                        <span className="text-sm md:text-base"> نسخ الرابط </span>
-                                        {copied ? <AiOutlineLoading className="animate-spin" /> 
-                                        : <FaRegCopy size={20} />}
-                                        
-                                    </button>
+                                            <span> نسخ الرابط </span>
+                                            {copied ? <AiOutlineLoading className="animate-spin" />
+                                                : <FaRegCopy size={24} className="group-hover:scale-110 transition-transform" />}
+                                        </button>
+                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center font-bold">
+                                        شارك المنشور مع من تحب ليعم الخير والأجر
+                                    </p>
                                 </div>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                                    شارك المنشور على وسائل التواصل الاجتماعي أو مع أصدقائك
-                                </p>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Back Link */}
-                    <div className="mt-8 text-center">
-                        <Link
-                            href="/community"
-                            className="inline-block bg-(--main-bg) text-white px-6 py-2 rounded-lg hover:opacity-80 transition duration-300"
-                        >
-                            العودة للمجتمع
-                        </Link>
+                        {/* Back Link */}
+                        <div className="mt-12 text-center">
+                            <Link
+                                href="/community"
+                                className="inline-flex items-center gap-2 text-main-bg font-black hover:text-main transition-colors text-lg"
+                            >
+                                <IoArrowForward className="rotate-180" />
+                                <span>العودة للمجتمع</span>
+                            </Link>
+                        </div>
                     </div>
-                </div>
-            </CustomContainer>
-        </section>
+                </CustomContainer>
+            </section>
         </>
     );
 }; export default PostDetails;

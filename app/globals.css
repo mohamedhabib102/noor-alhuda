@@ -2,24 +2,33 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --main-color: #0e582d;
-  --main-bg: #ab900b;
-  --font-main: var(--font-rubik);
-  --background: #ffffff;
-  --foreground: #171717;
+  --main-color: #0e582d;    /* Brand Green */
+  --main-bg: #ab900b;       /* Brand Gold */
+  --background: #fdfbf7;    /* Warm Cream Background */
+  --foreground: #041f0f;    /* Deep Forest Green/Black for text */
+  
+  /* Fallbacks to prevent undefined issues */
+  --font-ibm-plex-sans-arabic: "IBM Plex Sans Arabic", sans-serif;
+  --font-rakkas: "Rakkas", serif;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #00000;    /* Very Deep Forest Green */
+  --foreground: #f0f7f2;    /* Soft White with Hint of Green */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-main);
-  --font-quran: var(--font-rakkas);
+  --color-main: var(--main-color);
+  --color-main-bg: var(--main-bg);
+  --color-brand-gold: #ab900b;
+  --color-brand-green: #0e582d;
+  
+  --font-sans: var(--font-ibm-plex-sans-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-quran: var(--font-rakkas), serif;
 }
+
 
 @layer utilities {
   .font-quran {
@@ -43,7 +52,7 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #0b1d26 !important;
+  background-color: var(--main-color) !important;
 }
 .swiper-button-next,
 .swiper-button-prev {

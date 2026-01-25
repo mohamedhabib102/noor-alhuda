@@ -14,7 +14,7 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
         const id = postID;
         try {
             await req.delete(`/api/Alhoda_Alnabawya/DeletePost/${id}`).then(() => {
-               getPosts();
+                getPosts();
             });
         } catch (error) {
             console.error("Failed to delete post", error);
@@ -34,40 +34,45 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
     };
 
     return (
-        <article className=" dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div className="relative w-full h-48  dark:bg-gray-700">
+        <article className="bg-white dark:bg-white/5 rounded-2xl border border-main-bg/15 dark:border-main/20 overflow-hidden hover:shadow-xl transition-all duration-300 group">
+            <div className="relative w-full h-52 bg-main/5 dark:bg-main/10 overflow-hidden">
                 <Image
                     src={post.image_Post || DEFAULT_IMAGE}
                     alt={post.postTitle || "Post image"}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
+                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
-   
-            <div className="p-5 text-left">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2">
+
+            <div className="p-6 text-right">
+                <h2 className="text-xl font-bold text-main-bg mb-3 line-clamp-2 leading-tight">
                     {post.postTitle}
                 </h2>
 
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-4">
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3 mb-6 font-medium">
                     {post.postContent}
                 </p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
-                    <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-blue-500 dark:bg-blue-600 flex items-center justify-center text-white text-xs font-semibold">
+                <div className="flex items-center justify-between pt-4 border-t border-main-bg/10 dark:border-main/10">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-main flex items-center justify-center text-white text-xs font-black shadow-sm">
                             {post.personName?.charAt(0) || 'A'}
                         </div>
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{post.personName}</span>
+                        <span className="text-sm font-bold text-main">{post.personName}</span>
                     </div>
-                    <time className="text-xs text-gray-500 dark:text-gray-400" dateTime={post.createdAt}>
+                    <time className="text-[10px] font-bold text-gray-400 uppercase tracking-wider" dateTime={post.createdAt}>
                         {formatDate(post.createdAt)}
                     </time>
                 </div>
-                <button onClick={() => deletPost(post.postID)} 
-                className="cursor-pointer mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
-                    Delete</button>
+
+                <button
+                    onClick={() => deletPost(post.postID)}
+                    className="w-full mt-6 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl font-bold text-sm cursor-pointer hover:bg-red-600 hover:text-white transition-all active:scale-95 border border-red-100 dark:border-red-900/30"
+                >
+                    حذف المنشور
+                </button>
             </div>
         </article>
     );

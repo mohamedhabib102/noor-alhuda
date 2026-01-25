@@ -49,7 +49,9 @@ const SurhaPage: React.FC<Props> = async ({ params }) => {
   const surah = await getSurah(surahNumber);
   const tafsir = await getTafsir(surahNumber);
   return (
+    <>
     <SurahContainer surah={surah} tafsir={tafsir} />
+    </>
   );
 };
 

@@ -92,8 +92,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
     if (loading) {
         return (
-            <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-8 text-center">
-                <h2 className="text-2xl font-bold mb-2">
+            <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
+                <h2 className="text-2xl font-bold mb-2 text-main">
                     جاري تحميل المقالات...
                 </h2>
             </div>
@@ -102,8 +102,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
     if (error || posts.length === 0) {
         return (
-            <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-8 text-center">
-                <h2 className="text-2xl font-bold mb-2">لا يوجد مقالات</h2>
+            <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
+                <h2 className="text-2xl font-bold mb-2 text-main-bg">لا يوجد مقالات</h2>
             </div>
         );
     }
@@ -161,38 +161,38 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
             <div className={` ${stateCard === "profile" && "max-w-3xl mx-auto mt-6"}`}>
                 {(stateCard === "profile" || stateCard === "page") && (
-                    <button className="bg-(--main-bg) text-white p-2 rounded-lg w-[200px] block ml-auto mb-8 cursor-pointer hover:opacity-80 transition duration-300"
+                    <button className="bg-main text-white p-3 rounded-xl w-[200px] block ml-auto mb-8 cursor-pointer hover:bg-emerald-900 transition-all duration-300 font-bold shadow-md hover:shadow-lg active:scale-95"
                         onClick={() => setToggle(!toggle)}
-                    > {stateCard === "profile" ? "اضافة مقال جديد" : "اضافة منشور"} </button>
+                    > {"اضافة مقال "} </button>
                 )}
                 {[...posts].reverse().slice(0, visibleCount).map((post) => (
                     <div key={post.postID} className="mb-6 md:mb-14 group">
                         {/* Official Brand Frame */}
 
-                        <div className="relative border-2 border-(--main-bg)/20 dark:border-(--main-bg)/10 rounded-2xl p-1.5 md:p-2 bg-gray-200 dark:bg-gray-900 shadow-sm transition-shadow hover:shadow-lg">
+                        <div className="relative border-2 border-main-bg/15 dark:border-main/20 rounded-2xl p-1.5 md:p-2 bg-main/5 dark:bg-main/10 shadow-sm transition-all hover:shadow-md">
                             {/* Top Branding Section - Inside the Frame */}
-                            <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300/30 dark:border-gray-700/30 mb-2">
+                            <div className="flex items-center justify-between px-6 py-3 border-b border-main-bg/10 dark:border-main/10 mb-2">
                                 <div className="flex items-center gap-2">
                                     <Image src="/logo.svg" alt="logo" width={28} height={28} className="w-6 h-6 md:w-7 md:h-7" />
-                                    <span className="text-sm md:text-base font-black text-(--main-bg) tracking-tight">نور الهدى</span>
+                                    <span className="text-sm md:text-base font-black text-main-bg tracking-tight">نور الهدى</span>
                                 </div>
-                                <div className="h-2 w-2 rounded-full bg-(--main-bg) opacity-50" />
+                                <div className="h-2 w-2 rounded-full bg-main-bg opacity-50" />
                             </div>
 
 
                             {/* Share Content - Inside the Frame */}
                             {post.share && (
-                                <div className="flex items-center gap-1.5 mb-3 px-4 py-2 bg-gray-300/50 dark:bg-black/20 rounded-2xl mx-2">
-                                    <BiRepost size={20} className="text-(--main-bg)" />
+                                <div className="flex items-center gap-1.5 mb-3 px-4 py-2 bg-main-bg/10 dark:bg-main-bg/5 rounded-2xl mx-2">
+                                    <BiRepost size={20} className="text-main-bg" />
                                     <div className="font-medium text-xs md:text-sm flex items-center gap-1">
-                                        <span className="font-bold opacity-70">تم المشاركة من :</span>
-                                        <span className="text-(--main-bg) font-bold">{post.shareName}</span>
+                                        <span className="font-bold text-gray-600 dark:text-gray-400">تم المشاركة من :</span>
+                                        <span className="text-main-bg font-bold">{post.shareName}</span>
                                     </div>
                                 </div>
                             )}
 
                             {/* Actual Post Content - Nested within Frame */}
-                            <div dir="rtl" className={`bg-gray-100 dark:bg-gray-800 lg:p-6 md:p-6 p-4 rounded-lg shadow-sm`}>
+                            <div dir="rtl" className={`bg-white dark:bg-white/5 lg:p-6 md:p-6 p-4 rounded-xl shadow-sm border border-main/5`}>
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-3">
                                         {post.share ? (
@@ -203,7 +203,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                 alt={post.postContent || "post content"}
                                                 width={44}
                                                 height={44}
-                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
+                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
                                             />
 
                                         ) : (
@@ -213,12 +213,12 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                 alt={post.postContent || "post content"}
                                                 width={44}
                                                 height={44}
-                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain"
+                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
                                             />
 
                                         )}
                                         <div>
-                                            <h3 className="font-bold text-sm md:text-base text-(--main-bg)">{post.personName || ""}</h3>
+                                            <h3 className="font-bold text-sm md:text-base text-main-bg">{post.personName || ""}</h3>
                                             <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post.postTitle}</span>
                                         </div>
                                     </div>
@@ -260,15 +260,15 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                     <div className="flex items-center justify-between gap-3 mt-4">
                                         <LikePost />
                                         <div
-                                            className="flex items-center justify-center bg-gray-300 dark:bg-black/20 p-2.5 rounded-lg gap-2 w-[30%] text-orange-600 cursor-pointer"
+                                            className="flex items-center justify-center bg-main-bg/10 dark:bg-white/5 p-2.5 rounded-xl gap-2 w-[30%] text-main font-bold cursor-pointer hover:bg-main-bg/20 transition-all active:scale-95 border border-main-bg/5"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
                                                 handelShare(post);
                                             }}
                                         >
-                                            <span>Share</span>
-                                            <FaShare size={23} />
+                                            <span className="text-sm">مشاركة</span>
+                                            <FaShare size={20} />
                                         </div>
                                     </div>
                                 </div>
@@ -280,8 +280,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                 {/* Trigger element for infinite scroll with simulated delay */}
                 {visibleCount < posts.length && (
                     <div id="infinite-scroll-trigger" className="py-10 flex flex-col items-center justify-center gap-3">
-                        <div className="w-10 h-10 border-4 border-(--main-bg) border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-(--main-bg) font-medium text-sm">جاري جلب المنشورات...</p>
+                        <div className="w-10 h-10 border-4 border-main-bg border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-main-bg font-bold text-sm">جاري جلب المنشورات...</p>
                     </div>
                 )}
             </div>
