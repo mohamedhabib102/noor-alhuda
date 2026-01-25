@@ -50,21 +50,21 @@ const ContextProvider = ({ children }: ContextProps) => {
 
     const login = (user: User) => {
         setUserData(user);
-        jsCookie.set("user", JSON.stringify(user), {expires: 120, sameSite: "Lax"});
+        jsCookie.set("user", JSON.stringify(user), { expires: 120, sameSite: "Lax" });
     }
 
-   const logout = async ({ url }: { url: string }) => {
-    try {
-        setUserData(null);
-        jsCookie.remove("user");
-        // Call next-auth signOut to clear server-side httpOnly cookies
-        await signOut({ callbackUrl: url });
-    } catch (error) {
-        console.log(error);
-        // Fallback redirect if signOut fails
-        window.location.href = url;
+    const logout = async ({ url }: { url: string }) => {
+        try {
+            setUserData(null);
+            jsCookie.remove("user");
+            // Call next-auth signOut to clear server-side httpOnly cookies
+            await signOut({ callbackUrl: url });
+        } catch (error) {
+            console.log(error);
+            // Fallback redirect if signOut fails
+            window.location.href = url;
+        }
     }
-  }
 
 
 
