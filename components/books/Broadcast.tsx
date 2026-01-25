@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { FaMicrophone } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Image from "next/image";
+import { useRadio } from "@/lib/radioContextapi";
 
 const Broadcast: React.FC = () => {
     const [radios, setRadios] = useState<Radio[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const { setRadio } = useRadio();
 
     useEffect(() => {
         setLoading(true);
@@ -27,6 +29,8 @@ const Broadcast: React.FC = () => {
             </div>
         );
     }
+
+    
 
     return (
         <div className="space-y-8 animate-fadeIn" dir="rtl">
@@ -55,6 +59,7 @@ const Broadcast: React.FC = () => {
                         </div>
 
                         <button
+                            onClick={() => setRadio(radio)}
                             className="cursor-pointer mt-2 px-6 py-2 rounded-xl font-black text-xs bg-main-bg/10 text-main-bg group-hover:bg-main group-hover:text-white transition-all">
                             استماع الآن
                         </button>

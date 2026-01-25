@@ -47,7 +47,7 @@ const services: Serve[] = [
     },
     {
         id: 6,
-        title: " الكتب ",
+        title: " الكتب والأذاعة القرآنية ",
         link: "/books",
         icon: RiBookShelfFill
     }

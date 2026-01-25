@@ -28,7 +28,7 @@ const JoinUsPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter()
     const [imageShow, setImageShow] = useState<string>("");
-    const {data: session} = useSession()
+    const { data: session } = useSession()
 
 
     const handelImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -145,17 +145,17 @@ const JoinUsPage = () => {
                     formData.append("Email", session.user?.email || "");
                     formData.append("Password", (`${session.user?.name}/@Google/${session.user?.email}`).toString());
                     formData.append("Role", "string");
-    
+
                     if (session.user?.image) {
                         formData.append("ImageGoogle", session.user.image);
                     }
 
-                    const res = await req.post("/api/Alhoda_Alnabawya/Login", 
+                    const res = await req.post("/api/Alhoda_Alnabawya/Login",
                         formData, {
                         headers: {
                             "Content-Type": "multipart/form-data",
                         }
-                        });
+                    });
 
                     if (res.data) {
                         login(res.data);

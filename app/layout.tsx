@@ -6,7 +6,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
-import { ContextProviderWrapper } from "@/lib/contextapi";
+import { ContextProviderWrapper as AuthProvider } from "@/lib/contextapi";
+import { ContextProviderWrapper as RadioProvider } from "@/lib/radioContextapi";
 
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -81,13 +82,15 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`${ibmPlexSansArabic.variable} ${rakkas.variable}`}>
       <body className={`antialiased`}>
-        <ContextProviderWrapper>
-          <Header />
-          <main>
-            {children}
-          </main>
-          <Footer />
-        </ContextProviderWrapper>
+        <AuthProvider>
+          <RadioProvider>
+            <Header />
+            <main>
+              {children}
+            </main>
+            <Footer />
+          </RadioProvider>
+        </AuthProvider>
       </body>
     </html>
   );

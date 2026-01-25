@@ -14,10 +14,10 @@ export default function AnalyticsPage() {
     const [post, setPost] = useState(0);
     const [question, setQuestion] = useState(0);
     const [user, setUser] = useState(0);
-    const {userData} = useAuth();
+    const { userData } = useAuth();
 
 
-    const getPosts = async() => {
+    const getPosts = async () => {
         try {
             await req.get("/api/Alhoda_Alnabawya/GetAllPosts").then((res) => {
                 setPost(res.data.length);
@@ -26,7 +26,7 @@ export default function AnalyticsPage() {
             console.log(error);
         }
     }
-    const getQuestions = async() => {
+    const getQuestions = async () => {
         try {
             await req.get("/api/Alhoda_Alnabawya/GetAllQuestionsAndResponses").then((res) => {
                 setQuestion(res.data.length);
@@ -35,7 +35,7 @@ export default function AnalyticsPage() {
             console.log(error);
         }
     }
-    const getUsers = async() => {
+    const getUsers = async () => {
         try {
             await req.get("/api/Alhoda_Alnabawya/GetAllPerson").then((res) => {
                 setUser(res.data.length);
@@ -56,16 +56,16 @@ export default function AnalyticsPage() {
             location.href = "/";
         }
     }, [userData]);
-   const trafficData = useMemo(() => [
-      { name: "Posts", value: post, color: "#10b981" }, 
-      { name: "Questions", value: question, color: "#f59e0b" }, 
-      { name: "Users", value: user, color: "#3b82f6" }, 
-   ], [post, question, user]);
+    const trafficData = useMemo(() => [
+        { name: "Posts", value: post, color: "#10b981" },
+        { name: "Questions", value: question, color: "#f59e0b" },
+        { name: "Users", value: user, color: "#3b82f6" },
+    ], [post, question, user]);
 
 
     const total = useMemo(() => trafficData.reduce((acc, curr) => acc + curr.value, 0), [trafficData]);
 
-    
+
 
     return (
         <div className="w-full p-6 space-y-8 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800">

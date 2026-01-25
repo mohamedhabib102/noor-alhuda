@@ -149,7 +149,7 @@ const ProfileUser: React.FC = () => {
               </div>
 
               {/* Religious Message */}
-              <div className="mt-14 p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-main/10 dark:border-main/20 shadow-sm relative overflow-hidden group">
+              <div className="mt-14 p-8 rounded-4xl bg-white dark:bg-white/5 border border-main/10 dark:border-main/20 shadow-sm relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-2.5 h-full bg-main transition-all duration-500 group-hover:w-3"></div>
                 <p className="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300 italic font-medium">
                   &quot;نسأل الله أن يجعل تواجدك معنا مباركاً، وأن تكون مشاركاتك شاهدةً لك لا عليك. نرجو الالتزام بآداب المجتمع الإسلامي في كل ما يُنشر.&quot;

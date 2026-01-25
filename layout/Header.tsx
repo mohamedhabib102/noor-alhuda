@@ -22,11 +22,11 @@ const Header: React.FC = () => {
         setMounted(true);
     }, []);
 
-    const iImage = 
-    userData?.image ?
-    userData.image 
-    : userData?.imageGoogle && userData.imageGoogle !== "nulll" ? 
-    userData.imageGoogle : "/images/default.png"
+    const iImage =
+        userData?.image ?
+            userData.image
+            : userData?.imageGoogle && userData.imageGoogle !== "nulll" ?
+                userData.imageGoogle : "/images/default.png"
 
     return (
         <>

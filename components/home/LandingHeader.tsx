@@ -13,7 +13,7 @@ const LandingHeader: React.FC = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
                     {/* Text Content */}
                     <div className="flex-1 text-center md:text-right space-y-8 order-2 md:order-1">
-                        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-main/10 text-main dark:text-emerald-400 font-semibold text-sm shadow-sm">
+                        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-main/10 text-main dark:text-main font-semibold text-sm shadow-sm">
                             <Image
                                 src="/logo.svg"
                                 alt="logo"
@@ -53,20 +53,20 @@ const LandingHeader: React.FC = () => {
                     </div>
 
                     {/* Image Visual */}
-                    <div className="flex-1 order-1 md:order-2 relative group mt-8 md:mt-0">
-                        <div className="relative z-10 w-full max-w-md mx-auto aspect-square overflow-hidden rounded-3xl shadow-[0_20px_50px_rgba(14,88,45,0.15)] dark:shadow-none border-8 border-white dark:border-main/5 -rotate-2 group-hover:rotate-0 transition-all duration-700 ease-out scale-100 group-hover:scale-[1.02]">
+                    <div className="flex-1 order-1 md:order-2 relative group mt-4 md:mt-0 w-full">
+                        <div className="relative z-10 w-full max-w-lg lg:max-w-2xl mx-auto aspect-4/3 md:aspect-square overflow-hidden rounded-[2.5rem] shadow-[0_20px_60px_rgba(14,88,45,0.2)] dark:shadow-none border-12 border-white dark:border-main/10 -rotate-1 group-hover:rotate-0 transition-all duration-700 ease-out scale-100 group-hover:scale-[1.03]">
                             <Image
                                 src="/images/header.jpg"
                                 alt="نور الهدى - رفيق الإيمان"
                                 fill
-                                className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                                className="object-cover transform transition-transform duration-1000 group-hover:scale-110"
                                 priority
                             />
                         </div>
 
                         {/* Decorative Background Elements */}
-                        <div className="absolute -top-12 -right-12 w-48 h-48 bg-main/20 dark:bg-emerald-500/10 blur-[80px] rounded-full z-0 animate-pulse"></div>
-                        <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-brand-gold/20 dark:bg-amber-500/10 blur-[80px] rounded-full z-0 animate-pulse"></div>
+                        <div className="absolute -top-16 -right-16 w-64 h-64 bg-main/30 dark:bg-emerald-500/10 blur-[100px] rounded-full z-0 animate-pulse"></div>
+                        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-brand-gold/30 dark:bg-amber-500/10 blur-[100px] rounded-full z-0 animate-pulse"></div>
                     </div>
                 </div>
             </CustomContainer>

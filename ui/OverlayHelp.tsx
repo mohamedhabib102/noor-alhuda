@@ -55,7 +55,7 @@ const NavbarText: Navbar[] = [
     },
     {
         id: 5,
-        title: " الكتب ",
+        title: " الكتب والأذاعة القرآنية ",
         link: "/books",
         icon: RiBookShelfFill
     },
@@ -121,7 +121,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                                 <span>الملف الشخصي</span>
                             </Link>
                         </li>
-                     )}
+                    )}
 
                     {mounted && userData?.role === "Admin" && (
                         <li className="">
@@ -134,9 +134,9 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                                 <span>  لوحة التحكم </span>
                             </Link>
                         </li>
-                     )}
+                    )}
 
-                     {mounted && !userData?.personID && (
+                    {mounted && !userData?.personID && (
                         <li className="">
                             <Link href="/join-us"
                                 className="flex items-center gap-2 justify-start flex-row
@@ -147,7 +147,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                                 <span> الأنضمام إلينا </span>
                             </Link>
                         </li>
-                     )}
+                    )}
 
 
 

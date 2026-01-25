@@ -13,7 +13,7 @@ const Categories = [
 ];
 
 const BooksPage = () => {
-    const [active, setActive] = useState("books");
+    const [active, setActive] = useState("radio");
 
     return (
         <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
