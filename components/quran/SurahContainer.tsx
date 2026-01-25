@@ -81,27 +81,20 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
 
                         <div className="flex items-center justify-center md:justify-start">
 
-                            <div className="flex bg-main/5 dark:bg-white/5 p-1.5 rounded-2xl w-fit border border-main/10 dark:border-white/10 relative overflow-hidden">
+                            <div className="flex bg-main/5 dark:bg-white/5 p-1.5 rounded-2xl w-fit border border-main/10 dark:border-white/10">
                                 {eyes.map((eye, idx) => (
                                     <button
                                         key={eye.title}
                                         onClick={() => setSwitchOption(idx)}
-                                        className={`flex items-center lg:gap-3 gap-2 p-4 rounded-xl transition-colors duration-200 relative z-10 cursor-pointer 
-                                        ${switchOption === idx ? "text-white dark:text-main" : "text-main dark:text-white/70"}`}
+                                        className={`flex items-center lg:gap-3 gap-2 p-4 rounded-xl cursor-pointer font-bold lg:text-lg text-sm whitespace-nowrap
+                                        ${switchOption === idx
+                                                ? "bg-main dark:bg-main-bg text-white dark:text-main shadow-md"
+                                                : "text-main dark:text-main-bg/70 hover:bg-main/5"}`}
                                     >
                                         <eye.icon size={22} />
-                                        <span className="font-bold lg:text-lg text-sm whitespace-nowrap">{eye.title}</span>
+                                        <span>{eye.title}</span>
                                     </button>
                                 ))}
-
-                                {/* Sliding Background Highlight - Non-elastic, fast transition */}
-                                <div
-                                    className="absolute top-1.5 bottom-1.5 bg-main dark:bg-main-bg rounded-xl transition-all duration-200 shadow-md"
-                                    style={{
-                                        left: switchOption === 0 ? "6px" : "50%",
-                                        width: "calc(50% - 9px)",
-                                    }}
-                                />
                             </div>
                         </div>
                         <div className="mt-10">
