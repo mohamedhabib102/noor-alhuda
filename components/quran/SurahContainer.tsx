@@ -119,6 +119,7 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
                                 {surah.number > 1 && (
                                     <Link
                                         href={`/quran/${surah.number - 1}`}
+                                        scroll={true}
                                         className="flex items-center justify-center gap-3 px-8 py-3.5 bg-white dark:bg-main-bg/5 text-main-bg border-2 border-main-bg/20 rounded-2xl font-bold hover:bg-main-bg hover:text-white transition-all duration-300 group shadow-sm active:scale-95"
                                     >
                                         <FaChevronRight className="transition-transform group-hover:translate-x-1" />
@@ -143,6 +144,7 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
                                 {surah.number < 114 ? (
                                     <Link
                                         href={`/quran/${surah.number + 1}`}
+                                        scroll={true}
                                         className="flex items-center justify-center gap-3 px-8 py-3.5 bg-white dark:bg-main-bg/5 text-main-bg border-2 border-main-bg/20 rounded-2xl font-bold hover:bg-main-bg hover:text-white transition-all duration-300 group shadow-sm active:scale-95"
                                     >
                                         <span>السورة التالية</span>
