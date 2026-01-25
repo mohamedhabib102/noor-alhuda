@@ -25,7 +25,7 @@ const BooksPage = () => {
                 />
 
                 {/* Filter Section */}
-                <ul className="flex items-center justify-center gap-4 mt-12 mb-16 overflow-x-auto pb-4 no-scrollbar" dir="rtl">
+                <ul className="flex items-center justify-start md:justify-center gap-4 mt-12 mb-16 overflow-x-auto pb-4 no-scrollbar" dir="rtl">
                     {Categories.map((cat) => (
                         <li
                             key={cat.id}
@@ -60,7 +60,7 @@ const BooksPage = () => {
 
                     {active === "radio" && (
                         <div className="text-center py-20 px-8 bg-white dark:bg-main-bg/5 rounded-4xl border border-main/10 shadow-xl">
-                           <Broadcast/>
+                            <Broadcast />
                         </div>
                     )}
 
