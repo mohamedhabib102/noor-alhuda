@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
 import Tafsir, { TafsirData } from "./Tafsir";
+import Link from "next/link";
 
 
 interface Ayah {
@@ -92,14 +93,15 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
         setToggle={setToggle}
         tafsir={selectedTafsir}
       />
-      {option === 0 ? (
+      {option === 1 ? (
         <div className="space-y-6">
           {surah.ayahs.map((ayah, index) => {
             const isActive = playingIndex === index;
             return (
               <div
+                id={`ayah-${ayah.numberInSurah}`}
                 key={`${ayah.numberInSurah}-${index}`}
-                className={`relative group p-6 rounded-3xl transition-all duration-300 border
+                className={`relative group p-6 rounded-3xl transition-all duration-300 border scroll-mt-20
                   ${isActive
                     ? "bg-main/10 dark:bg-main/20 border-main/30 dark:border-main/50 shadow-lg shadow-main/5 dark:shadow-none"
                     : "bg-main-bg/5 dark:bg-main/5 border-main-bg/20 hover:shadow-xl hover:shadow-main-bg/5  hover:-translate-y-0.5"
@@ -166,7 +168,9 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
           {surah.ayahs.map((ayah, index) => {
             const isActive = playingIndex === index;
             return (
-              <span key={`${ayah.numberInSurah}-${index}`} className="inline">
+              <div
+                id={`ayah-${ayah.numberInSurah}`}
+                key={`${ayah.numberInSurah}-${index}`} className="inline scroll-mt-20">
                 <audio
                   ref={(el) => {
                     audioRefs.current[index] = el;
@@ -188,7 +192,7 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
                     ﴿{ayah.numberInSurah}﴾
                   </span>
                 </span>
-              </span>
+              </div>
             );
           })}
         </div>

@@ -90,9 +90,9 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
     }, [ref]);
     return (
         <>
-            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/40 backdrop-blur-sm`}></div>
+            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/40 backdrop-blur-xs`}></div>
             <div ref={ref} className={`${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}
-        transition-all duration-300 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-11/12 max-w-sm m-auto bg-white dark:bg-main p-6 shadow-2xl rounded-4xl border border-main/5 dark:border-white/10`}>
+        transition-all duration-200 fixed top-1/2 left-1/2 -translate-1/2 z-50 lg:w-96 w-11/12 max-w-sm m-auto bg-white dark:bg-main p-6 shadow-2xl rounded-4xl border border-main/5 dark:border-white/10`}>
                 <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-300 text-gray-400 hover:text-main dark:text-white/50 dark:hover:text-main-bg absolute top-4 right-4">
                     <MdClose size={28} />
                 </button>

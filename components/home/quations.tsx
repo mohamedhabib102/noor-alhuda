@@ -54,6 +54,23 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
   }, [])
 
   const findHim = showQuestions.some(q => q.isFound === true);
+
+
+  const parts = (part:string, index:number) => {
+    if (part.startsWith('[') && part.endsWith(']')) {
+      const [sura, ayah] =  part.replace(/\[|\]/g, "").split(":");
+      return (
+        <Link key={index}
+          href={`/quran/${sura}#ayah-${ayah}`}
+          className="text-main mx-1 font-bold italic"
+        >{part.replace(/\[|\]/g, "")}</Link>
+      )
+    } else if (part.startsWith('"') && part.endsWith('"')) {
+      return <span key={index} className="font-bold text-main">{part.replace('"', '')}</span>
+    } else {
+      return <span key={index}>{part}</span>
+    }
+  }
   return (
     <section className={
       `${state === "page" ? "" : "lg:py-16 py-8 bg-background dark:bg-background border-t border-gray-100 dark:border-transparent"}`
@@ -98,14 +115,8 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
                       </div>
                     </div>
                     <p className="p-3 leading-8 text-right ml-auto text-gray-800 dark:text-gray-200">
-                      {ques.responseContent.split(/(".*?")/).map((part, index) =>
-                        part.startsWith('"') && part.endsWith('"') ? (
-                          <span key={index}
-                            className="text-main mx-1 font-bold italic"
-                          >{part.replace(/"/g, "")}</span>
-                        ) : (
-                          part
-                        )
+                      {ques.responseContent.split(/(".*?"|\[\d+:\d+\])/).map((part, index) =>
+                        parts(part, index)
                       )}
                     </p>
                   </div>

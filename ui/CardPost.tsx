@@ -12,6 +12,7 @@ import LikePost from "@/components/community/LikePost";
 import { FaShare } from "react-icons/fa6";
 import { getAllPosts } from "@/lib/methods";
 import { Post } from "@/types/Types";
+import { z } from "zod"
 
 interface CardPostProps {
     stateCard: string
@@ -132,11 +133,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
 
 
-    const avatarSrcElse = (image_Person: string) => {
-        return image_Person && isValidImage(image_Person)
-            ? image_Person
-            : "/images/default.png";
-    }
+
+
 
     return (
         <>
@@ -225,14 +223,13 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                     <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
                                 </div>
                                 <div className="mt-5 space-y-4">
-                                    <div className="text-gray-800 dark:text-gray-200">
-                                        <ExpandableText text={post.postContent} />
-                                    </div>
-                                    <Link href={`/community/${post.postID}`}>
+                                    <Link href={`/community/${post.postID}`} className="block group/content">
+                                        <div className="text-gray-800 dark:text-gray-200 mb-4">
+                                            <ExpandableText text={post.postContent} />
+                                        </div>
+
                                         {post.share ?
-
                                             (<>
-
                                                 {post.imageShare && post.imageShare.trim() !== "" && post.imageShare !== "null"
                                                     && post.imageShare !== "nulll" && (
                                                         <Image
@@ -240,7 +237,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                             alt={post.shareName || "share name"}
                                                             width={600}
                                                             height={900}
-                                                            className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                            className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40 transition-transform group-hover/content:scale-[1.01]"
                                                         />
                                                     )}
                                             </>)
@@ -251,7 +248,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                         alt={post.personName || "person name"}
                                                         width={600}
                                                         height={900}
-                                                        className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40"
+                                                        className="rounded-lg w-full max-h-[500px] object-contain bg-black/20 dark:bg-black/40 transition-transform group-hover/content:scale-[1.01]"
                                                     />
                                                 )}
                                             </>)

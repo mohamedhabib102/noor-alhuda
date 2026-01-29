@@ -39,8 +39,27 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
 
     const handleEmojis = (em: string) => {
         if (!em) return;
-        setFormData(prev => ({ ...prev, PostContent: prev.PostContent + em }));
-    }
+        const textarea = document.getElementById('content') as HTMLTextAreaElement;
+        if (textarea) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = formData.PostContent;
+            const before = text.substring(0, start);
+            const after = text.substring(end);
+
+            setFormData(prev => ({
+                ...prev,
+                PostContent: before + em + after
+            }));
+
+            setTimeout(() => {
+                textarea.focus();
+                textarea.setSelectionRange(start + em.length, start + em.length);
+            }, 0);
+        } else {
+            setFormData(prev => ({ ...prev, PostContent: prev.PostContent + em }));
+        }
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -106,7 +125,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                     PostContent: '',
                 });
                 removeImage();
-                alert('تم إضافة البوست بنجاح');
+                alert('تم إضافة المقال بنجاح');
                 setToggle(false);
                 if (refresh) {
                     refresh();
@@ -114,7 +133,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
             })
         } catch (err) {
             console.error('Error adding post:', err);
-            setError('حدث خطأ أثناء إضافة البوست، يرجى المحاولة مرة أخرى.');
+            setError('حدث خطأ أثناء إضافة المقال، يرجى المحاولة مرة أخرى.');
         } finally {
             setLoading(false);
         }
@@ -137,11 +156,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-10">
 
                     {/* Name Input */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right"> نوع البوست </label>
+                        <label htmlFor="name" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right"> نوع المقال </label>
                         <input
                             type="text"
                             id="name"
@@ -154,28 +173,30 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                     </div>
                     {/* Content Input */}
                     <div className='relative'>
-                        <label htmlFor="content" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right">محتوى البوست</label>
+                        <label htmlFor="content" className="block text-sm font-bold text-main-bg dark:text-gray-300 mb-1 text-right">محتوى المقال</label>
                         <textarea
                             id="content"
                             name="PostContent"
                             value={`${formData.PostContent}`}
                             onChange={handleChange}
-                            placeholder="اكتب محتوى البوست هنا"
+                            placeholder="اكتب محتوى المقال هنا"
                             rows={5}
                             className="w-full px-4 py-3 pl-10 border border-main-bg/20 dark:border-main/20 rounded-xl focus:ring-2 focus:ring-main focus:border-transparent outline-none transition-all resize-y text-right dark:bg-main/5 dark:text-white dark:placeholder-gray-500
                             no-scrollbar"
                         />
                         <FaSmile
-                            size={22}
-                            className='absolute top-9 left-3 cursor-pointer text-main'
+                            size={24}
+                            className='absolute top-[38px] left-3 cursor-pointer text-main hover:scale-110 transition-transform bg-white dark:bg-[#0a1a0f] rounded-full'
                             onClick={() => setOpen(!open)}
+                            title="إضافة إيموجي"
                         />
 
                         <div className={
-                            `dark:bg-main/20 bg-main/5 border border-main/10 rounded-xl
+                            `dark:bg-main/20 bg-main/10 border border-main/10 rounded-xl
                          flex items-center gap-2 p-2 w-fit mr-auto
                          ${open ? "visible opacity-100 scale-100" : "invisible opacity-0 scale-0"}
                          transition-all duration-300 shadow-lg
+                         absolute -top-10 left-1.5 mt-2 z-50
                          `
                         }>
                             {availableEmojis.map((em, index) => (
@@ -188,6 +209,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                                     {em}
                                 </button>
                             ))}
+                        </div>
+
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-4 bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-100 dark:border-white/10 leading-relaxed text-right mt-2 space-y-2">
+                            <p>
+                                • الجمل بين علامات التنصيص <span className="text-main font-bold italic">"مثل هذا"</span> تظهر بشكل مميز.
+                            </p>
+                            <p>
+                                • للإشارة لآية من القرآن، استخدم التنسيق <span className="text-main font-bold">[رقم السورة:رقم الآية]</span> ليتم تحويلها لرابط تلقائياً.
+                            </p>
                         </div>
                     </div>
 
@@ -222,11 +252,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="flex items-center gap-2 text-main-bg dark:text-gray-300 hover:text-main transition-colors px-4 py-2 rounded-xl hover:bg-main/5 border border-transparent hover:border-main/10"
+                            className="flex items-center gap-2 text-main-bg dark:text-gray-300 hover:text-main transition-all px-4 py-2.5 rounded-xl hover:bg-main/10 border border-main/5 hover:border-main/20 group"
                             title="إضافة صورة"
                         >
-                            <span className="text-sm font-bold">إضافة صورة (اختياري)</span>
-                            <FaImage size={24} className="text-main" />
+                            <span className="text-sm font-bold">إضافة صورة</span>
+                            <FaImage size={22} className="text-main group-hover:scale-110 transition-transform" />
                         </button>
                     </div>
 
@@ -240,7 +270,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                                 : 'bg-main hover:bg-emerald-900 border-b-4 border-emerald-950/20'
                             }`}
                     >
-                        {loading ? 'جاري النشر...' : 'نشر البوست'}
+                        {loading ? 'جاري النشر...' : 'نشر المقال'}
                     </button>
                 </form>
             </div>

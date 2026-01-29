@@ -104,10 +104,14 @@ const CreateQuestion: React.FC<PropsFun> = ({ getAllQuestion }) => {
                     value={question.responseContent}
                 />
 
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2"> إذا أضفت جملة بين علامات التنصيص  " " يتم عرض الجملة هكذا  :
-
-                    <span className="text-main mx-1 font-bold italic">مثال</span>
-                </p>
+                <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-100 dark:border-white/10 leading-relaxed">
+                    <p className="mb-2">
+                        • الجمل بين علامات التنصيص <span className="text-main font-bold italic">"مثل هذا"</span> تظهر بشكل مميز.
+                    </p>
+                    <p>
+                        • للإشارة لآية، استخدم التنسيق <span className="text-main font-bold">[رقم السورة:رقم الآية]</span> ليتم تحويلها تلقائياً لرابط (مثلاً <span className="text-main font-bold">[1:5]</span> لسورة الفاتحة الآية 5).
+                    </p>
+                </div>
 
                 <button
                     type="submit"

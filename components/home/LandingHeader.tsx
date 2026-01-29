@@ -1,12 +1,20 @@
+import { useAuth } from "@/lib/contextapi";
 import CustomContainer from "@/ui/CustomContainer";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useEffect, useState } from "react";
 
 
 
 
 const LandingHeader: React.FC = () => {
+    const [mounte, setMounte] = useState(false)
+    const { userData } = useAuth();
+
+
+    useEffect(() => {
+        setMounte(true)
+    }, [])
     return (
         <section className="relative overflow-hidden bg-linear-to-b from-emerald-100/20 to-background dark:from-emerald-950/20 dark:to-background py-12 md:py-24">
             <CustomContainer>
@@ -37,15 +45,18 @@ const LandingHeader: React.FC = () => {
                         </div>
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-5 pt-4">
+                            {mounte && userData?.personID && (
                             <Link
                                 href="/join-us"
                                 className="cursor-pointer group relative px-10 py-4 bg-main hover:bg-emerald-900 text-white rounded-2xl font-bold transition-all duration-300 shadow-xl shadow-emerald-200 dark:shadow-none hover:-translate-y-1 active:scale-95">
                                 <span className="relative z-10 text-lg">ابدأ رحلتك الآن</span>
                                 <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </Link>
+                            )}
                             <Link
                                 href="/quran"
-                                className="cursor-pointer px-10 py-4 bg-white dark:bg-zinc-800 border-2 border-gray-100 dark:border-zinc-700 text-gray-700 dark:text-gray-200 rounded-2xl font-bold text-lg transition-all duration-300 hover:bg-gray-50 dark:hover:bg-zinc-700 hover:border-brand-gold">
+                                className="cursor-pointer px-10 py-4 bg-main-bg dark:bg-main-bg/70  dark:text-white rounded-2xl font-bold text-lg transition-all duration-300 dark:hover:bg-main-bg hover:border-brand-gold
+                                hover:-translate-y-1 active:scale-95 text-white">
                                 تصفح المصحف
                             </Link>
 
