@@ -45,11 +45,18 @@ const LandingHeader: React.FC = () => {
                         </div>
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-5 pt-4">
-                            {mounte && userData?.personID && (
+                            {mounte && !userData?.personID ? (
                             <Link
                                 href="/join-us"
                                 className="cursor-pointer group relative px-10 py-4 bg-main hover:bg-emerald-900 text-white rounded-2xl font-bold transition-all duration-300 shadow-xl shadow-emerald-200 dark:shadow-none hover:-translate-y-1 active:scale-95">
                                 <span className="relative z-10 text-lg">ابدأ رحلتك الآن</span>
+                                <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </Link>
+                            ) : (
+                                <Link
+                                href="/community"
+                                className="cursor-pointer group relative px-10 py-4 bg-main hover:bg-emerald-900 text-white rounded-2xl font-bold transition-all duration-300 shadow-xl shadow-emerald-200 dark:shadow-none hover:-translate-y-1 active:scale-95">
+                                <span className="relative z-10 text-lg">انضم للمجتمع</span>
                                 <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </Link>
                             )}

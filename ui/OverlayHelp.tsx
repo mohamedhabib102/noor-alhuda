@@ -100,7 +100,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {NavbarText.map((nav) => (
                         <li key={nav.id} className="">
                             <Link href={nav.link}
-                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white  cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <nav.icon size={20} />
@@ -112,7 +112,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && userData?.personID && (
                         <li className="">
                             <Link href="/profile"
-                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaUser size={20} />
@@ -124,7 +124,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && userData?.role === "Admin" && (
                         <li className="">
                             <Link href="/control"
-                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white  cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaChartBar size={20} />
@@ -136,7 +136,7 @@ const OverlayHelp: React.FC<OverlayMessage> = ({ toggle, setToggle }) => {
                     {mounted && !userData?.personID && (
                         <li className="">
                             <Link href="/join-us"
-                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white dark:hover:text-main cursor-pointer"
+                                className="group flex items-center gap-4 justify-start p-3 rounded-xl transition-all duration-300 border border-main/5 dark:border-white/5 bg-main/5 dark:bg-white/5 hover:bg-main dark:hover:bg-main-bg text-main dark:text-white/90 hover:text-white  cursor-pointer"
                                 onClick={() => setToggle(!toggle)}
                             >
                                 <FaUser size={20} />

@@ -104,7 +104,7 @@ const CreateQuestion: React.FC<PropsFun> = ({ getAllQuestion }) => {
                     value={question.responseContent}
                 />
 
-                <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-100 dark:border-white/10 leading-relaxed">
+                <div className="text-sm text-gray-500  mb-4 bg-main/10 p-4 rounded-xl border border-gray-100 dark:border-white/10 leading-relaxed">
                     <p className="mb-2">
                         • الجمل بين علامات التنصيص <span className="text-main font-bold italic">"مثل هذا"</span> تظهر بشكل مميز.
                     </p>

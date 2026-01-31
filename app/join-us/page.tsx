@@ -12,6 +12,7 @@ import Link from "next/link";
 import { FaGoogle } from "react-icons/fa6";
 import { signIn, useSession } from "next-auth/react";
 import { ApiError } from "@/types/Types";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const JoinUsPage = () => {
     const { login, userData } = useAuth();
@@ -182,20 +183,20 @@ const JoinUsPage = () => {
     }, [session, userData]);
 
     return (
-        <section className="lg:py-20 py-12 h-full relative bg-linear-to-r from-gray-600 to-transparent 
-        dark:bg-linear-to-l dark:from-gray-600 dark:to-transparent">
+        <section className="lg:py-20 py-12 min-h-[calc(100vh-80px)] relative flex items-center justify-center bg-main/10 dark:bg-main-bg/10">
             <form
                 onSubmit={handelSubmit}
-                className=" lg:w-[500px] w-[90%] mx-auto
-            bg-gray-200 dark:bg-gray-800 py-6 px-4 rounded-lg 
-            shadow-[0_10px_30px_rgba(0,0,0,0.15),0_4px_10px_rgba(0,0,0,0.1)]
-            dark:shadow-[0_10px_30px_rgba(0,0,0,0.5),0_4px_10px_rgba(0,0,0,0.3)]
+                className=" lg:w-[550px] w-[95%] mx-auto
+            bg-white dark:bg-main-bg/10 backdrop-blur-sm py-10 px-6 sm:px-10 rounded-2xl 
+            border border-main/30
+            shadow-[0_20px_50px_rgba(0,0,0,0.05)]
+            dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]
             transition-all duration-300
             ">
                 <div className="flex justify-between items-center mb-6">
 
                     <div>
-                        <h3 className="text-2xl font-medium mb-3 text-(--main-color)"> انضم إلينا </h3>
+                        <h3 className="text-2xl font-medium mb-3 text-main"> انضم إلينا </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400"> ادخل معلوماتك للتسجيل في المنصة </p>
                     </div>
 
@@ -204,21 +205,49 @@ const JoinUsPage = () => {
                         alt="Logo"
                         width={100}
                         height={100}
-                        className="p-1 w-24 h-24 bg-cover rounded-full object-contain bg-gray-400 dark:bg-gray-700"
+                        className="p-1 w-24 h-24 bg-cover rounded-full object-contain bg-gray-100 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm"
                     />
 
                 </div>
                 {error && (
-                    <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                    <div className="mt-3 bg-red-50/50 dark:bg-red-900/10 text-red-600 dark:text-red-400 p-4 rounded-xl mb-4 text-sm text-right border border-red-100/50 dark:border-red-900/20">
                         {error}
                     </div>
                 )}
 
                 {erroChecked && (
-                    <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                    <div className="mt-3 bg-red-50/50 dark:bg-red-900/10 text-red-600 dark:text-red-400 p-4 rounded-xl mb-4 text-sm text-right border border-red-100/50 dark:border-red-900/20">
                         {erroChecked}
                     </div>
                 )}
+
+                {/* Google Sign-In at Top */}
+                <button
+                    type="button"
+                    onClick={() => signIn("google")}
+                    className="cursor-pointer w-full bg-main text-white border border-main-bg/50   py-3.5 rounded-xl
+                 active:scale-[0.98] transition-all duration-200 font-semibold flex items-center gap-3 justify-center
+                    text-center shadow-sm mb-2"
+                >
+                    <FaGoogle size={18} className="text-red-500" />
+                    <span> 
+                        {loading ?  
+                    <AiOutlineLoading3Quarters 
+                    size={20}
+                    className="animate-spin mx-auto"
+                    />
+                    : "المتابعة باستخدام جوجل"}
+                    </span>
+                </button>
+
+                <div className="relative my-8">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-100 dark:border-neutral-800"></div>
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-white dark:bg-[#151515] px-4 text-gray-400 dark:text-neutral-500 font-medium tracking-wider">أو التسجيل كعضو جديد</span>
+                    </div>
+                </div>
                 {/* Name Input */}
                 <div className="relative mt-6 mb-4">
                     <input
@@ -228,14 +257,14 @@ const JoinUsPage = () => {
                         placeholder=""
                         value={loginData.personName}
                         onChange={handelChange}
-                        className="peer w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6 
-                        bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                        focus:outline-none focus:border-(--main-color) transition"
+                        className="peer w-full border border-gray-200 dark:border-neutral-700 rounded-xl p-4 pt-6 
+                        bg-gray-50/50 dark:bg-neutral-800/50 text-gray-900 dark:text-gray-100
+                        focus:outline-none focus:border-main focus:ring-1 focus:ring-main transition"
                     />
                     <label
                         htmlFor="name"
                         className="absolute right-4 top-4 text-gray-500 dark:text-gray-400 transition-all duration-200
-                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-(--main-color)
+                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-main
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
@@ -252,14 +281,14 @@ const JoinUsPage = () => {
                         placeholder=""
                         value={loginData.email}
                         onChange={handelChange}
-                        className="peer w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6 
-                        bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                        focus:outline-none focus:border-(--main-color) transition"
+                        className="peer w-full border border-gray-200 dark:border-neutral-700 rounded-xl p-4 pt-6 
+                        bg-gray-50/50 dark:bg-neutral-800/50 text-gray-900 dark:text-gray-100
+                        focus:outline-none focus:border-main focus:ring-1 focus:ring-main transition"
                     />
                     <label
                         htmlFor="email"
                         className="absolute right-4 top-4 text-gray-500 dark:text-gray-400 transition-all duration-200
-                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-(--main-color)
+                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-main
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
@@ -276,9 +305,9 @@ const JoinUsPage = () => {
                         placeholder=" "
                         value={loginData.password}
                         onChange={handelChange}
-                        className="peer w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6
-                        bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                        focus:outline-none focus:border-(--main-color) transition"
+                        className="peer w-full border border-gray-200 dark:border-neutral-700 rounded-xl p-4 pt-6
+                        bg-gray-50/50 dark:bg-neutral-800/50 text-gray-900 dark:text-gray-100
+                        focus:outline-none focus:border-main focus:ring-1 focus:ring-main transition"
                     />
                     <button
                         type="button"
@@ -290,7 +319,7 @@ const JoinUsPage = () => {
                     <label
                         htmlFor="password"
                         className="absolute right-4 top-4 text-gray-500 dark:text-gray-400 transition-all duration-200
-                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-(--main-color)
+                        peer-focus:top-2 peer-focus:text-xs peer-focus:text-main
                         text-lg
                         peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
                     >
@@ -308,9 +337,9 @@ const JoinUsPage = () => {
                             handelImageChange(e)
                             handelChange(e)
                         }}
-                        className="appearance-none w-full border border-gray-400 dark:border-gray-600 rounded-md p-4 pt-6
-                        bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                        focus:outline-none focus:border-(--main-color) transition"
+                        className="appearance-none w-full border border-gray-200 dark:border-neutral-700 rounded-xl p-4 pt-6
+                        bg-gray-50/50 dark:bg-neutral-800/50 text-gray-900 dark:text-gray-100
+                        focus:outline-none focus:border-main focus:ring-1 focus:ring-main transition"
                     />
                     <label className="absolute right-4 top-2 text-xs text-gray-500 dark:text-gray-400 pointer-events-none">
                         الصورة
@@ -318,7 +347,7 @@ const JoinUsPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2 mb-3 relative">
-                    <div className="w-5 h-5  bg-white dark:bg-gray-700 border border-gray-400 rounded-full 
+                    <div className="w-5 h-5  bg-white dark:bg-main-bg/10 border border-gray-400 rounded-full 
                       flex items-center justify-center cursor-pointer">
                         <input
                             type="checkbox"
@@ -337,19 +366,19 @@ const JoinUsPage = () => {
                         >
                             <span
                                 className="absolute w-3 h-3 rounded-full z-20 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2
-                           bg-(--main-bg)"
+                           bg-main-bg"
                             ></span>
                         </label>
                     </div>
-                    <p className="text-sm text-gray-500"> قرأت التعليمات وموافق عليها  ؟ </p>
+                    <p className="text-sm text-gray-500 dark:text-neutral-400"> قرأت التعليمات وموافق عليها ؟ </p>
                 </div>
 
-                <div className="mt-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm text-right border border-red-100 dark:border-red-800">
+                <div className="mt-3 bg-amber-50/50 dark:bg-amber-900/10 text-amber-700 dark:text-amber-400 p-4 rounded-xl mb-4 text-sm text-right border border-amber-100 dark:border-amber-900/20">
                     يجب قراءة التعليمات والموافقة عليها. الرجاء زيارة
                     <Link
                         href="/help"
-                        className="font-semibold text-red-600 dark:text-red-400 inline-block
-                  mx-1 underline"
+                        className="font-bold text-amber-800 dark:text-amber-300 inline-block
+                  mx-1 underline decoration-2 underline-offset-4"
                     >
                         التعليمات
                     </Link>
@@ -362,22 +391,15 @@ const JoinUsPage = () => {
 
                 <button
                     type="submit"
-                    className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
-                    hover:opacity-90 transition-opacity font-medium"
+                    className="cursor-pointer w-full mt-8 bg-main text-white py-4 rounded-xl
+                    hover:opacity-90 active:scale-[0.98] transition-all duration-200 font-semibold text-lg shadow-lg shadow-green-900/20"
                 >
-                    {loading ? "جاري التحميل..." : "تسجيل"}
-                </button>
-
-                <button
-                    type="button"
-                    onClick={() => signIn("google")}
-                    className="cursor-pointer w-full mt-6 bg-(--main-color) text-white py-3 rounded-md
-                    hover:opacity-90 transition-opacity font-medium flex items-center gap-2 justify-center
-                    text-center"
-                >
-
-                    <span> التسجيل باستخدام </span>
-                    <FaGoogle size={20} />
+                    {loading ?  
+                    <AiOutlineLoading3Quarters 
+                    size={20}
+                    className="animate-spin mx-auto"
+                    />
+                    : "إنشاء الحساب"}
                 </button>
             </form>
         </section>

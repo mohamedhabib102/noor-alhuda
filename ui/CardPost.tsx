@@ -13,6 +13,8 @@ import { FaShare } from "react-icons/fa6";
 import { getAllPosts } from "@/lib/methods";
 import { Post } from "@/types/Types";
 import { z } from "zod"
+import { MdDelete } from "react-icons/md";
+import DeletePostContent from "./deletePost";
 
 interface CardPostProps {
     stateCard: string
@@ -36,6 +38,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
     const [sharePaltform, setSharePlatform] = useState(false)
     const [visibleCount, setVisibleCount] = useState(3)
     const [isFetchingMore, setIsFetchingMore] = useState(false);
+    const [toggleDelete, setToggleDelete] = useState(false);
+    const [postID, setPostID] = useState(0)
 
 
     const getUserPosts = async () => {
@@ -138,6 +142,12 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
     return (
         <>
+           <DeletePostContent
+            toggleDelete={toggleDelete}
+            setToggleDelete={setToggleDelete}
+            refresh={getUserPosts}
+            postID={postID}
+           />
             <AddPostForm
                 toggle={toggle}
                 setToggle={setToggle}
@@ -164,7 +174,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                     > {"اضافة مقال "} </button>
                 )}
                 {[...posts].reverse().slice(0, visibleCount).map((post) => (
-                    <div key={post.postID} className="mb-6 md:mb-14 group">
+                    <div key={post.postID} className="mb-6 md:mb-14 group select-none">
                         {/* Official Brand Frame */}
 
                         <div className="relative border-2 border-main-bg/15 dark:border-main/20 rounded-2xl p-1.5 md:p-2 bg-main/5 dark:bg-main/10 shadow-sm transition-all hover:shadow-md">
@@ -220,7 +230,20 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                             <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post.postTitle}</span>
                                         </div>
                                     </div>
-                                    <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
+                                   <div className="flex items-center gap-2">
+                                     <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
+                                      {userData?.personID === post.personID && (
+                                        <span 
+                                         onClick={() => {
+                                            setToggleDelete(!toggleDelete)
+                                            setPostID(post.postID)
+                                         }}
+                                        className="text-main cursor-pointer transition-all duration-200
+                                        active:scale-90">
+                                           <MdDelete size={20}/>
+                                        </span>
+                                      )}
+                                   </div>
                                 </div>
                                 <div className="mt-5 space-y-4">
                                     <Link href={`/community/${post.postID}`} className="block group/content">
@@ -254,14 +277,19 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                             </>)
                                         }
                                     </Link>
-                                    <div className="flex items-center justify-between gap-3 mt-4">
-                                        <LikePost />
+                                    <div className="flex items-center  gap-3 mt-4">
+                                        {/* <LikePost /> */}
                                         <div
-                                            className="flex items-center justify-center bg-main-bg/10 dark:bg-white/5 p-2.5 rounded-xl gap-2 w-[30%] text-main font-bold cursor-pointer hover:bg-main-bg/20 transition-all active:scale-95 border border-main-bg/5"
+                                        //    w-[30%]
+                                            className="flex w-full items-center justify-center bg-main-bg/30 dark:bg-white/5 p-2.5 rounded-xl gap-2  dark:text-white text-main font-bold cursor-pointer hover:bg-main-bg/20 transition-all active:scale-95 border border-main-bg/5"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                handelShare(post);
+                                                if (userData?.personID){
+                                                    handelShare(post);
+                                                } else {
+                                                    alert("يجب تسجيل الدخول أولاً")
+                                                }
                                             }}
                                         >
                                             <span className="text-sm">مشاركة</span>

@@ -3,7 +3,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { MdClose } from 'react-icons/md';
 
 
@@ -22,6 +22,10 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
     nameUser,
 }) => {
 
+    const ref = useRef<HTMLDivElement>(null);
+
+    
+
 
     const isValidImage =
   image &&
@@ -31,11 +35,28 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
   image.trim() !== "";
 
 
+  const handlerMouse = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)){ 
+        setToggleImage(false);
+    }
+  };
+
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handlerMouse);
+    
+    return () => {  
+        document.removeEventListener("mousedown", handlerMouse);
+    }
+  }, [ref])
+
+
     return (
         <>
             <div className={`${toggleImage ? "opacity-100 visible" : "opacity-0 invisible"} fixed inset-0 z-40 bg-black/50 backdrop-blur-sm`} />
 
             <div
+               ref={ref}
                 className={
                     `${toggleImage ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-4 md:p-6 transition-all duration-300 overflow-hidden`
                 }
@@ -48,7 +69,7 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
                             {isValidImage ? (
                                 <Image src={image ||""} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
                             ) : (
-                                <span className="text-sm font-semibold text-(--main-bg)">{(nameUser || 'ن').charAt(0)}</span>
+                                <span className="text-sm font-semibold text-main-bg">{(nameUser || 'ن').charAt(0)}</span>
                             )}
                         </div>
                         <div>

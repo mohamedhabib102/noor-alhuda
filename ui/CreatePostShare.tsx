@@ -69,11 +69,6 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             data.append("ImageShare", imagePostShare ? imagePostShare : "null");
             data.append("PersonImageShare", authorImageShare ? authorImageShare : "null");
 
-
-            for (const [key, value] of data.entries()) {
-                console.log(key, value)
-            }
-
             const res = await req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
                 headers: {
                     "Content-Type": "multipart/form-data"

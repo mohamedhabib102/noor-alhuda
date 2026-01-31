@@ -38,7 +38,7 @@ const DarkModeToggle = () => {
     return (
         <button
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-200 dark:bg-(--main-color) text-gray-800 dark:text-gray-200 transition-colors duration-200 focus:outline-none  cursor-pointer"
+            className="p-2 rounded-full bg-main text-white transition-colors duration-200 focus:outline-none  cursor-pointer"
             aria-label="Toggle Dark Mode"
         >
             {isDark ? <IoSunny size={20} /> : <IoMoon size={20} />}
