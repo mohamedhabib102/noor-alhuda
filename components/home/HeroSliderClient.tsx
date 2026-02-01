@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Hero } from "@/types/Types";
 import req from "@/lib/axios";
+import axios from "axios";
 
 export interface HeroProps {
   id: number;
@@ -41,7 +42,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
 
   const getHeroData = async () => {
     try {
-      const res = await req.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`)
+      const res = await axios.get(`/api/hero`)
       setHero(res.data)
     } catch (error) {
       console.log(error);

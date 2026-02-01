@@ -38,7 +38,7 @@ const HeroManagementPage = () => {
     const fetchHeroes = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`);
+            const response = await axios.get(`/api/hero`);
             setHeroes(response.data);
         } catch (err) {
             console.error("Error fetching heroes:", err);
@@ -71,7 +71,7 @@ const HeroManagementPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hero`, formData);
+            const response = await axios.post(`/api/hero`, formData);
 
 
             setFormData({
