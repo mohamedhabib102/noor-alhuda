@@ -109,7 +109,7 @@ const HeroManagementPage = () => {
             {/* Header Section */}
             <div className="flex items-center justify-between bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800">
                 <div>
-                    <h1 className="text-2xl font-bold text-zinc-800 dark:text-zinc-100 mb-1">إدارة الهيرو (Hero Section)</h1>
+                    <h1 className="text-2xl font-bold text-zinc-800 dark:text-zinc-100 mb-1">إدارة الفعاليات </h1>
                     <p className="text-zinc-500 dark:text-zinc-400 text-sm">تحكم في العناصر المعروضة في مقدمة الموقع</p>
                 </div>
                 <button
