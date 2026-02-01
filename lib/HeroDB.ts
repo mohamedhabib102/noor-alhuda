@@ -1,32 +1,32 @@
+import clientPromise from "./mongoDB";
+import { HeroDB } from "@/types/Types";
+import { ObjectId } from "mongodb";
+
+export async function getAllHeros(): Promise<HeroDB[]> {
+  const client = await clientPromise;
+  const db = client.db("HERO"); 
+  const heros = await db.collection<HeroDB>("heroSection").find({}).toArray();
+  return heros;
+}
+
+// CREATE hero(s)
+export async function createHero(hero: HeroDB | HeroDB[]) {
+  const client = await clientPromise;
+  const db = client.db("HERO");
+  const collection = db.collection<HeroDB>("heroSection");
+
+  if (Array.isArray(hero)) {
+    return collection.insertMany(hero);
+  } else {
+    return collection.insertOne(hero);
+  }
+}
 
 
-export const heroDB =  [
-    {
-      id: 1,
-      type: "video",
-      title: "الفرق بين الشيطان والنفس الأمارة بالسوء",
-      link: "https://www.youtube.com/watch?v=x8aJqqJ_c2s",
-      image: "/images/lesson1.avif"
-    },
-    {
-      id: 2,
-      type: "video",
-      title: "الشيخ الشعراوي | تفسير سورة الفاتحة",
-      link: "https://www.youtube.com/watch?v=O84qzzW08dw",
-      image: "/images/lesson2.avif"
-    },
-    {
-      id: 3,
-      type: "image",
-      title: " القضية السودانية ",  
-      description: " اللهم أعد على السودان أمنه وسلامه، واحفظ أهله وانصرهم على ما يواجهون ",
-      image: "/images/soudan.jpg"
-    },
-    {
-      id: 4,
-      type: "video",
-      title: "الشيخ محمد صديق المنشاوي | ما تيسر من سورة ال عمران | تلاوة ستذهب بك للسماء",
-      link: "https://www.youtube.com/watch?v=6B0ErpX4AWA",  
-      image: "/images/lesson3.avif"
-    }
-  ]
+// DELETE hero(s)
+export async function deleteHero(id: string) {
+  const client = await clientPromise;
+  const db = client.db("HERO");
+  const collection = db.collection<HeroDB>("heroSection");
+  return collection.deleteOne({ _id: new ObjectId(id) });
+}

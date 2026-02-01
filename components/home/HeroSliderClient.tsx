@@ -70,7 +70,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
         const videoId = slide.type === "video" ? getVideoId(slide.link) : null;
 
         return (
-          <SwiperSlide key={slide.id} className="w-screen overflow-hidden lg:rounded-2xl md:rounded-2xl">
+          <SwiperSlide key={idx+1} className="w-screen overflow-hidden lg:rounded-2xl md:rounded-2xl">
             <div className="w-screen lg:h-[670px] md:h-[450px] h-[300px] relative">
               {videoId ? (
                 <>
@@ -88,7 +88,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                         </button>
                         <iframe
                           className="w-full h-full rounded-lg shadow-2xl"
-                          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                          src={`${`https://www.youtube.com/embed/${videoId}?autoplay=1` || ""}`}
                           title={slide.title}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -101,7 +101,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                   <div className={`${isPlaying ? "fixed inset-0 z-20 bg-black/75 backdrop-blur-[5px]" : "hidden"}`} />
                   <div className="w-full h-full relative cursor-pointer" onClick={() => setPlayingId(slide.id)}>
                     <Image
-                      src={slide.image}
+                      src={`${`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` || ""}`}
                       alt={slide.title}
                       fill
                       style={{ objectFit: "cover" }}
@@ -120,7 +120,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                 <div className="relative w-full h-full">
                   <div className="absolute inset-0 z-10 bg-black/40" />
                   <Image
-                    src={slide.image}
+                    src="/images/hero-default.png"
                     alt={slide.title}
                     fill
                     style={{ objectFit: "cover" }}
@@ -129,8 +129,8 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                     blurDataURL="/placeholder.png"
                   />
                   <div className="absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white z-50">
-                    <h3 className="text-xl font-bold text-brand-gold mb-2">{slide.title}</h3>
-                    <p className="text-3xl lg:text-5xl font-black leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
+                    <h3 className="text-xl font-bold mb-1">{slide.title}</h3>
+                    <p className="text-3xl lg:text-5xl font-medium leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
                   </div>
                 </div>
               )}

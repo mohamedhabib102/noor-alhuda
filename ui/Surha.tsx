@@ -101,7 +101,7 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
               <div
                 id={`ayah-${ayah.numberInSurah}`}
                 key={`${ayah.numberInSurah}-${index}`}
-                className={`relative group p-6 rounded-3xl transition-all duration-300 border scroll-mt-20
+                className={`select-none relative group p-6 rounded-3xl transition-all duration-300 border scroll-mt-20
                   ${isActive
                     ? "bg-main/10 dark:bg-main/20 border-main/30 dark:border-main/50 shadow-lg shadow-main/5 dark:shadow-none"
                     : "bg-main-bg/5 dark:bg-main/5 border-main-bg/20 hover:shadow-xl hover:shadow-main-bg/5  hover:-translate-y-0.5"
@@ -170,7 +170,7 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
             return (
               <div
                 id={`ayah-${ayah.numberInSurah}`}
-                key={`${ayah.numberInSurah}-${index}`} className="inline scroll-mt-20">
+                key={`${ayah.numberInSurah}-${index}`} className="select-none inline scroll-mt-20">
                 <audio
                   ref={(el) => {
                     audioRefs.current[index] = el;

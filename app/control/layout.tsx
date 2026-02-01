@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
     { name: " لوحة التحكم ", href: "/control" },
+    { name: " الفعاليات ", href: "/control/hero" },
     { name: " المستخدمين ", href: "/control/users" },
     { name: " المقالات ", href: "/control/posts" },
     { name: " الأسئلة ", href: "/control/questions" },

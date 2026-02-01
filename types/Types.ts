@@ -1,4 +1,4 @@
-import { IconType } from "react-icons";
+
 
 
 export interface AdhkarItem {
@@ -56,6 +56,16 @@ export interface Hero {
     link: string;
     image: string;
     description?: string;
+}
+
+export interface HeroDB {
+    id: number;
+    type: string;
+    title: string;
+    link: string;
+    image: string;
+    description: string;
+    createdAt: string;
 }
 
 export interface SessionProps {
