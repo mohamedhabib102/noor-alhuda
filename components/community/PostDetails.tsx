@@ -76,7 +76,9 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
 
         const shareData = {
             title: post.postTitle,
-            text: `شاهد هذا المنشور: ${post.postTitle} \nتأليف: ${post.personName} \n\n${linkPost}`,
+            text: `${post.postTitle} \n ${post.personName} \n\n${linkPost}`,
+            content: `\n${post.postContent}`,
+            image: post.image_Post || "/images/default.png",
             url: linkPost,
         };
 
@@ -244,7 +246,7 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
                                     }
 
                                     {/* Copy Link Button */}
-                                    <div className="flex items-center justify-center gap-3 mt-10 pt-8 border-t border-main-bg/10 dark:border-main/10">
+                                    <div className="flex items-center justify-center lg:flex-nowrap flex-wrap gap-3 mt-10 pt-8 border-t border-main-bg/10 dark:border-main/10">
                                         <button
                                             className="flex items-center justify-center bg-sky-600 text-white px-8 py-4 rounded-2xl gap-3 font-black text-lg shadow-xl shadow-sky-600/20 cursor-pointer hover:bg-sky-700 transition-all active:scale-95 group border-b-4 border-sky-800/30"
                                             onClick={handleShare}
