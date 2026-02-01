@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "المسبحة الإلكترونية من منصة نور الهدى، اذكر الله يذكرك.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | التسبيح والذكر",
         description: "استخدم المسبحة الإلكترونية للمداومة على الذكر.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

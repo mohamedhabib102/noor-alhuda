@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "كل ما تحتاج معرفته عن منصة نور الهدى وقواعد المشاركة فيها.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | مركز المساعدة",
         description: "تعرف على رؤية منصة نور الهدى وقواعد المشاركة فيها.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

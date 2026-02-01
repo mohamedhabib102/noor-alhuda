@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "مواقيت الصلاة، التاريخ الهجري والميلادي، والقبلة في مكان واحد.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | مواقيت الصلاة والتقويم",
         description: "تابع مواقيت الصلاة بدقة مع التاريخ الهجري والميلادي.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

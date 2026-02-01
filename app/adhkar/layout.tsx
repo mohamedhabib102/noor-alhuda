@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "أذكار الصباح والمساء وأذكار المسلم اليومية.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | الأذكار",
         description: "أذكار الصباح والمساء وأذكار المسلم اليومية.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

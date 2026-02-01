@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "كن جزءاً من مجتمعنا الإسلامي، سجل الآن في منصة نور الهدى.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | انضم إلينا",
         description: "انضم إلى مجتمع نور الهدى، أنشئ حسابك الآن.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

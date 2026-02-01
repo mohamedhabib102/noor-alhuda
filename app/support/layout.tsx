@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         description: "كن شريكاً في الأجر وساهم في تطوير منصة نور الهدى. دعمك يعني لنا الكثير.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "نور الهدى | دعم المنصة",
         description: "ساهم في دعم مشروع نور الهدى لنشر العلم النافع وتوعية الأمة الإسلامية.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 }
 

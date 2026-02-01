@@ -8,7 +8,7 @@ export const metadata: Metadata = {
         description: "اقرأ واستمع إلى القرآن الكريم كاملاً. تصفح السور والآيات بسهولة ويسر.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "القرآن الكريم | نور الهدى",
         description: "اقرأ واستمع إلى القرآن الكريم كاملاً. تصفح السور والآيات بسهولة ويسر.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 };
 

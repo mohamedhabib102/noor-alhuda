@@ -8,7 +8,7 @@ export const metadata: Metadata = {
         description: "اعثر على إجابات لاستفساراتك الدينية والشرعية في قسم الأسئلة الشائعة.",
         images: [
             {
-                url: "/logo-share.png",
+                url: "/images/default.png",
                 width: 1200,
                 height: 630,
             }
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "الأسئلة الشائعة | نور الهدى",
         description: "اعثر على إجابات لاستفساراتك الدينية والشرعية في قسم الأسئلة الشائعة.",
-        images: ["/logo-share.png"],
+        images: ["/images/default.png"],
     }
 };
 

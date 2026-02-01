@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: "صفحة حساب نور الهدى، يمكنك إدارة بياناتك الشخصية، تحديث معلوماتك، ومتابعة نشاطك داخل الموقع بسهولة وأمان",
     images: [
       {
-        url: "/logo-share.png",
+        url: "/images/default.png",
         width: 1200,
         height: 630,
       }
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: "صفحة حساب نور الهدى، حيث يمكنك إدارة بياناتك الشخصية، تحديث معلوماتك، ومتابعة نشاطك داخل الموقع بسهولة وأمان",
     images:  [
       {
-        url: "/logo-share.png",
+        url: "/images/default.png",
         width: 1200,
         height: 630,
       }
