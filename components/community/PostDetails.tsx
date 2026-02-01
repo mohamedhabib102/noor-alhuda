@@ -7,30 +7,19 @@ import { BiRepost } from "react-icons/bi";
 import ExpandableText from "@/components/posts/ExpandableText";
 import CustomContainer from "@/ui/CustomContainer";
 import Link from "next/link";
-import { IoArrowForward } from "react-icons/io5";
+import { IoArrowForward, IoShareSocial } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa";
 import { AiOutlineLoading } from "react-icons/ai";
 import ShowImageProfile from "@/ui/ShowImageProfile";
+import { Post } from "@/types/Types";
 
 
 
-interface PostPage {
-    postID: number;
-    personID: number;
-    postTitle: string;
-    postContent: string;
-    createdAt: string;
-    personName: string;
-    shareName: string;
-    image_Post: string;
-    image_Person: string
-    share: boolean;
-    imageShare: string;
-}
-const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
+
+const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
     const params = useParams();
     const postId = params?.id as string | undefined;
-    const [post, setPost] = useState<PostPage | null>(initialPost || null);
+    const [post, setPost] = useState<Post | null>(initialPost || null);
     const [loading, setLoading] = useState<boolean>(initialPost ? false : true);
     const [error, setError] = useState<boolean>(false);
     const [copied, setCopied] = useState<boolean>(false);
@@ -52,7 +41,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
             try {
                 setLoading(true);
                 const res = await req.get("/api/Alhoda_Alnabawya/GetAllPosts");
-                const allPosts: PostPage[] = res.data;
+                const allPosts: Post[] = res.data;
 
                 const foundPost = allPosts.find(p => p.postID === parseInt(postId as string));
 
@@ -81,6 +70,26 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
     };
 
     const linkPost = `${origin}/community/${post?.postID}`;
+
+    const handleShare = async () => {
+        if (!post) return;
+
+        const shareData = {
+            title: post.postTitle,
+            text: `شاهد هذا المنشور: ${post.postTitle} \nتأليف: ${post.personName} \n\n${linkPost}`,
+            url: linkPost,
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                handleCopy();
+            }
+        } catch (err) {
+            console.error("Error sharing:", err);
+        }
+    };
 
     const handleCopy = async () => {
         try {
@@ -137,7 +146,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
             <ShowImageProfile
                 toggleImage={showImage}
                 setToggleImage={setShowImage}
-                image={post?.image_Person}
+                image={post?.personImageShare || post.image_Person}
                 nameUser={post?.personName}
             />
             <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
@@ -171,9 +180,9 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                 {/* Post Header */}
                                 <div className="flex items-start justify-between mb-6">
                                     <div className="flex items-center gap-4">
-                                        {post?.image_Person && (
+                                        {post?.image_Person || post?.personImageShare && (
                                             <Image
-                                                src={post.image_Person}
+                                                src={post.image_Person || post.personImageShare}
                                                 title={post.personName}
                                                 alt={post.personName}
                                                 width={52}
@@ -186,7 +195,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                             <h3
                                                 onClick={() => setShowImage(!showImage)}
                                                 className="cursor-pointer font-black text-base md:text-lg text-main-bg hover:text-main transition-colors">
-                                                {currentName(post.share, post.shareName, post.personName)}
+                                                {currentName(post.share, post.personName, post.shareName)}
                                             </h3>
                                             <span className="text-xs md:text-sm text-main font-bold opacity-80">
                                                 {post.postTitle}
@@ -237,7 +246,14 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                     {/* Copy Link Button */}
                                     <div className="flex items-center justify-center gap-3 mt-10 pt-8 border-t border-main-bg/10 dark:border-main/10">
                                         <button
-                                            className="flex items-center justify-center bg-main text-white px-8 py-4 rounded-2xl gap-3 font-black text-lg shadow-xl shadow-main/20 cursor-pointer hover:bg-emerald-900 transition-all active:scale-95 group border-b-4 border-emerald-950/30"
+                                            className="flex items-center justify-center bg-sky-600 text-white px-8 py-4 rounded-2xl gap-3 font-black text-lg shadow-xl shadow-sky-600/20 cursor-pointer hover:bg-sky-700 transition-all active:scale-95 group border-b-4 border-sky-800/30"
+                                            onClick={handleShare}
+                                        >
+                                            <span>شارك الخير</span>
+                                            <IoShareSocial size={26} className="group-hover:scale-110 transition-transform" />
+                                        </button>
+                                        <button
+                                            className="flex items-center justify-center bg-emerald-600 text-white px-8 py-4 rounded-2xl gap-3 font-black text-lg shadow-xl shadow-emerald-600/20 cursor-pointer hover:bg-emerald-700 transition-all active:scale-95 group border-b-4 border-emerald-800/30"
                                             onClick={() => handleCopy()}
                                         >
                                             <span> نسخ الرابط </span>
