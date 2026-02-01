@@ -1,4 +1,3 @@
-import { heroDB } from "@/lib/HeroDB";
 import { createHero, deleteHero, getAllHeros } from "@/lib/heroDB";
 import { HeroDB } from "@/types/Types";
 import { NextRequest, NextResponse } from "next/server";
