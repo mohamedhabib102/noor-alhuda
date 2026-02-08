@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AddPostForm from "@/ui/CreatePost";
 import SharePostForm from "@/ui/CreatePostShare";
 import req from "@/lib/axios";
-import { BiRepost } from "react-icons/bi";
+import { BiRepost, BiDetail } from "react-icons/bi";
 import ExpandableText from "@/components/posts/ExpandableText";
 import Link from "next/link";
 import { useAuth } from "@/lib/contextapi";
@@ -119,8 +119,8 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
         setContentPostShare(post.postContent)
         setAuthorImageShare(post.image_Person || "") // Original author's image
         setImagePostShare(post.image_Post)
-        setImageSharePostPlatform(post.imageShare)
-        setImageSharePersonPlatform(post.personImageShare)
+        setImageSharePostPlatform(post.image_Post)
+        setImageSharePersonPlatform(post.image_Person)
         setSharePlatform(post.share)
         setToggleShare(true)
     }
@@ -142,12 +142,12 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
 
     return (
         <>
-           <DeletePostContent
-            toggleDelete={toggleDelete}
-            setToggleDelete={setToggleDelete}
-            refresh={getUserPosts}
-            postID={postID}
-           />
+            <DeletePostContent
+                toggleDelete={toggleDelete}
+                setToggleDelete={setToggleDelete}
+                refresh={getUserPosts}
+                postID={postID}
+            />
             <AddPostForm
                 toggle={toggle}
                 setToggle={setToggle}
@@ -203,50 +203,42 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                             <div dir="rtl" className={`bg-white dark:bg-white/5 lg:p-6 md:p-6 p-4 rounded-xl shadow-sm border border-main/5`}>
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-3">
-                                        {post.share ? (
 
-                                            <Image
-                                                src={isValidImage(post.personImageShare) ? post.personImageShare : "/images/default.png"}
-                                                title={post.shareName || "title logo"}
-                                                alt={post.postContent || "post content"}
-                                                width={44}
-                                                height={44}
-                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
-                                            />
+                                        <Image
+                                            src={post?.image_Person || "/images/default.png"}
+                                            title={post?.personName || "title logo"}
+                                            alt={post?.postContent || "post content"}
+                                            width={44}
+                                            height={44}
+                                            className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
+                                        />
 
-                                        ) : (
-                                            <Image
-                                                src={post.image_Person || "/images/default.png"}
-                                                title={post.personName || "title logo"}
-                                                alt={post.postContent || "post content"}
-                                                width={44}
-                                                height={44}
-                                                className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
-                                            />
 
-                                        )}
                                         <div>
-                                            <h3 className="font-bold text-sm md:text-base text-main-bg">{post.personName || ""}</h3>
-                                            <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post.postTitle}</span>
+                                            <h3 className="font-bold text-sm md:text-base text-main-bg">{post?.personName || ""}</h3>
+                                            <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post?.postTitle}</span>
                                         </div>
                                     </div>
-                                   <div className="flex items-center gap-2">
-                                     <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
-                                      {userData?.personID === post.personID && (
-                                        <span 
-                                         onClick={() => {
-                                            setToggleDelete(!toggleDelete)
-                                            setPostID(post.postID)
-                                         }}
-                                        className="text-main cursor-pointer transition-all duration-200
+                                    <div className="flex items-center gap-2">
+                                        <Link href={`/community/${post.postID}`} className="text-gray-400 hover:text-main transition-colors" title="التفاصيل">
+                                            <BiDetail size={20} />
+                                        </Link>
+                                        <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
+                                        {userData?.personID === post.personID && (
+                                            <span
+                                                onClick={() => {
+                                                    setToggleDelete(!toggleDelete)
+                                                    setPostID(post.postID)
+                                                }}
+                                                className="text-main cursor-pointer transition-all duration-200
                                         active:scale-90">
-                                           <MdDelete size={20}/>
-                                        </span>
-                                      )}
-                                   </div>
+                                                <MdDelete size={20} />
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="mt-5 space-y-4">
-                                    <Link href={`/community/${post.postID}`} className="block group/content">
+                                    <div className="block group/content">
                                         <div className="text-gray-800 dark:text-gray-200 mb-4">
                                             <ExpandableText text={post.postContent} />
                                         </div>
@@ -276,16 +268,16 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                 )}
                                             </>)
                                         }
-                                    </Link>
+                                    </div>
                                     <div className="flex items-center  gap-3 mt-4">
                                         {/* <LikePost /> */}
                                         <div
-                                        //    w-[30%]
+                                            //    w-[30%]
                                             className="flex w-full items-center justify-center bg-main-bg/30 dark:bg-white/5 p-2.5 rounded-xl gap-2  dark:text-white text-main font-bold cursor-pointer hover:bg-main-bg/20 transition-all active:scale-95 border border-main-bg/5"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                if (userData?.personID){
+                                                if (userData?.personID) {
                                                     handelShare(post);
                                                 } else {
                                                     alert("يجب تسجيل الدخول أولاً")

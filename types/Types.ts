@@ -24,6 +24,12 @@ export interface Adhkar {
     id: number;
 }
 
+
+export interface Sajda {
+  id: number;
+  obligatory: boolean;
+  recommended: boolean;
+}
 export interface Post {
     postID: number;
     personID: number;

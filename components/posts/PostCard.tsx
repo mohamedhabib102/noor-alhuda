@@ -46,6 +46,11 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
                 <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
 
+            <span
+            className="text-sm font-bold dark:bg-main/50 bg-main/10 w-fit uppercase
+            p-1.5 block m-4 rounded-lg"
+            >{post.share ? ` تمت المشاركة من:  ${post.shareName} ` : ""}</span>
+
             <div className="p-6 text-right">
                 <h2 className="text-xl font-bold text-main-bg mb-3 line-clamp-2 leading-tight">
                     {post.postTitle}
@@ -62,7 +67,7 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
                         </div>
                         <span className="text-sm font-bold text-main">{post.personName}</span>
                     </div>
-                    <time className="text-[10px] font-bold text-gray-400 uppercase tracking-wider" dateTime={post.createdAt}>
+                    <time className="text-sm font-bold text-gray-400 uppercase tracking-wider" dateTime={post.createdAt}>
                         {formatDate(post.createdAt)}
                     </time>
                 </div>
@@ -73,6 +78,8 @@ const PostCard = ({ post, getPosts }: { post: Post, getPosts: () => void }) => {
                 >
                     حذف المنشور
                 </button>
+
+
             </div>
         </article>
     );

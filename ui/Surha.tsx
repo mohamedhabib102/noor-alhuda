@@ -5,6 +5,9 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
 import Tafsir, { TafsirData } from "./Tafsir";
 import Link from "next/link";
+import { Sajda } from "@/types/Types";
+import MessageSajda from "./MessageSajda";
+
 
 
 interface Ayah {
@@ -12,12 +15,15 @@ interface Ayah {
   numberInSurah: number;
   text: string;
   audio: string;
+  page: number;
+  juz: number;
+  sajda: boolean|Sajda;
 }
 
 interface SurhaProps {
   surah?: {
     number: number
-    ayahs?: Ayah[];
+    ayahs: Ayah[];
   };
 }
 
@@ -32,7 +38,12 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [toggle, setToggle] = useState(false);
   const [selectedTafsir, setSelectedTafsir] = useState<TafsirData | null>(null);
+  const [toggleSajda, setToggleSajda] = useState(false);
+  const [sajda, setSajda] = useState<Sajda | null>(null);
 
+
+
+  
 
 
   if (!surah || !Array.isArray(surah.ayahs) || surah.ayahs.length === 0) {
@@ -86,12 +97,27 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
     }
   };
 
+
+  console.log(surah.ayahs);
+
+
+  const handleSajda = (sajda:Sajda) => {
+    setToggleSajda(!toggleSajda)
+    setSajda(sajda)
+  }
+  
+
   return (
     <>
       <Tafsir
         toggle={toggle}
         setToggle={setToggle}
         tafsir={selectedTafsir}
+      />
+      <MessageSajda
+        toggle={toggleSajda}
+        setToggle={setToggleSajda}
+        sajda={sajda}
       />
       {option === 1 ? (
         <div className="space-y-6">
@@ -165,35 +191,57 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
         </div>
       ) : (
         <div className="bg-main-bg/5 dark:bg-main/5 lg:p-8 p-4 md:p-12 rounded-[2.5rem] border border-main-bg/20 shadow-sm text-center lg:leading-[6.5] leading-[4.2] dir-rtl">
-          {surah.ayahs.map((ayah, index) => {
+          {surah.ayahs && surah.ayahs.map((ayah, index) => {
             const isActive = playingIndex === index;
+               const showPageNumber =
+               index === 0 || ayah.page !== surah.ayahs[index - 1].page;
+
+               
             return (
-              <div
+             <div
                 id={`ayah-${ayah.numberInSurah}`}
                 key={`${ayah.numberInSurah}-${index}`} className="select-none inline scroll-mt-20">
-                <audio
+                {/* <audio
                   ref={(el) => {
                     audioRefs.current[index] = el;
                   }}
                   src={ayah.audio}
                   onEnded={() => handleEnded(index)}
                   preload="none"
-                />
+                /> */}
+                {showPageNumber && (
+                    <div className="text-lg my-6 p-4 bg-main/10 lg:rounded-3xl rounded-2xl
+                    dark:bg-main/20 flex items-center justify-between gap-4">
+                      <span> {` صفحة (${ayah.page})`}</span>
+                      <span>{`الجزء ${ayah.juz}`}</span>
+                    </div>
+                  )}
                 <span
-                  onClick={() => handlePlayPause(index)}
+                  // onClick={() => handlePlayPause(index)}
+                  onClick={() => {
+                    if (ayah.sajda && typeof ayah.sajda === "object") {
+                      handleSajda(ayah.sajda as Sajda);
+                    }
+                  }}
                   className={`font-quran text-4xl md:text-5xl cursor-pointer transition-all duration-300 px-1 rounded-xl
                     ${isActive
                       ? "bg-main/10 dark:bg-main/20 text-main dark:text-gray-100 scale-105"
                       : "text-foreground dark:text-gray-200 hover:bg-main/5 dark:hover:bg-white/5"
-                    }`}
+                    }
+                    
+                    ${ayah.sajda && typeof ayah.sajda === "object" ? "text-main!" : ""}
+                    `}
                 >
                   {ayah.text}
                   <span className="mx-2 text-main-bg font-bold text-2xl md:text-3xl select-none">
                     ﴿{ayah.numberInSurah}﴾
                   </span>
+                  
                 </span>
+                
               </div>
             );
+            
           })}
         </div>
       )}

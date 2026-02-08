@@ -7,14 +7,18 @@ import { FaBookOpenReader, FaEye } from "react-icons/fa6";
 import { CiMusicNote1 } from "react-icons/ci";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { FaChevronRight, FaChevronLeft, FaHashtag, FaLinesLeaning } from "react-icons/fa6";
+import { FaChevronRight, FaChevronLeft, FaHashtag } from "react-icons/fa6";
 import Link from "next/link";
+import { Sajda } from "@/types/Types";
 
 interface Verse {
-    number: number;
-    numberInSurah: number;
-    text: string;
-    audio: string;
+  number: number;
+  numberInSurah: number;
+  text: string;
+  audio: string;
+  page: number;
+  juz: number;
+  sajda: boolean|Sajda;
 }
 
 interface Surah {
@@ -63,7 +67,7 @@ const SurahContainer: React.FC<SurahContainerProps> = ({ surah, tafsir }) => {
 
 
 
-
+   
 
 
     return (
