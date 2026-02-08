@@ -124,7 +124,9 @@ const RadioSound = () => {
                     <h4 className="text-base font-black text-white dark:text-main truncate">{radioData.name}</h4>
                     <p className="text-xs font-bold overflow-hidden flex items-center gap-1">
                         {isError ? (
-                            <span className="text-red-400 dark:text-red-700">عذراً، المصدر غير متاح</span>
+                            <span className="text-red-400 dark:text-red-700">  
+                               عذراً، مشكلة في الأتصال حاول مرة أخرى
+                             </span>
                         ) : isLoading ? (
                             <span className="text-white/60 dark:text-main/60 animate-pulse">جاري الاتصال...</span>
                         ) : (

@@ -50,7 +50,9 @@ const Footer = () => {
                                 { name: "المجتمع", href: "/community" },
                                 { name: "القرآن الكريم", href: "/quran" },
                                 { name: "مركز المساعدة", href: "/help" },
-                                { name: "دعم المنصة", href: "/support" }
+                                { name: "دعم المنصة", href: "/support" },
+                                { name: "سياسة الخصوصية", href: "/privacy" },
+                                { name: "شروط الاستخدام", href: "/terms" }
                             ].map((link) => (
                                 <Link
                                     key={link.name}

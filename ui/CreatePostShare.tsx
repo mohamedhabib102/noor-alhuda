@@ -66,7 +66,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             data.append("PostContent", contentPostShare || "");
             data.append("Share", "true"); // It's a share
             data.append("CreatedAt", new Date().toISOString());
-            data.append("ImageShare", imagePostShare ? imagePostShare : "null");
+            data.append("ImageShare", imageSharePostPlatform || "null");
             data.append("PersonImageShare", authorImageShare ? authorImageShare : "null");
 
             const res = await req.post("/api/Alhoda_Alnabawya/CreatePost", data, {

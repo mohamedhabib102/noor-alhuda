@@ -1,3 +1,4 @@
+;
 import { MdClose } from "react-icons/md";
 
 
@@ -9,6 +10,9 @@ export interface TafsirData {
     arabic_text: string;
     translation: string;
 }
+
+
+
 
 interface TafsirProps {
     toggle: boolean;

@@ -168,9 +168,10 @@ const HeroManagementPage = () => {
                                 </select>
                             </div>
 
-                            <div className="space-y-2 md:col-span-2">
+                            {formData.type === "video" && (
+                                <div className="space-y-2 md:col-span-2">
                                 <label className="flex items-center gap-2 text-sm font-bold text-zinc-700 dark:text-zinc-300 mr-1">
-                                    <AiOutlineLink className="text-main" /> الرابط (Link) {formData.type === 'video' ? '(مطلوب للفيديو)' : '(اختياري)'}
+                                    <AiOutlineLink className="text-main" /> الرابط (Link) {formData.type === 'video' && '(مطلوب للفيديو)'}
                                 </label>
                                 <input
                                     type="url"
@@ -182,7 +183,9 @@ const HeroManagementPage = () => {
                                     className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black focus:ring-2 focus:ring-main outline-none transition-all"
                                 />
                             </div>
+                            )}
 
+                          {formData.type === "image" && (
                             <div className="md:col-span-2 space-y-2">
                                 <label className="flex items-center gap-2 text-sm font-bold text-zinc-700 dark:text-zinc-300 mr-1">
                                     <HiOutlineDocumentText className="text-main" /> الوصف المختصر
@@ -196,6 +199,7 @@ const HeroManagementPage = () => {
                                     className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black focus:ring-2 focus:ring-main outline-none transition-all"
                                 />
                             </div>
+                          )}
 
                             <div className="md:col-span-2 flex justify-end pt-4">
                                 <button
