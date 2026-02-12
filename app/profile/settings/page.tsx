@@ -25,6 +25,8 @@ const SettingsPage: React.FC = () => {
         image: null as File | null,
     });
 
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 0);
         if (userData) {
@@ -33,6 +35,8 @@ const SettingsPage: React.FC = () => {
                 email: userData.email,
                 image: null,
             });
+            // Reset preview on user data load/reset
+            setPreviewImage(null);
         }
         return () => clearTimeout(timer);
     }, [userData]);
@@ -77,6 +81,8 @@ const SettingsPage: React.FC = () => {
         const file = e.target.files?.[0];
         if (file) {
             setFormData(prev => ({ ...prev, image: file }));
+            const objectUrl = URL.createObjectURL(file);
+            setPreviewImage(objectUrl);
         }
     };
 
@@ -185,9 +191,22 @@ const SettingsPage: React.FC = () => {
                                             className="object-cover"
                                         />
                                     </div>
+
+                                    {/* Preview Image Overlay */}
+                                    {previewImage && (
+                                        <div className="absolute -top-5 -right-5 w-16 h-16 rounded-full border-4 border-white dark:border-[#0a1a0f] shadow-2xl z-20 overflow-hidden animate-in fade-in zoom-in duration-300">
+                                            <Image
+                                                src={previewImage}
+                                                alt="New Avatar Preview"
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    )}
+
                                     <label
                                         htmlFor="imageInput"
-                                        className={`absolute bottom-1 right-1 p-3 bg-main text-white rounded-full shadow-xl transition-all border-4 border-white dark:border-[#0a1a0f] ${!canEdit ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:scale-110 active:scale-90"}`}
+                                        className={`absolute bottom-1 right-1 p-3 bg-main text-white rounded-full shadow-xl transition-all border-4 border-white dark:border-[#0a1a0f] z-30 ${!canEdit ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:scale-110 active:scale-90"}`}
                                     >
                                         <IoCloudUploadOutline size={24} />
                                         <input
