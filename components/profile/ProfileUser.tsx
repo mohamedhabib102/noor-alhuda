@@ -42,7 +42,10 @@ const ProfileUser: React.FC = () => {
   const { personID, personName, email, role, createdAt } = userData;
   const userRole = role === "Admin" ? "مشرف" : "مستخدم";
 
-  const iImage = userData?.image || userData?.imageGoogle || "/images/default.png";
+  const iImage = userData.image ? userData.image :
+      (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
+      "/images/default.png";
+
   
 
 

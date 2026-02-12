@@ -14,9 +14,11 @@ const SettingsPage: React.FC = () => {
     const { userData, login } = useAuth();
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     const router = useRouter();
-    const [showProfile, setShowProfile] = useState<boolean>(false)
+    // const [showProfile, setShowProfile] = useState<boolean>(false);
+    const [canEdit, setCanEdit] = useState<boolean>(true);
+    const [daysRemaining, setDaysRemaining] = useState<number>(0);
     const [formData, setFormData] = useState({
         personName: "",
         email: "",
@@ -41,11 +43,40 @@ const SettingsPage: React.FC = () => {
         }
     }, [userData, router, mounted]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => setMounted(true), 0);
+        if (userData) {
+            setFormData({
+                personName: userData.personName,
+                email: userData.email,
+                image: null,
+            });
+
+            // Check for last update restriction
+            const lastUpdate = localStorage.getItem(`lastUpdate_${userData.personID}`);
+            if (lastUpdate) {
+                const lastUpdateTime = parseInt(lastUpdate);
+                const now = Date.now();
+                const fifteenDaysInMs = 30 * 24 * 60 * 60 * 1000;
+                const diff = now - lastUpdateTime;
+
+                if (diff >= fifteenDaysInMs) {
+                    localStorage.removeItem(`lastUpdate_${userData.personID}`);
+                    setCanEdit(true);
+                } else {
+                    setCanEdit(false);
+                    const remainingMs = fifteenDaysInMs - diff;
+                    setDaysRemaining(Math.ceil(remainingMs / (1000 * 60 * 60 * 24)));
+                }
+            }
+        }
+        return () => clearTimeout(timer);
+    }, [userData]);
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setFormData(prev => ({ ...prev, image: file }));
-            setPreviewImage(URL.createObjectURL(file));
         }
     };
 
@@ -79,8 +110,11 @@ const SettingsPage: React.FC = () => {
                 role: userData?.role as string,
                 createdAt: userData?.createdAt as string,
                 image: res.data.image === null ? "/images/default.png" : res.data.image,
-                imageGoogle: previewImage || userData!.imageGoogle,
+                imageGoogle: userData!.imageGoogle,
             });
+
+            // Store last update time
+            localStorage.setItem(`lastUpdate_${userData!.personID}`, Date.now().toString());
             alert("تم تحديث البيانات بنجاح");
             router.push("/profile");
         } catch (error) {
@@ -93,7 +127,11 @@ const SettingsPage: React.FC = () => {
 
     if (!mounted || !userData) return null;
 
-    const currentImage = previewImage || userData.image || userData.imageGoogle || "/images/default.png";
+    const currentImage =
+        userData.image ? userData.image :
+            (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
+                "/images/default.png";
+
 
     return (
         <section className="py-12 bg-main/5 dark:bg-black min-h-screen">
@@ -124,6 +162,16 @@ const SettingsPage: React.FC = () => {
                                 </p>
                             </div>
                         )}
+
+                        {!canEdit && (
+                            <div className="bg-red-500/5 dark:bg-red-500/10 border-b border-red-500/10 dark:border-red-500/20 p-8 flex gap-5 text-red-600 dark:text-red-400 text-sm leading-relaxed" dir="rtl">
+                                <IoInformationCircleOutline className="shrink-0 text-3xl" />
+                                <p className="font-medium">
+                                    <span className="font-black block text-lg mb-1">تحديث البيانات غير متاح حالياً</span>
+                                    لقد قمت بتحديث بياناتك مؤخراً. يرجى الانتظار <span className="font-black mx-1">{daysRemaining}</span> يوم لتتمكن من التعديل مرة أخرى.
+                                </p>
+                            </div>
+                        )}
                         <form onSubmit={updateProfile} className="p-8 md:p-14 space-y-10" dir="rtl">
 
                             {/* Avatar Section */}
@@ -139,7 +187,7 @@ const SettingsPage: React.FC = () => {
                                     </div>
                                     <label
                                         htmlFor="imageInput"
-                                        className="absolute bottom-1 right-1 p-3 bg-main text-white rounded-full cursor-pointer shadow-xl hover:scale-110 active:scale-90 transition-all border-4 border-white dark:border-[#0a1a0f]"
+                                        className={`absolute bottom-1 right-1 p-3 bg-main text-white rounded-full shadow-xl transition-all border-4 border-white dark:border-[#0a1a0f] ${!canEdit ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:scale-110 active:scale-90"}`}
                                     >
                                         <IoCloudUploadOutline size={24} />
                                         <input
@@ -148,6 +196,7 @@ const SettingsPage: React.FC = () => {
                                             accept="image/*"
                                             onChange={handleImageChange}
                                             className="hidden"
+                                            disabled={!canEdit}
                                         />
                                     </label>
                                 </div>
@@ -166,9 +215,10 @@ const SettingsPage: React.FC = () => {
                                         type="text"
                                         value={formData.personName}
                                         onChange={(e) => setFormData({ ...formData, personName: e.target.value })}
-                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold"
+                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                                         placeholder="ادخل اسمك الجديد"
                                         required
+                                        disabled={!canEdit}
                                     />
                                 </div>
 
@@ -182,13 +232,14 @@ const SettingsPage: React.FC = () => {
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold"
+                                        className="w-full px-6 py-4.5 rounded-2xl bg-main/5 dark:bg-black border border-main-bg/10 dark:border-main/20 focus:border-main focus:ring-4 focus:ring-main/5 outline-none transition-all dark:text-white font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                                         placeholder="example@mail.com"
                                         required
+                                        disabled={!canEdit}
                                     />
                                 </div>
 
-                                 {/* Show Profile
+                                {/* Show Profile
                                 <div className="space-y-3">
                                     <label className="text-sm font-black text-main-bg dark:text-gray-300 flex items-center gap-2">
                                         <FaEye className="text-main" size={20} />
@@ -209,7 +260,7 @@ const SettingsPage: React.FC = () => {
                             <div className="pt-6">
                                 <button
                                     type="submit"
-                                    disabled={loading}
+                                    disabled={loading || !canEdit}
                                     className="w-full py-5 bg-main hover:bg-emerald-900 text-white rounded-2xl font-black text-lg shadow-xl shadow-main/10 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group active:scale-95 border-b-4 border-emerald-950/20"
                                 >
                                     {loading ? (
