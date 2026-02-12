@@ -24,31 +24,31 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
 
     const ref = useRef<HTMLDivElement>(null);
 
-    
+
 
 
     const isValidImage =
-  image &&
-  image !== "null" &&
-  image !== "nulll" &&
-  image !== "undefined" &&
-  image.trim() !== "";
+        image &&
+        image !== "null" &&
+        image !== "nulll" &&
+        image !== "undefined" &&
+        image.trim() !== "";
 
 
-  const handlerMouse = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as Node)){ 
-        setToggleImage(false);
-    }
-  };
+    const handlerMouse = (event: MouseEvent) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setToggleImage(false);
+        }
+    };
 
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handlerMouse);
-    
-    return () => {  
-        document.removeEventListener("mousedown", handlerMouse);
-    }
-  }, [ref])
+    useEffect(() => {
+        document.addEventListener("mousedown", handlerMouse);
+
+        return () => {
+            document.removeEventListener("mousedown", handlerMouse);
+        }
+    }, [ref])
 
 
     return (
@@ -56,34 +56,34 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
             <div className={`${toggleImage ? "opacity-100 visible" : "opacity-0 invisible"} fixed inset-0 z-40 bg-black/50 backdrop-blur-sm`} />
 
             <div
-               ref={ref}
+                ref={ref}
                 className={
-                    `${toggleImage ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-4 md:p-6 transition-all duration-300 overflow-hidden`
+                    `${toggleImage ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-3xl mx-auto bg-white dark:bg-[#0a1a0f] border border-main/10 dark:border-main/20 rounded-2xl shadow-2xl p-4 md:p-6 transition-all duration-300 overflow-hidden`
                 }
                 role="dialog"
                 aria-modal="true"
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                        <div className="w-12 h-12 rounded-full bg-main/5 dark:bg-main/10 flex items-center justify-center overflow-hidden border border-main/10">
                             {isValidImage ? (
-                                <Image src={image ||""} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
+                                <Image src={image || ""} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
                             ) : (
-                                <span className="text-sm font-semibold text-main-bg">{(nameUser || 'ن').charAt(0)}</span>
+                                <span className="text-sm font-semibold text-main">{(nameUser || 'ن').charAt(0)}</span>
                             )}
                         </div>
                         <div>
-                            <h3 className="text-sm md:text-base font-bold text-gray-900 dark:text-gray-100">{nameUser || 'مستخدم'}</h3>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">عرض الصورة الشخصية</p>
+                            <h3 className="text-sm md:text-base font-bold text-main-bg dark:text-gray-200">{nameUser || 'مستخدم'}</h3>
+                            <p className="text-xs text-main-bg/60 dark:text-gray-400 font-medium">عرض الصورة الشخصية</p>
                         </div>
                     </div>
 
-                    <button onClick={() => setToggleImage(false)} className="p-1 rounded-md text-gray-500 hover:text-red-500 transition">
+                    <button onClick={() => setToggleImage(false)} className="p-1 rounded-md text-main-bg/50 hover:text-red-500 transition hover:bg-red-50 dark:text-gray-400 dark:hover:bg-white/5">
                         <MdClose size={26} />
                     </button>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+                <div className="bg-main/5 dark:bg-black/20 rounded-lg overflow-hidden border border-main/10 dark:border-main/20">
                     <div className="relative w-full h-[60vh] md:h-[52vh] lg:h-[48vh]">
                         {isValidImage ? (
                             <Image src={image} alt={nameUser || 'profile image'} fill className="object-contain blur-[3px]" />
@@ -95,4 +95,4 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
             </div>
         </>
     );
-};export default ShowImageProfile;
+}; export default ShowImageProfile;

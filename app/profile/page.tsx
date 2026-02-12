@@ -4,7 +4,7 @@ import ProfileUser from "@/components/profile/ProfileUser";
 
 const ProfilePage: React.FC = () => {
   return (
-    <ProfileUser/>
+    <ProfileUser />
   );
 };
 export default ProfilePage;

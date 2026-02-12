@@ -42,7 +42,21 @@ const ProfileUser: React.FC = () => {
   const { personID, personName, email, role, createdAt } = userData;
   const userRole = role === "Admin" ? "مشرف" : "مستخدم";
 
-  const iImage = userData?.image || userData?.imageGoogle || "/images/default.png";
+  const iImage = userData.image ? userData.image :
+      (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
+      "/images/default.png";
+
+  
+
+
+
+
+    const filterName = (personName:string) => {
+    const name = personName;
+
+    const currentName =  name.replace(/(true|false)$/, "");
+    return currentName
+  }
 
   return (
     <>
@@ -105,7 +119,7 @@ const ProfileUser: React.FC = () => {
               </div>
 
               <h2 className="text-3xl font-black text-main-bg dark:text-white mb-1">
-                {personName || "اسم غير متوفر"}
+                {filterName(personName) || "اسم غير متوفر"}
               </h2>
               <div className="px-6 py-1.5 rounded-full bg-main/10 text-main text-[10px] font-black uppercase tracking-widest border border-main/5">
                 {userRole}

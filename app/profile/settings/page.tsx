@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
 import CustomContainer from "@/ui/CustomContainer";
@@ -9,20 +8,31 @@ import { IoArrowForward, IoCloudUploadOutline, IoPersonOutline, IoMailOutline, I
 import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaEye } from "react-icons/fa6";
 
 const SettingsPage: React.FC = () => {
     const { userData, login } = useAuth();
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     const router = useRouter();
+    // const [showProfile, setShowProfile] = useState<boolean>(false);
+    const [canEdit, setCanEdit] = useState<boolean>(true);
+    const [daysRemaining, setDaysRemaining] = useState<number>(0);
     const [formData, setFormData] = useState({
         personName: "",
         email: "",
         image: null as File | null,
     });
-    const [canEdit, setCanEdit] = useState(true);
-    const [daysRemaining, setDaysRemaining] = useState(0);
+
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+
+    useEffect(() => {
+        if (mounted && !userData?.personID) {
+            router.push("/");
+        }
+    }, [userData, router, mounted]);
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 0);
@@ -32,6 +42,8 @@ const SettingsPage: React.FC = () => {
                 email: userData.email,
                 image: null,
             });
+            // Reset preview on user data load/reset
+            setPreviewImage(null);
 
             // Check for last update restriction
             const lastUpdate = localStorage.getItem(`lastUpdate_${userData.personID}`);
@@ -54,51 +66,50 @@ const SettingsPage: React.FC = () => {
         return () => clearTimeout(timer);
     }, [userData]);
 
-    useEffect(() => {
-        if (mounted && !userData?.personID) {
-            router.push("/");
-        }
-    }, [userData, router, mounted]);
-
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setFormData(prev => ({ ...prev, image: file }));
-            setPreviewImage(URL.createObjectURL(file));
+            const objectUrl = URL.createObjectURL(file);
+            setPreviewImage(objectUrl);
         }
     };
 
+
+
     const updateProfile = async (e: React.FormEvent) => {
         e.preventDefault();
+
         try {
             setLoading(true);
             const data = new FormData();
             data.append("PersonID", userData?.personID.toString() || "");
             data.append("PersonName", formData.personName);
             data.append("Email", formData.email);
-            data.append("Image", "string");
+            data.append("Image", "nulll");
 
             if (formData.image) {
                 data.append("image", formData.image);
             }
 
-            await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data, {
+            const res = await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
 
             login({
-                ...userData!,
-                personName: formData.personName,
-                email: formData.email,
-                image: previewImage || userData!.image,
-                imageGoogle: previewImage || userData!.imageGoogle,
+                personID: userData?.personID as number,
+                personName: (res.data.personName) as string,
+                email: res.data.email,
+                role: userData?.role as string,
+                createdAt: userData?.createdAt as string,
+                image: res.data.image === null ? "/images/default.png" : res.data.image,
+                imageGoogle: userData!.imageGoogle,
             });
 
             // Store last update time
             localStorage.setItem(`lastUpdate_${userData!.personID}`, Date.now().toString());
-
             alert("تم تحديث البيانات بنجاح");
             router.push("/profile");
         } catch (error) {
@@ -111,7 +122,11 @@ const SettingsPage: React.FC = () => {
 
     if (!mounted || !userData) return null;
 
-    const currentImage = previewImage || userData.image || userData.imageGoogle || "/images/default.png";
+    const currentImage =
+        userData.image ? userData.image :
+            (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
+                "/images/default.png";
+
 
     return (
         <section className="py-12 bg-main/5 dark:bg-black min-h-screen">
@@ -142,6 +157,16 @@ const SettingsPage: React.FC = () => {
                                 </p>
                             </div>
                         )}
+
+                        {!canEdit && (
+                            <div className="bg-red-500/5 dark:bg-red-500/10 border-b border-red-500/10 dark:border-red-500/20 p-8 flex gap-5 text-red-600 dark:text-red-400 text-sm leading-relaxed" dir="rtl">
+                                <IoInformationCircleOutline className="shrink-0 text-3xl" />
+                                <p className="font-medium">
+                                    <span className="font-black block text-lg mb-1">تحديث البيانات غير متاح حالياً</span>
+                                    لقد قمت بتحديث بياناتك مؤخراً. يرجى الانتظار <span className="font-black mx-1">{daysRemaining}</span> يوم لتتمكن من التعديل مرة أخرى.
+                                </p>
+                            </div>
+                        )}
                         <form onSubmit={updateProfile} className="p-8 md:p-14 space-y-10" dir="rtl">
 
                             {/* Avatar Section */}
@@ -155,9 +180,22 @@ const SettingsPage: React.FC = () => {
                                             className="object-cover"
                                         />
                                     </div>
+
+                                    {/* Preview Image Overlay */}
+                                    {previewImage && (
+                                        <div className="absolute -top-5 -right-5 w-16 h-16 rounded-full border-4 border-white dark:border-[#0a1a0f] shadow-2xl z-20 overflow-hidden animate-in fade-in zoom-in duration-300">
+                                            <Image
+                                                src={previewImage}
+                                                alt="New Avatar Preview"
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    )}
+
                                     <label
                                         htmlFor="imageInput"
-                                        className={`absolute bottom-1 right-1 p-3 bg-main text-white rounded-full cursor-pointer shadow-xl hover:scale-110 active:scale-90 transition-all border-4 border-white dark:border-[#0a1a0f] ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                        className={`absolute bottom-1 right-1 p-3 bg-main text-white rounded-full shadow-xl transition-all border-4 border-white dark:border-[#0a1a0f] z-30 ${!canEdit ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:scale-110 active:scale-90"}`}
                                     >
                                         <IoCloudUploadOutline size={24} />
                                         <input
@@ -208,6 +246,22 @@ const SettingsPage: React.FC = () => {
                                         disabled={!canEdit}
                                     />
                                 </div>
+
+                                {/* Show Profile
+                                <div className="space-y-3">
+                                    <label className="text-sm font-black text-main-bg dark:text-gray-300 flex items-center gap-2">
+                                        <FaEye className="text-main" size={20} />
+                                        <span> امكانية وصول الآخرين لحسابك </span>
+                                    </label>
+                                    <button
+                                    type="button"
+                                    className="py-1 px-3 bg-main dark:bg-main/20 rounded-lg text-lg text-white
+                                    cursor-pointer"
+                                    onClick={() => setShowProfile(!showProfile)}
+                                    >
+                                        {showProfile ? "مفعل" : "تفعيل"}
+                                    </button>
+                                </div> */}
                             </div>
 
                             {/* Submit Button */}

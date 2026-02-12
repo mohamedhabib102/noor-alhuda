@@ -143,12 +143,14 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
         );
     }
 
+
+
     return (
         <>
             <ShowImageProfile
                 toggleImage={showImage}
                 setToggleImage={setShowImage}
-                image={post?.personImageShare || post.image_Person}
+                image={post.image_Person}
                 nameUser={post?.personName}
             />
             <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
@@ -182,9 +184,9 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
                                 {/* Post Header */}
                                 <div className="flex items-start justify-between mb-6">
                                     <div className="flex items-center gap-4">
-                                        {post?.image_Person || post?.personImageShare && (
+                                        {post?.image_Person && (
                                             <Image
-                                                src={post.image_Person || post.personImageShare}
+                                                src={post.image_Person || "/images/default.png"}
                                                 title={post.personName}
                                                 alt={post.personName}
                                                 width={52}
@@ -197,7 +199,7 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
                                             <h3
                                                 onClick={() => setShowImage(!showImage)}
                                                 className="cursor-pointer font-black text-base md:text-lg text-main-bg hover:text-main transition-colors">
-                                                {currentName(post.share, post.personName, post.shareName)}
+                                                {post.personName}
                                             </h3>
                                             <span className="text-xs md:text-sm text-main font-bold opacity-80">
                                                 {post.postTitle}

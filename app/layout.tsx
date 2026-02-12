@@ -98,8 +98,8 @@ export const metadata: Metadata = {
 
   icons: {
     icon: "/logo.svg",
-    shortcut: "/logo.svg",
-    apple: "/logo.svg",
+    shortcut: "/images/logo-share.png",
+    apple: "/images/default.png",
   },
 };
 
