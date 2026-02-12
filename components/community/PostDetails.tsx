@@ -132,6 +132,8 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
         );
     }
 
+
+
     return (
         <>
             <ShowImageProfile
@@ -186,7 +188,7 @@ const PostDetails: React.FC<{ post?: PostPage }> = ({ post: initialPost }) => {
                                             <h3
                                                 onClick={() => setShowImage(!showImage)}
                                                 className="cursor-pointer font-black text-base md:text-lg text-main-bg hover:text-main transition-colors">
-                                                {currentName(post.share, post.shareName, post.personName)}
+                                                {post.personName}
                                             </h3>
                                             <span className="text-xs md:text-sm text-main font-bold opacity-80">
                                                 {post.postTitle}

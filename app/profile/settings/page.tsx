@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
 import CustomContainer from "@/ui/CustomContainer";
@@ -9,6 +8,7 @@ import { IoArrowForward, IoCloudUploadOutline, IoPersonOutline, IoMailOutline, I
 import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaEye } from "react-icons/fa6";
 
 const SettingsPage: React.FC = () => {
     const { userData, login } = useAuth();
@@ -16,6 +16,7 @@ const SettingsPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const router = useRouter();
+    const [showProfile, setShowProfile] = useState<boolean>(false)
     const [formData, setFormData] = useState({
         personName: "",
         email: "",
@@ -48,34 +49,38 @@ const SettingsPage: React.FC = () => {
         }
     };
 
+
+
     const updateProfile = async (e: React.FormEvent) => {
         e.preventDefault();
+
         try {
             setLoading(true);
             const data = new FormData();
             data.append("PersonID", userData?.personID.toString() || "");
             data.append("PersonName", formData.personName);
             data.append("Email", formData.email);
-            data.append("Image", "string");
+            data.append("Image", "nulll");
 
             if (formData.image) {
                 data.append("image", formData.image);
             }
 
-            await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data, {
+            const res = await req.put("/api/Alhoda_Alnabawya/UpdatePerson", data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
 
             login({
-                ...userData!,
-                personName: formData.personName,
-                email: formData.email,
-                image: previewImage || userData!.image,
+                personID: userData?.personID as number,
+                personName: (res.data.personName) as string,
+                email: res.data.email,
+                role: userData?.role as string,
+                createdAt: userData?.createdAt as string,
+                image: res.data.image === null ? "/images/default.png" : res.data.image,
                 imageGoogle: previewImage || userData!.imageGoogle,
             });
-
             alert("تم تحديث البيانات بنجاح");
             router.push("/profile");
         } catch (error) {
@@ -182,6 +187,22 @@ const SettingsPage: React.FC = () => {
                                         required
                                     />
                                 </div>
+
+                                 {/* Show Profile
+                                <div className="space-y-3">
+                                    <label className="text-sm font-black text-main-bg dark:text-gray-300 flex items-center gap-2">
+                                        <FaEye className="text-main" size={20} />
+                                        <span> امكانية وصول الآخرين لحسابك </span>
+                                    </label>
+                                    <button
+                                    type="button"
+                                    className="py-1 px-3 bg-main dark:bg-main/20 rounded-lg text-lg text-white
+                                    cursor-pointer"
+                                    onClick={() => setShowProfile(!showProfile)}
+                                    >
+                                        {showProfile ? "مفعل" : "تفعيل"}
+                                    </button>
+                                </div> */}
                             </div>
 
                             {/* Submit Button */}

@@ -97,7 +97,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/images/default.png",
+    icon: "/logo.svg",
     shortcut: "/images/logo-share.png",
     apple: "/images/default.png",
   },

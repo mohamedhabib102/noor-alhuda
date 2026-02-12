@@ -9,30 +9,29 @@ export async function GET() {
       return NextResponse.json(heros, { status: 200 })
    } catch (error) {
       console.log(error)
-      return NextResponse.json({ message: "Error fetching data" }, { status: 400 })
+      return NextResponse.json(
+         { message: "Error fetching data" }, 
+         { status: 400 }
+      )
    }
 }
 
 
 export async function POST(req: NextRequest) {
    try {
-      const newHero: HeroDB = await req.json();
-
-
+      const newHero:HeroDB = await req.json();
       const now = new Date();
       newHero.createdAt = now.toISOString();
 
       // create new hero
       await createHero(newHero);
-
-
-
       return NextResponse.json(
          { message: "Hero created successfully", newHero }
-         , { status: 200 })
+         ,{ status: 200 })
    } catch (error) {
       console.log(error)
-      return NextResponse.json({ message: "Error creating data" }, { status: 400 })
+      return NextResponse.json({ message: "Error creating data" }, 
+      { status: 400 })
    }
 }
 
