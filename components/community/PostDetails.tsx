@@ -150,7 +150,9 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
             <ShowImageProfile
                 toggleImage={showImage}
                 setToggleImage={setShowImage}
-                image={post.image_Person}
+                image={
+                    post.share ? post.personImageShare : post.image_Person
+                }
                 nameUser={post?.personName}
             />
             <section className="py-16 bg-main/5 dark:bg-black min-h-screen">
