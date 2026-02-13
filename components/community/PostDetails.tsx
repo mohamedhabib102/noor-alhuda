@@ -184,7 +184,17 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
                                 {/* Post Header */}
                                 <div className="flex items-start justify-between mb-6">
                                     <div className="flex items-center gap-4">
-                                        {post?.image_Person && (
+                                        {post.share ? (
+                                            <Image
+                                                src={post.personImageShare || "/images/default.png"}
+                                                title={post.personName}
+                                                alt={post.personName}
+                                                width={52}
+                                                height={52}
+                                                onClick={() => setShowImage(!showImage)}
+                                                className="cursor-pointer w-12 h-12 md:w-14 md:h-14 rounded-full object-contain border-2 border-main/10 shadow-sm"
+                                            />
+                                        ) : (
                                             <Image
                                                 src={post.image_Person || "/images/default.png"}
                                                 title={post.personName}
@@ -195,6 +205,7 @@ const PostDetails: React.FC<{ post?: Post }> = ({ post: initialPost }) => {
                                                 className="cursor-pointer w-12 h-12 md:w-14 md:h-14 rounded-full object-contain border-2 border-main/10 shadow-sm"
                                             />
                                         )}
+
                                         <div>
                                             <h3
                                                 onClick={() => setShowImage(!showImage)}

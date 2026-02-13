@@ -279,13 +279,6 @@ const SettingsPage: React.FC = () => {
                                         </>
                                     )}
                                 </button>
-
-                                {!canEdit && (
-                                    <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl text-red-600 dark:text-red-400 text-sm font-bold text-center" dir="rtl">
-                                        عذراً، يجب عليك الانتظار {daysRemaining} يوم قبل إجراء تعديل جديد على بياناتك.
-                                    </div>
-                                )}
-
                                 <Link
                                     href="/profile"
                                     className="block w-full text-center mt-6 py-2 text-gray-400 font-black text-sm hover:text-main-bg transition-colors"

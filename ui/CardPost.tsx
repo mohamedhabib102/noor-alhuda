@@ -126,19 +126,6 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
     }
 
 
-    const isValidImage = (src?: string) =>
-        typeof src === "string" &&
-        src.trim() !== "" &&
-        src !== "null" &&
-        src !== "nulll" &&
-        src !== "string" &&
-        src !== "undefined" &&
-        (src.startsWith("/") || src.startsWith("http"));
-
-
-
-
-
 
     return (
         <>
@@ -204,16 +191,26 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-3">
 
-                                        <Image
-                                            src={post?.image_Person || "/images/default.png"}
-                                            title={post?.personName || "title logo"}
-                                            alt={post?.postContent || "post content"}
-                                            width={44}
-                                            height={44}
-                                            className="w-10 h-10 md:w-11 md:h-11 rounded-full object-contain border-2 border-main/10"
-                                        />
-
-
+                                         {post.share ? (
+                                           <Image
+                                               src={post.personImageShare || "/images/default.png"}
+                                               title={post.personName}
+                                               alt={post.personName}
+                                               width={52}
+                                               height={52}
+                                               className="cursor-pointer w-12 h-12 md:w-14 md:h-14 rounded-full object-contain border-2 border-main/10 shadow-sm"
+                                           />
+                                       ) : (
+                                           <Image
+                                               src={post.image_Person || "/images/default.png"}
+                                               title={post.personName}
+                                               alt={post.personName}
+                                               width={52}
+                                               height={52}
+                                               className="cursor-pointer w-12 h-12 md:w-14 md:h-14 rounded-full object-contain border-2 border-main/10 shadow-sm"
+                                           />
+                                       )}
+                                       
                                         <div>
                                             <h3 className="font-bold text-sm md:text-base text-main-bg">{post?.personName || ""}</h3>
                                             <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{post?.postTitle}</span>
