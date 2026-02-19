@@ -78,9 +78,9 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
       <CustomContainer>
         {state !== "page" && (
           <CustomTitle
-            title="الأسئلة"
-            description="شارك بسؤالك الديني واكتشف إجابات الأسئلة "
-            success={false}
+            title="زاد المعرفة"
+            success={true}
+            description="مساحة مخصصة لنشر الفائدة؛ هنا يشارك ذوو العلم السؤال وإجابته معاً من واقع خبراتهم المستمدة من الكتاب والسنة، ليكون القسم مرجعاً ثرياً بالمعلومات الجاهزة للنفع العام وليس مكاناً لطرح الأسئلة وانتظار الإجابة."            
           />
         )}
         {state !== "page" && (

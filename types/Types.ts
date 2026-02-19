@@ -106,3 +106,19 @@ export interface Radio {
     img: string;
 }
 
+
+export interface Surah {
+    englishName: string;
+    englishNameTranslation: string;
+    name: string;
+    number: number;
+    numberOfAyahs: number;
+    revelationType: string;
+}
+
+
+export interface Progress {
+    number: number;
+}
+
+

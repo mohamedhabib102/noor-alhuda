@@ -50,7 +50,7 @@ const SettingsPage: React.FC = () => {
             if (lastUpdate) {
                 const lastUpdateTime = parseInt(lastUpdate);
                 const now = Date.now();
-                const fifteenDaysInMs = 30 * 24 * 60 * 60 * 1000;
+                const fifteenDaysInMs = 2 * 24 * 60 * 60 * 1000;
                 const diff = now - lastUpdateTime;
 
                 if (diff >= fifteenDaysInMs) {

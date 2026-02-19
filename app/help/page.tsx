@@ -198,6 +198,27 @@ const HelpPage = () => {
                         </div>
                     </section>
 
+                    {/* Section 5: Support/Donation Link */}
+                    <section className="bg-linear-to-l from-main to-main-bg p-1 rounded-3xl shadow-xl overflow-hidden hover:scale-[1.01] transition-transform duration-300">
+                        <Link href="/support" className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white dark:bg-main p-8 rounded-[calc(1.5rem-2px)] h-full">
+                            <div className="flex flex-col md:flex-row items-center gap-6">
+                                <div className="p-5 bg-main/10 dark:bg-main-bg/10 rounded-2xl text-main dark:text-main-bg">
+                                    <FaHandHoldingHeart size={45} className="animate-pulse" />
+                                </div>
+                                <div className="text-center md:text-right">
+                                    <h2 className="text-2xl font-black text-main dark:text-gray-100 mb-2">هل تود دعم مسيرة نور الهدى؟</h2>
+                                    <p className="text-foreground/70 dark:text-gray-300 max-w-xl">
+                                        مساهمتك تساعدنا في تغطية تكاليف التطوير والاستمرار في نشر العلم النافع وتوعية الأمة الإسلامية. كن شريكاً في الأجر والثواب.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="px-8 py-3 bg-main text-white dark:bg-main-bg dark:text-main font-bold rounded-full shadow-lg hover:shadow-main/20 transition-all flex items-center gap-2">
+                                <span>دعم المنصة (صدقة جارية)</span>
+                                <FaHandHoldingHeart />
+                            </div>
+                        </Link>
+                    </section>
+
                     {/* Footer Quote */}
                     <div className="text-center py-8 opacity-80">
                         <div className="inline-flex items-center gap-2 text-xl font-medium text-foreground dark:text-gray-300 bg-white dark:bg-main/5 px-6 py-3 rounded-full shadow-sm border border-gray-100 dark:border-main/10">
