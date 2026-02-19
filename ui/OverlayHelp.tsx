@@ -64,6 +64,12 @@ const NavbarText: Navbar[] = [
         title: " أوقات الصلاة ",
         link: "/prayer-times",
         icon: IoHeartCircleSharp
+    },
+    {
+        id: 7,
+        title: " رحلة القرآن ",
+        link: "/quran-journey",
+        icon: FaQuran
     }
 ]
 

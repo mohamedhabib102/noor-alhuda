@@ -9,11 +9,11 @@ const QuestionsPage: React.FC = () => {
         <section className="py-16">
             <CustomContainer>
                 <CustomTitle
-                    title="الأسئلة الشائعة"
+                    title="زاد المعرفة"
                     success={true}
-                    description="إذا لم تجد إجابة على سؤالك في هذه الصفحة، يمكنك الاتصال بنا مباشرة"
+                    description="مساحة مخصصة لنشر الفائدة؛ هنا يشارك ذوو العلم السؤال وإجابته معاً من واقع خبراتهم المستمدة من الكتاب والسنة، ليكون القسم مرجعاً ثرياً بالمعلومات الجاهزة للنفع العام وليس مكاناً لطرح الأسئلة وانتظار الإجابة."
                 />
-                <Quations state="page"/>
+                <Quations state="page" />
             </CustomContainer>
         </section>
     )
