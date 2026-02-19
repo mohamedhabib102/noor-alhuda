@@ -178,6 +178,13 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                             {/* Share Content - Inside the Frame */}
                             {post.share && (
                                 <div className="flex items-center gap-1.5 mb-3 px-4 py-2 bg-main-bg/10 dark:bg-main-bg/5 rounded-2xl mx-2">
+                                    <Image
+                                         src={post?.image_Person || "/images/default.png"}
+                                         alt={post.shareName}
+                                         width={28}
+                                         height={28}
+                                         className="w-8 h-8 object-contain rounded-full"
+                                     />
                                     <BiRepost size={20} className="text-main-bg" />
                                     <div className="font-medium text-xs md:text-sm flex items-center gap-1">
                                         <span className="font-bold text-gray-600 dark:text-gray-400">تم المشاركة من :</span>

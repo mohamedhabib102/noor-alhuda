@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { FaImage, FaSmile } from 'react-icons/fa';
 import { MdClose } from "react-icons/md";
@@ -15,10 +15,6 @@ interface CreatePostProps {
     refresh?: () => void;
 }
 
-interface Emoji {
-    text: string;
-    emoji: string;
-}
 
 const availableEmojis = ["👍", "❤️", "😂", "😮", "😢", "😡"];
 
@@ -36,6 +32,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
     const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter()
     const [open, setOpen] = useState<boolean>(false)
+    const ref = useRef<HTMLDivElement>(null);
 
     const handleEmojis = (em: string) => {
         if (!em) return;
@@ -139,10 +136,28 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
         }
     };
 
+
+       const handlerMouse = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                setToggle(false);
+            }
+        };
+    
+    
+        useEffect(() => {
+            document.addEventListener("mousedown", handlerMouse);
+    
+            return () => {
+                document.removeEventListener("mousedown", handlerMouse);
+            }
+        }, [ref])
+
     return (
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/50 backdrop-blur-sm`}></div>
-            <div className={
+            <div 
+            ref={ref}
+            className={
                 `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"}  fixed z-50 top-1/2 left-1/2 -translate-1/2 w-[90%] h-[550px] overflow-auto max-w-2xl mx-auto bg-white dark:bg-[#0a1a0f] rounded-2xl shadow-2xl p-6 md:p-8 transition no-scrollbar border border-main/20`
             }>
                 <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-main dark:text-gray-200 absolute top-2 right-2">

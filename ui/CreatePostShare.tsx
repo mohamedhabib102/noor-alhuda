@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { MdClose } from "react-icons/md";
 import { BiRepost } from "react-icons/bi";
@@ -40,6 +40,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+    const ref =useRef<HTMLDivElement>(null);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -91,34 +92,38 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
     };
 
 
-    const isValidNextImageSrc = (src?: string) => {
-        if (!src || typeof src !== "string") return false;
 
-        const value = src.trim();
 
-        if (
-            value === "" ||
-            value === "null" ||
-            value === "nulll" ||
-            value === "undefined"
-        ) {
-            return false;
+
+
+
+
+        const handlerMouse = (event: MouseEvent) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setToggle(false);
         }
-
-        return (
-            value.startsWith("/") ||
-            value.startsWith("http://") ||
-            value.startsWith("https://")
-        );
     };
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handlerMouse);
+
+        return () => {
+            document.removeEventListener("mousedown", handlerMouse);
+        }
+    }, [ref])
 
 
     return (
         <>
             <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-50 bg-black/60 backdrop-blur-sm transition-all duration-300`}></div>
-            <div className={
+            <div 
+            ref={ref}
+            className={
                 `${toggle ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-0"} fixed z-60 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-xl bg-white dark:bg-[#0a1a0f] rounded-2xl shadow-2xl p-6 transition-all duration-300 overflow-y-auto max-h-[90vh] no-scrollbar border border-main/20`
-            } dir="rtl">
+            } dir="rtl"
+            
+            >
                 <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-main dark:text-gray-200 absolute top-4 left-4">
                     <MdClose size={28} />
                 </button>
@@ -131,7 +136,16 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                     </div>
                 )}
 
-                <div className="space-y-6">
+
+                
+
+                {sharePaltform ? (
+                    <div className="bg-red-50 dark:bg-main/10 text-main-bg dark:text-main-bg p-3 rounded-lg mb-4 text-lg border border-main-bg">
+                         لا يمكن مشاركة منشور تمت المشاركة عليه!
+                    </div>
+                ) : (
+                 <>
+                    <div className="space-y-6">
                     {/* Post Preview (Unified Share Style) */}
                     <div className="bg-main/5 dark:bg-main/10 p-4 rounded-xl border border-main/10">
                         {/* Header: Shared By */}
@@ -148,14 +162,6 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-10 h-10 rounded-full bg-main/10 dark:bg-main/20 flex items-center justify-center text-main font-bold text-lg overflow-hidden border border-main/10">
                                     {imageSharePersonPlatform ? (
-                                        imageSharePersonPlatform.startsWith("blob:") ? (
-                                            <img
-                                                src={imageSharePersonPlatform}
-                                                title={nameShare}
-                                                alt="author image"
-                                                className="w-10 h-10 rounded-full object-cover"
-                                            />
-                                        ) : isValidNextImageSrc(imageSharePersonPlatform) ? (
                                             <Image
                                                 src={imageSharePersonPlatform}
                                                 title={nameShare}
@@ -167,23 +173,13 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                                         ) : (
                                             <Image
                                                 src="/images/default.png"
-                                                title={nameShare}
+                                                title={"nooralhuda"}
                                                 alt="author image"
                                                 width={40}
                                                 height={40}
                                                 className="w-10 h-10 rounded-full object-cover"
                                             />
-                                        )
-                                    ) : (
-                                        <Image
-                                            src="/images/default.png"
-                                            title={nameShare}
-                                            alt="author image"
-                                            width={40}
-                                            height={40}
-                                            className="w-10 h-10 rounded-full object-cover"
-                                        />
-                                    )}
+                                        )}
 
                                 </div>
                                 <div>
@@ -197,37 +193,26 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                             <ExpandableText text={contentPostShare || ""} />
                         </div>
 
-                        {sharePaltform ? (
-                            isValidNextImageSrc(imageSharePostPlatform) ? (
+                        {
+                            imagePostShare ? (
                                 <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
                                     <Image
-                                        src={imageSharePostPlatform}
+                                        src={imagePostShare}
                                         alt="Post Preview"
                                         fill
                                         className="object-contain"
                                     />
                                 </div>
-                            ) : imageSharePostPlatform?.startsWith("blob:") ? (
+                            ) : (
                                 <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
                                     <img
-                                        src={imageSharePostPlatform || "/images/default.png"}
+                                        src={"/images/default.png"}
                                         alt="Post Preview"
                                         className="object-contain w-full h-full"
                                     />
                                 </div>
-                            ) : null
-                        ) : (
-                            isValidNextImageSrc(imagePostShare) && (
-                                <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-main/10">
-                                    <Image
-                                        src={imagePostShare || "/images/default.png"}
-                                        alt="Post Preview"
-                                        fill
-                                        className="object-contain"
-                                    />
-                                </div>
                             )
-                        )}
+                        }
 
                     </div>
                 </div>
@@ -258,6 +243,8 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
                         </button>
                     </div>
                 </form>
+                    </>
+                )}
             </div>
         </>
     );
