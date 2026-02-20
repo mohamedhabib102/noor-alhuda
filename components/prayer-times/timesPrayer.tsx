@@ -9,6 +9,8 @@ interface PrayerTime {
     icon: JSX.Element;
 }
 
+let errrs:boolean = false;
+
 // Helper to get current time in Egypt (Africa/Cairo)
 const getEgyptTime = () => {
     return new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }));
@@ -17,11 +19,17 @@ const getEgyptTime = () => {
 const getPrayerTimes = async () => {
     const today = getEgyptTime().toLocaleDateString("en-GB").replaceAll("/", "-");
     const url = `https://api.aladhan.com/v1/timingsByCity/${today}?city=cairo&country=egypt&method=5`;
-    const response = await fetch(url, {
-        cache: "no-store"
-    });
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(url, {
+            cache: "no-store"
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching prayer times:", error);
+        errrs = true;
+        return null;
+    }
 }
 
 import PrayerList from "./PrayerList";
