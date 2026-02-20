@@ -55,7 +55,7 @@ const Header: React.FC = () => {
             <OverlayHelp
                 toggle={toggle}
                 setToggle={setToggle} />
-            <header className="bg-green-950 py-2 relative z-30" dir="ltr">
+            <header className="bg-green-950 py-2 relative z-40" dir="ltr">
                 
                 <CustomContainer>
                     <nav className="flex items-center justify-between">

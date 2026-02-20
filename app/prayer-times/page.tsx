@@ -2,6 +2,8 @@ import TimesPrayer from "@/components/prayer-times/timesPrayer";
 import CustomContainer from "@/ui/CustomContainer"
 import CustomTitle from "@/ui/CustomTitle"
 
+export const dynamic = 'force-dynamic'
+
 
 
 
