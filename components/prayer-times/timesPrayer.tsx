@@ -9,7 +9,7 @@ interface PrayerTime {
     icon: JSX.Element;
 }
 
-let errrs:boolean = false;
+let errrs: boolean = false;
 
 // Helper to get current time in Egypt (Africa/Cairo)
 const getEgyptTime = () => {
@@ -36,6 +36,15 @@ import PrayerList from "./PrayerList";
 
 const TimesPrayer = async () => {
     const apiData = await getPrayerTimes();
+
+    if (!apiData || !apiData.data) {
+        return (
+            <div className="w-full text-center py-10 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-900/20">
+                <p className="text-red-600 dark:text-red-400 font-bold">عذراً، حدث خطأ أثناء جلب مواقيت الصلاة. يرجى المحاولة لاحقاً.</p>
+            </div>
+        );
+    }
+
     const timings = apiData.data.timings;
     const hijri = apiData.data.date.hijri;
 
