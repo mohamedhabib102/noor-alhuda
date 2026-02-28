@@ -12,7 +12,7 @@ const StyleRamdan: React.FC = () => {
                 alt="ramadan decorative"
                 width={160}
                 height={160}
-                className="absolute top-6 right-10 w-32 h-32 md:w-40 md:h-40 object-contain
+                className="absolute lg:top-6 top-8 lg:right-10 -right-4 w-32 h-32 md:w-40 md:h-40 object-contain
                 transition-all duration-300 anitmation_ramdan z-10"
             />
             <Image
@@ -20,7 +20,7 @@ const StyleRamdan: React.FC = () => {
                 alt="ramadan decorative"
                 width={160}
                 height={160}
-                className="absolute top-10 left-1/2 -translate-x-1/2 w-32 h-32 md:w-40 md:h-40 object-contain
+                className="absolute lg:top-10 top-12 left-1/2 -translate-x-1/2 w-32 h-32 md:w-40 md:h-40 object-contain
                 transition-all duration-300 anitmation_ramdan"
             />
 
@@ -30,7 +30,7 @@ const StyleRamdan: React.FC = () => {
                 alt="ramadan decorative"
                 width={160}
                 height={160}
-                className="absolute top-6 left-10 w-32 h-32 md:w-40 md:h-40 object-contain
+                className="absolute lg:top-6 top-8 lg:left-10 -left-4 w-32 h-32 md:w-40 md:h-40 object-contain
                 transition-all duration-300 anitmation_ramdan"
             />
         </div>

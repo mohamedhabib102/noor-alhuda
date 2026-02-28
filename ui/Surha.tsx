@@ -40,6 +40,7 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
   const [selectedTafsir, setSelectedTafsir] = useState<TafsirData | null>(null);
   const [toggleSajda, setToggleSajda] = useState(false);
   const [sajda, setSajda] = useState<Sajda | null>(null);
+  const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 
 
 
@@ -101,10 +102,29 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
   console.log(surah.ayahs);
 
 
-  const handleSajda = (sajda:Sajda) => {
+  const handleSajda = (sajda: Sajda) => {
     setToggleSajda(!toggleSajda)
     setSajda(sajda)
   }
+
+  const handleAyahClick = (ayah: Ayah, index: number) => {
+    if (clickTimeout.current) {
+      clearTimeout(clickTimeout.current);
+      clickTimeout.current = null;
+      handlePlayPause(index);
+    } else {
+      clickTimeout.current = setTimeout(() => {
+        clickTimeout.current = null;
+        const tafsirItem = tafsir?.find(t => Number(t.aya) === ayah.numberInSurah);
+        if (tafsirItem) {
+          setSelectedTafsir(tafsirItem);
+          setToggle(true);
+        } else if (ayah.sajda && typeof ayah.sajda === "object") {
+          handleSajda(ayah.sajda as Sajda);
+        }
+      }, 250);
+    }
+  };
   
 
   return (
@@ -113,6 +133,10 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
         toggle={toggle}
         setToggle={setToggle}
         tafsir={selectedTafsir}
+        onPlay={() => {
+          const index = surah.ayahs.findIndex(a => a.numberInSurah === Number(selectedTafsir?.aya));
+          if (index !== -1) handlePlayPause(index);
+        }}
       />
       <MessageSajda
         toggle={toggleSajda}
@@ -193,36 +217,31 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
         <div className="bg-main-bg/5 dark:bg-main/5 lg:p-8 p-4 md:p-12 rounded-[2.5rem] border border-main-bg/20 shadow-sm text-center lg:leading-[6.5] leading-[4.2] dir-rtl">
           {surah.ayahs && surah.ayahs.map((ayah, index) => {
             const isActive = playingIndex === index;
-               const showPageNumber =
-               index === 0 || ayah.page !== surah.ayahs[index - 1].page;
+            const showPageNumber =
+              index === 0 || ayah.page !== surah.ayahs[index - 1].page;
 
-               
+
             return (
-             <div
+              <div
                 id={`ayah-${ayah.numberInSurah}`}
                 key={`${ayah.numberInSurah}-${index}`} className="select-none inline scroll-mt-20">
-                {/* <audio
+                <audio
                   ref={(el) => {
                     audioRefs.current[index] = el;
                   }}
                   src={ayah.audio}
                   onEnded={() => handleEnded(index)}
                   preload="none"
-                /> */}
+                />
                 {showPageNumber && (
-                    <div className="text-lg my-6 p-4 bg-main/10 lg:rounded-3xl rounded-2xl
-                    dark:bg-main/20 flex items-center justify-between gap-4">
-                      <span> {` صفحة (${ayah.page})`}</span>
-                      <span>{`الجزء ${ayah.juz}`}</span>
-                    </div>
-                  )}
+                  <div className="text-lg my-6 p-4 bg-main/10 lg:rounded-3xl rounded-2xl
+                    dark:bg-main/20 flex items-center justify-between gap-4 leading-normal">
+                    <span> {` صفحة (${ayah.page})`}</span>
+                    <span>{`الجزء ${ayah.juz}`}</span>
+                  </div>
+                )}
                 <span
-                  // onClick={() => handlePlayPause(index)}
-                  onClick={() => {
-                    if (ayah.sajda && typeof ayah.sajda === "object") {
-                      handleSajda(ayah.sajda as Sajda);
-                    }
-                  }}
+                  onClick={() => handleAyahClick(ayah, index)}
                   className={`font-quran text-4xl md:text-5xl cursor-pointer transition-all duration-300 px-1 rounded-xl
                     ${isActive
                       ? "bg-main/10 dark:bg-main/20 text-main dark:text-gray-100 scale-105"
@@ -236,12 +255,12 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
                   <span className="mx-2 text-main-bg font-bold text-2xl md:text-3xl select-none">
                     ﴿{ayah.numberInSurah}﴾
                   </span>
-                  
+
                 </span>
-                
+
               </div>
             );
-            
+
           })}
         </div>
       )}

@@ -15,7 +15,6 @@ async function getPost(id: string): Promise<Post | undefined> {
   return res.data.find((p: Post) => p.postID === Number(id));
 }
 
-// generateMetadata مع conditional للصور
 export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
@@ -23,8 +22,7 @@ export async function generateMetadata(
   const post = await getPost(id);
   if (!post) return {};
 
-  // الصورة بناءً على share
-  const imageUrl = post.share && post.imageShare ? post.imageShare : post.image_Post;
+  const imageUrl = post.image_Post || "/images/default.png";
 
   return {
     title: post.postTitle,

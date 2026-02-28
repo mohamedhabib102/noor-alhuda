@@ -6,6 +6,8 @@ import { BsArrowCounterclockwise } from "react-icons/bs";
 import { FaShare } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
+import ShareZekr from "@/ui/ShareZekr";
+
 interface AzkarProps {
   list: AdhkarItem[];
   loading: boolean
@@ -14,6 +16,7 @@ interface AzkarProps {
 const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
   const [active, setActive] = useState<string>("أذكار الصباح");
   const [azkar, setAzkar] = useState<Adhkar[]>([]);
+  const [selectedZekr, setSelectedZekr] = useState<any>(null);
 
   useEffect(() => {
     const fetchAzkar = async () => {
@@ -53,20 +56,8 @@ const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
   const filterAzkar = azkar.filter((item) => item.category === active);
 
 
-  const handleShare = async (zekrText: string) => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "أذكار المسلم",
-          text: zekrText + "\n\n📌 من موقع أذكار المسلم",
-          url: "https://nour-alhud.vercel.app/"
-        });
-      } catch (error) {
-        console.log("تم إلغاء المشاركة", error);
-      }
-    } else {
-      alert("خاصية المشاركة غير مدعومة في متصفحك");
-    }
+  const handleShare = (zekr: any, category: string) => {
+    setSelectedZekr({ ...zekr, category });
   };
 
 
@@ -127,9 +118,9 @@ const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
                     </button>
 
                     <button
-                      onClick={() => handleShare(zekr.text)}
+                      onClick={() => handleShare(zekr, categoryItem.category)}
                       className="p-4 bg-main/5 dark:bg-white/5 text-gray-400 hover:text-main dark:hover:text-main rounded-2xl transition-colors border border-transparent hover:border-main/10"
-                      title="مشاركة الذكر"
+                      title="مشاركة الذكر كصورة"
                     >
                       <FaShare size={22} />
                     </button>
@@ -156,6 +147,10 @@ const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
         </AnimatePresence>
       </div>
 
+      <ShareZekr 
+          zekr={selectedZekr} 
+          onClose={() => setSelectedZekr(null)} 
+      />
     </div>
   );
 }
