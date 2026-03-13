@@ -12,6 +12,8 @@ interface PrayerTime {
 interface PrayerListProps {
     prayerTimesList: PrayerTime[];
 }
+// 01111779966
+// 01062613126
 
 const PrayerList: React.FC<PrayerListProps> = ({ prayerTimesList }) => {
     const [nextPrayerIndex, setNextPrayerIndex] = useState<number | null>(null);

@@ -155,7 +155,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
             />
 
             <div className={` ${stateCard === "profile" && "max-w-3xl mx-auto mt-6"}`}>
-                {(stateCard === "profile" || stateCard === "page") && (
+                {( stateCard === "page") && (
                     <button className="bg-main text-white p-3 rounded-xl w-[200px] block ml-auto mb-8 cursor-pointer hover:bg-emerald-900 transition-all duration-300 font-bold shadow-md hover:shadow-lg active:scale-95"
                         onClick={() => setToggle(!toggle)}
                     > {"اضافة مقال "} </button>
@@ -228,7 +228,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                             <BiDetail size={20} />
                                         </Link>
                                         <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString("ar-EG")}</span>
-                                        {userData?.personID === post.personID && (
+                                        {stateCard === "profile" && userData?.personID === post.personID && (
                                             <span
                                                 onClick={() => {
                                                     setToggleDelete(!toggleDelete)

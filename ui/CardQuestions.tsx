@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/contextapi";
 import { Question } from "@/types/Types";
+import { MdDelete } from "react-icons/md";
+import DeleteQuestionContent from "./deleteQuestion";
 
 
 
@@ -20,6 +22,8 @@ const CardQuations: React.FC<CardQuationsProps> = ({ state }) => {
   const [showQuestions, setShowQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false)
+  const [toggleDelete, setToggleDelete] = useState(false);
+  const [questionID, setQuestionID] = useState(0)
 
   const getUserQuestions = async () => {
     if (!userData?.personID) return;
@@ -58,16 +62,22 @@ const CardQuations: React.FC<CardQuationsProps> = ({ state }) => {
     );
   }
 
-  if (error || showQuestions.length === 0) {
-    return (
-      <div className="mt-6 max-w-3xl mx-auto bg-white dark:bg-main/10 rounded-2xl p-8 text-center">
-        <h2 className="text-2xl font-bold mb-2">لا يوجد أسئلة</h2>
-      </div>
-    );
-  }
+    if (error || showQuestions.length === 0) {
+        return (
+            <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
+                <h2 className="text-2xl font-bold mb-2 text-main-bg">لا يوجد أسئلة</h2>
+            </div>
+        );
+    }
 
   return (
     <section className={`mt-6`}>
+      <DeleteQuestionContent
+        toggleDelete={toggleDelete}
+        setToggleDelete={setToggleDelete}
+        refresh={getUserQuestions}
+        questionID={questionID}
+      />
       <CustomContainer>
         <div className="mb-4">
 
@@ -101,6 +111,18 @@ const CardQuations: React.FC<CardQuationsProps> = ({ state }) => {
                       <span className="text-sm lg:block hidden"> قيد الأنتظار</span>
                     </div>
                   )}</span>
+                  {userData?.personID === ques.personID && (
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent accordion from toggling
+                        setToggleDelete(!toggleDelete)
+                        setQuestionID(ques.questionID)
+                      }}
+                      className="text-main cursor-pointer transition-all duration-200 active:scale-90"
+                    >
+                      <MdDelete size={20} />
+                    </span>
+                  )}
                 </div>
                 <p className="p-3 leading-8 text-right ml-auto text-gray-800 dark:text-gray-200">
                   {ques.responseContent.split(/(".*?")/).map((part, index) =>

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const StyleRamdan: React.FC = () => {
     return (
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-30 overflow-hidden">
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-hidden">
 
             <Image
                 src="/images/ramdanStyle1.png"

@@ -4,6 +4,7 @@ import { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { FaImage, FaSmile } from 'react-icons/fa';
 import { MdClose } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import req from '@/lib/axios';
 import { useAuth } from '@/lib/contextapi';
 import { useRouter } from 'next/navigation';
@@ -29,6 +30,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
     const [preview, setPreview] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isSuccess, setIsSuccess] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter()
     const [open, setOpen] = useState<boolean>(false)
@@ -111,26 +113,25 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
             if (image) {
                 data.append("image", image || "")
             }
-            req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
+            await req.post("/api/Alhoda_Alnabawya/CreatePost", data, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            }).then((res) => {
-                // Reset form
-                setFormData({
-                    PostTitle: '',
-                    PostContent: '',
-                });
-                removeImage();
-                alert('تم إضافة المقال بنجاح');
-                setToggle(false);
-                if (refresh) {
-                    refresh();
-                }
-            })
+            });
+
+            // Reset form
+            setFormData({
+                PostTitle: '',
+                PostContent: '',
+            });
+            removeImage();
+            if (refresh) {
+                refresh();
+            }
+            setToggle(!toggle)
         } catch (err) {
             console.error('Error adding post:', err);
-            setError('حدث خطأ أثناء إضافة المقال، يرجى المحاولة مرة أخرى.');
+            setError('حدث خطأ في الخادم، حاول مرة أخرى');
         } finally {
             setLoading(false);
         }
@@ -168,6 +169,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                 {error && (
                     <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-xl mb-4 text-sm text-right border border-red-100 dark:border-red-800">
                         {error}
+                    </div>
+                )}
+
+                {isSuccess && (
+                    <div className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 p-4 rounded-xl mb-4 text-center border border-emerald-100 dark:border-emerald-800 font-bold animate-bounce">
+                        تم إضافة المقال بنجاح ✨
                     </div>
                 )}
 
@@ -285,7 +292,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ toggle, setToggle, refresh }) =
                                 : 'bg-main hover:bg-emerald-900 border-b-4 border-emerald-950/20'
                             }`}
                     >
-                        {loading ? 'جاري النشر...' : 'نشر المقال'}
+                        {loading ? (
+                            <div className="flex items-center justify-center gap-2">
+                                <AiOutlineLoading3Quarters className="animate-spin" size={20} />
+                                <span>جاري النشر...</span>
+                            </div>
+                        ) : 'نشر المقال'}
                     </button>
                 </form>
             </div>

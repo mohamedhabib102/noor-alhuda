@@ -61,7 +61,7 @@ const YourPosts = () => {
           <div
             className={`
               sticky top-0 p-6 rounded-[2.5rem] bg-white dark:bg-[#0a1a0f] mb-12 transition-all
-              duration-500 z-20 border border-main/10 shadow-xl
+              duration-500 z-10 border border-main/10 shadow-xl
                ${scroll ? "py-3! px-6! rounded-full! bg-main! text-white" : "text-main-bg"}
           `}>
             <div className={`flex items-center gap-6 ${scroll ? "justify-between" : ""}`}>

@@ -167,7 +167,7 @@ const Quations: React.FC<QuationsProps> = ({ state }) => {
         </div>
         {loading && <p>جاري تحميل الأسئلة...</p>}
         {!loading && !findHim && (
-          <p className="mb-1.5 text-sm font-semibold">لا يوجد أسئلة حاليًا، يمكنك إضافة سؤال وانتظار مراجعته</p>
+          <p className="mb-1.5 text-sm font-semibold bg-main/10 p-4 rounded-lg">لا يوجد أسئلة حاليًا، يمكنك إضافة سؤال وانتظار مراجعته</p>
         )}
         <CreateQuation getAllQuestion={getAllQuestion} />
       </CustomContainer>

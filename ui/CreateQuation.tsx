@@ -4,6 +4,7 @@ import CustomTitle from "./CustomTitle";
 import req from "@/lib/axios";
 import { useAuth } from "@/lib/contextapi";
 import { useRouter } from "next/navigation";
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 
 interface CreateQuestionProps {
@@ -63,6 +64,7 @@ const CreateQuestion: React.FC<PropsFun> = ({ getAllQuestion }) => {
             })
         } catch (error) {
             console.log(error);
+            setMessage("حدث خطأ في الخادم، حاول مرة أخرى");
         } finally {
             setLoading(false)
         }
@@ -115,10 +117,18 @@ const CreateQuestion: React.FC<PropsFun> = ({ getAllQuestion }) => {
 
                 <button
                     type="submit"
-                    className="block ml-auto mt-2 px-10 py-3 bg-main hover:bg-emerald-900 text-white rounded-xl font-bold
+                    disabled={loading}
+                    className={`block ml-auto mt-2 px-10 py-3 bg-main hover:bg-emerald-900 text-white rounded-xl font-bold
                     cursor-pointer transition-all duration-300 shadow-md hover:shadow-lg active:scale-95
-                    w-fit text-center text-lg"
-                > {loading ? " جاري الإضافة... " : "أضف السؤال"} </button>
+                    w-fit text-center text-lg ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                > 
+                    {loading ? (
+                        <div className="flex items-center justify-center gap-2">
+                            <AiOutlineLoading3Quarters className="animate-spin" size={20} />
+                            <span> جاري الإضافة... </span>
+                        </div>
+                    ) : "أضف السؤال"} 
+                </button>
 
             </form>
         </div>
