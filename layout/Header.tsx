@@ -25,11 +25,28 @@ const Header: React.FC = () => {
         setMounted(true);
     }, []);
 
-    const iImage =
-        userData?.image ?
-            userData.image
-            : userData?.imageGoogle && userData.imageGoogle !== "nulll" ?
-                userData.imageGoogle : "/images/default.png";
+    const [imgError, setImgError] = useState(false);
+
+    // Calculate safe starting image URL
+    let safeImgSrc = "/images/default.png";
+    
+    const isValidString = (str: any) => typeof str === "string" && str.trim() !== "" && str !== "null" && str !== "undefined";
+
+    if (isValidString(userData?.image)) {
+        safeImgSrc = userData?.image ||"/images/default.png";
+    } else if (isValidString(userData?.imageGoogle)) {
+        safeImgSrc = userData?.imageGoogle ||"/images/default.png";
+    }
+
+    // Next.js Image strictly requires URLs to start with correctly formatted prefixes
+    if (!safeImgSrc.startsWith("http") && !safeImgSrc.startsWith("/") && !safeImgSrc.startsWith("data:")) {
+        safeImgSrc = "/" + safeImgSrc;
+    }
+
+    // Reset error state if the user changes their photo
+    useEffect(() => {
+        setImgError(false);
+    }, [safeImgSrc]);
 
        // Helper to get current time in Egypt (Africa/Cairo)
        const getEgyptTime = () => {
@@ -68,13 +85,12 @@ const Header: React.FC = () => {
                                     className="">
                                     {mounted && userData.personID && (
                                         <Image
-                                            src={
-                                                iImage
-                                            }
+                                            src={imgError ? "/images/default.png" : safeImgSrc}
                                             alt="user"
                                             width={40}
                                             height={40}
                                             className="w-10 h-10 rounded-full object-contain"
+                                            onError={() => setImgError(true)}
                                         />
                                     )
                                     }

@@ -17,7 +17,24 @@ const ProfileUser: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const [toggleImage, setToggleImage] = useState<boolean>(false);
+  const [imgError, setImgError] = useState(false);
 
+  let safeImgSrc = "/images/default.png";
+  const isValidString = (str: any) => typeof str === "string" && str.trim() !== "" && str !== "null" && str !== "undefined" && str !== "nulll";
+
+  if (isValidString(userData?.image)) {
+      safeImgSrc = userData?.image || "/images/default.png";
+  } else if (isValidString(userData?.imageGoogle)) {
+      safeImgSrc = userData?.imageGoogle || "/images/default.png";
+  }
+
+  if (!safeImgSrc.startsWith("http") && !safeImgSrc.startsWith("/") && !safeImgSrc.startsWith("data:")) {
+      safeImgSrc = "/" + safeImgSrc;
+  }
+
+  useEffect(() => {
+      setImgError(false);
+  }, [safeImgSrc]);
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
@@ -42,10 +59,6 @@ const ProfileUser: React.FC = () => {
   const { personID, personName, email, role, createdAt } = userData;
   const userRole = role === "Admin" ? "مشرف" : "مستخدم";
 
-  const iImage = userData.image ? userData.image :
-      (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
-      "/images/default.png";
-
   
 
 
@@ -63,7 +76,7 @@ const ProfileUser: React.FC = () => {
       <ShowImageProfile
         toggleImage={toggleImage}
         setToggleImage={setToggleImage}
-        image={iImage}
+        image={safeImgSrc}
       />
       <section className="py-16 bg-main/10 dark:bg-black min-h-screen">
         <CustomContainer>
@@ -106,11 +119,12 @@ const ProfileUser: React.FC = () => {
                   className="cursor-pointer w-32 h-32 rounded-full overflow-hidden border-4 border-main/10 shadow-xl relative group-hover:border-main/30 transition-all"
                 >
                   <Image
-                    src={iImage}
+                    src={imgError ? "/images/default.png" : safeImgSrc}
                     alt="user"
                     fill
                     className="object-cover"
                     quality={100}
+                    onError={() => setImgError(true)}
                   />
                 </div>
                 <div className="absolute top-0 right-0 bg-main text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-lg border-2 border-white dark:border-[#0a1a0f] shadow-md">

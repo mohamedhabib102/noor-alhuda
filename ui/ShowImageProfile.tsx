@@ -3,7 +3,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 
@@ -23,16 +23,22 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
 }) => {
 
     const ref = useRef<HTMLDivElement>(null);
+    const [imgError, setImgError] = useState(false);
 
+    let safeImgSrc = "/images/default.png";
+    const isValidString = (str: any) => typeof str === "string" && str.trim() !== "" && str !== "null" && str !== "undefined" && str !== "nulll";
 
+    if (isValidString(image)) {
+        safeImgSrc = image;
+    }
 
+    if (!safeImgSrc.startsWith("http") && !safeImgSrc.startsWith("/") && !safeImgSrc.startsWith("data:")) {
+        safeImgSrc = "/" + safeImgSrc;
+    }
 
-    const isValidImage =
-        image &&
-        image !== "null" &&
-        image !== "nulll" &&
-        image !== "undefined" &&
-        image.trim() !== "";
+    useEffect(() => {
+        setImgError(false);
+    }, [safeImgSrc]);
 
 
     const handlerMouse = (event: MouseEvent) => {
@@ -66,11 +72,7 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-main/5 dark:bg-main/10 flex items-center justify-center overflow-hidden border border-main/10">
-                            {isValidImage ? (
-                                <Image src={image || ""} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" />
-                            ) : (
-                                <span className="text-sm font-semibold text-main">{(nameUser || 'ن').charAt(0)}</span>
-                            )}
+                            <Image src={imgError ? "/images/default.png" : safeImgSrc} alt={nameUser || 'avatar'} width={48} height={48} className="object-cover w-full h-full blur-[0.8px]" onError={() => setImgError(true)} />
                         </div>
                         <div>
                             <h3 className="text-sm md:text-base font-bold text-main-bg dark:text-gray-200">{nameUser || 'مستخدم'}</h3>
@@ -85,11 +87,7 @@ const ShowImageProfile: React.FC<CreatePostProps> = ({
 
                 <div className="bg-main/5 dark:bg-black/20 rounded-lg overflow-hidden border border-main/10 dark:border-main/20">
                     <div className="relative w-full h-[60vh] md:h-[52vh] lg:h-[48vh]">
-                        {isValidImage ? (
-                            <Image src={image} alt={nameUser || 'profile image'} fill className="object-contain blur-[3px]" />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-400">لا توجد صورة</div>
-                        )}
+                        <Image src={imgError ? "/images/default.png" : safeImgSrc} alt={nameUser || 'profile image'} fill className="object-contain blur-[3px]" onError={() => setImgError(true)} />
                     </div>
                 </div>
             </div>

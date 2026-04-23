@@ -26,8 +26,24 @@ const SettingsPage: React.FC = () => {
     });
 
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [imgError, setImgError] = useState(false);
 
+    let safeImgSrc = "/images/default.png";
+    const isValidString = (str: any) => typeof str === "string" && str.trim() !== "" && str !== "null" && str !== "undefined" && str !== "nulll";
 
+    if (isValidString(userData?.image)) {
+        safeImgSrc = userData?.image || "/images/default.png";
+    } else if (isValidString(userData?.imageGoogle)) {
+        safeImgSrc = userData?.imageGoogle || "/images/default.png";
+    }
+
+    if (!safeImgSrc.startsWith("http") && !safeImgSrc.startsWith("/") && !safeImgSrc.startsWith("data:")) {
+        safeImgSrc = "/" + safeImgSrc;
+    }
+
+    useEffect(() => {
+        setImgError(false);
+    }, [safeImgSrc]);
     useEffect(() => {
         if (mounted && !userData?.personID) {
             router.push("/");
@@ -50,7 +66,7 @@ const SettingsPage: React.FC = () => {
             if (lastUpdate) {
                 const lastUpdateTime = parseInt(lastUpdate);
                 const now = Date.now();
-                const fifteenDaysInMs = 2 * 24 * 60 * 60 * 1000;
+                const fifteenDaysInMs = 60 * 24 * 60 * 60 * 1000;
                 const diff = now - lastUpdateTime;
 
                 if (diff >= fifteenDaysInMs) {
@@ -122,12 +138,6 @@ const SettingsPage: React.FC = () => {
 
     if (!mounted || !userData) return null;
 
-    const currentImage =
-        userData.image ? userData.image :
-            (userData.imageGoogle && userData.imageGoogle !== "nulll") ? userData.imageGoogle :
-                "/images/default.png";
-
-
     return (
         <section className="py-12 bg-main/5 dark:bg-black min-h-screen">
             <CustomContainer>
@@ -174,10 +184,11 @@ const SettingsPage: React.FC = () => {
                                 <div className="relative group">
                                     <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-main/10 shadow-xl relative group-hover:border-main/30 transition-all duration-500">
                                         <Image
-                                            src={currentImage}
+                                            src={imgError ? "/images/default.png" : safeImgSrc}
                                             alt="Avatar"
                                             fill
                                             className="object-cover"
+                                            onError={() => setImgError(true)}
                                         />
                                     </div>
 
