@@ -20,8 +20,8 @@ const Footer = () => {
                         </h3>
                         <div className="flex flex-col gap-4 w-full">
                             {[
-                                { label: "تواصل عام", email: "byaalkhty43@gmail.com" },
-                                { label: "الدعم الفني", email: "byaalkhty43@gmail.com" }
+                                { label: "تواصل عام", email: "nooralhuda.eg@gmail.com" },
+                                { label: "الدعم الفني", email: "nooralhuda.eg@gmail.com" }
                             ].map((contact, idx) => (
                                 <a
                                     key={idx}

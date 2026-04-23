@@ -43,10 +43,6 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
   const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 
 
-
-  
-
-
   if (!surah || !Array.isArray(surah.ayahs) || surah.ayahs.length === 0) {
     return (
       <div className="text-center py-24 text-gray-500">
@@ -126,7 +122,6 @@ const SurhaPage: React.FC<SurhaProps & TafsirProps> = ({ surah, tafsir, option }
     }
   };
   
-
   return (
     <>
       <Tafsir
