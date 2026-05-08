@@ -26,7 +26,7 @@ const AcademyCollaboration: React.FC = () => {
           >
             <div className="relative group">
               <div className="absolute -inset-4 bg-linear-to-r from-main/20 to-brand-gold/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
-              <div className="relative bg-white dark:bg-zinc-900 p-6 md:p-8 rounded-3xl border border-main/10 shadow-2xl overflow-hidden">
+              <div className="relative bg-zinc-800 dark:bg-zinc-900 p-6 md:p-8 rounded-3xl border border-main/10 shadow-2xl overflow-hidden">
                 <Image
                   src="/images/yaqeinacademy.png"
                   alt="Yaqein Academy Logo"
@@ -34,10 +34,10 @@ const AcademyCollaboration: React.FC = () => {
                   height={250}
                   className="w-40 md:w-56 h-auto object-contain transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="mt-4 flex items-center justify-center gap-4 text-main font-bold">
-                  <div className="h-px flex-1 bg-main/20" />
+                <div className="mt-4 flex items-center justify-center gap-4 text-white font-bold">
+                  <div className="h-px flex-1 bg-white/20" />
                   <span className="whitespace-nowrap text-xs md:text-sm">أكاديمية يقين</span>
-                  <div className="h-px flex-1 bg-main/20" />
+                  <div className="h-px flex-1 bg-white/20" />
                 </div>
               </div>
             </div>

@@ -59,7 +59,7 @@ const AcademyClient = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="mb-8 p-4 bg-white dark:bg-zinc-900 rounded-3xl border border-main/10 shadow-xl"
+              className="mb-8 p-4 bg-zinc-800 dark:bg-zinc-900 rounded-3xl border border-main/10 shadow-xl"
             >
               <Image
                 src="/images/yaqeinacademy.png"
