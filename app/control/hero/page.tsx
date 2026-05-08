@@ -23,14 +23,16 @@ const HeroManagementPage = () => {
 
     const getVideoId = (url: string) => {
         if (!url) return "";
-        const match = url.match(/v=([a-zA-Z0-9_-]+)/);
-        return match ? match[1] : "";
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : "";
     };
 
     const getImageUrl = (hero: any) => {
+        if (hero.image) return hero.image;
         if (hero.type === "video") {
             const videoId = getVideoId(hero.link);
-            return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : "/images/hero-default.png";
+            return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "/images/hero-default.png";
         }
         return "/images/hero-default.png";
     };
@@ -169,20 +171,37 @@ const HeroManagementPage = () => {
                             </div>
 
                             {formData.type === "video" && (
-                                <div className="space-y-2 md:col-span-2">
-                                <label className="flex items-center gap-2 text-sm font-bold text-zinc-700 dark:text-zinc-300 mr-1">
-                                    <AiOutlineLink className="text-main" /> الرابط (Link) {formData.type === 'video' && '(مطلوب للفيديو)'}
-                                </label>
-                                <input
-                                    type="url"
-                                    name="link"
-                                    required={formData.type === 'video'}
-                                    value={formData.link}
-                                    onChange={handleChange}
-                                    placeholder={formData.type === 'video' ? "https://www.youtube.com/watch?v=..." : "اختياري..."}
-                                    className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black focus:ring-2 focus:ring-main outline-none transition-all"
-                                />
-                            </div>
+                                <div className="space-y-4 md:col-span-2">
+                                    <div className="space-y-2">
+                                        <label className="flex items-center gap-2 text-sm font-bold text-zinc-700 dark:text-zinc-300 mr-1">
+                                            <AiOutlineLink className="text-main" /> الرابط (Link) {formData.type === 'video' && '(مطلوب للفيديو)'}
+                                        </label>
+                                        <input
+                                            type="url"
+                                            name="link"
+                                            required={formData.type === 'video'}
+                                            value={formData.link}
+                                            onChange={handleChange}
+                                            placeholder={formData.type === 'video' ? "https://www.youtube.com/watch?v=..." : "اختياري..."}
+                                            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black focus:ring-2 focus:ring-main outline-none transition-all"
+                                        />
+                                    </div>
+                                    
+                                    {formData.link && getVideoId(formData.link) && (
+                                        <div className="relative w-full max-w-md h-48 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800">
+                                            <img 
+                                                src={`https://img.youtube.com/vi/${getVideoId(formData.link)}/hqdefault.jpg`} 
+                                                alt="Preview" 
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                                <div className="bg-white/20 backdrop-blur-sm p-2 rounded-lg text-white text-xs font-bold border border-white/30">
+                                                    معاينة الصورة
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             )}
 
                           {formData.type === "image" && (

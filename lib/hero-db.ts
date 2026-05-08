@@ -1,12 +1,17 @@
 import clientPromise from "./mongoDB";
 import { HeroDB } from "@/types/Types";
 import { ObjectId } from "mongodb";
+import { supabaseConfig } from "./supabase";
 
-export async function getAllHeros(): Promise<HeroDB[]> {
-  const client = await clientPromise;
-  const db = client.db("HERO"); 
-  const heros = await db.collection<HeroDB>("heroSection").find({}).toArray();
-  return heros;
+export async function getAllHeros() {
+   const {data, error} = await supabaseConfig.from("hero").select("*")
+   if (error){
+      console.log(error)
+   }
+
+   if (data){
+      return data as HeroDB[];
+   }
 }
 
 // CREATE hero(s)

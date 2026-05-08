@@ -35,10 +35,11 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
 
 
   const getVideoId = (url: string) => {
-    const match = url.match(/v=([a-zA-Z0-9_-]+)/);
-    return match ? match[1] : "";
+    if (!url) return "";
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : "";
   };
-
 
   const getHeroData = async () => {
     try {
@@ -68,7 +69,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
     >
       {localSlides.map((slide, idx) => {
         const isPlaying = playingId === slide.id;
-        const videoId = slide.type === "video" ? getVideoId(slide.link) : null;
+        const videoId = slide.type?.toLowerCase() === "video" ? getVideoId(slide.link) : null;
 
         return (
           <SwiperSlide key={idx+1} className="w-screen overflow-hidden lg:rounded-2xl md:rounded-2xl">
@@ -83,13 +84,13 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                       >
                         <button
                           onClick={() => setPlayingId(null)}
-                          className="absolute lg:-top-3 top-1 lg:-right-1 right-3 z-10 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                          className="absolute lg:-top-3 top-1 lg:-right-1 right-3 z-40 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                         >
                           <MdClose size={24} />
                         </button>
                         <iframe
                           className="w-full h-full rounded-lg shadow-2xl"
-                          src={`${`https://www.youtube.com/embed/${videoId}?autoplay=1` || ""}`}
+                          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
                           title={slide.title}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -102,7 +103,7 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                   <div className={`${isPlaying ? "fixed inset-0 z-20 bg-black/75 backdrop-blur-[5px]" : "hidden"}`} />
                   <div className="w-full h-full relative cursor-pointer" onClick={() => setPlayingId(slide.id)}>
                     <Image
-                      src={`${`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` || ""}`}
+                      src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
                       alt={slide.title}
                       fill
                       style={{ objectFit: "cover" }}
@@ -110,10 +111,15 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                       placeholder="blur"
                       blurDataURL="/placeholder.png"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="absolute inset-0 z-10 bg-black/40" />
+                    <div className={`absolute inset-0 flex items-center justify-center ${isPlaying ? "z-10 opacity-0" : "z-50"}`}>
                       <div className="w-16 h-16 bg-brand-gold rounded-full flex items-center justify-center shadow-lg">
                         <CiPlay1 size={30} className="text-white ml-1" />
                       </div>
+                    </div>
+                    <div className={`absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white transition-opacity duration-300 ${isPlaying ? "z-10 opacity-0" : "z-40"}`}>
+                      <h3 className="text-lg lg:text-xl font-bold mb-1">{slide.title}</h3>
+                      <p className="text-2xl lg:text-4xl font-medium leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
                     </div>
                   </div>
                 </>
@@ -129,9 +135,9 @@ const HeroSliderClient: React.FC<Props> = ({ skipFirstSSR = false }) => {
                     placeholder="blur"
                     blurDataURL="/placeholder.png"
                   />
-                  <div className="absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white z-50">
-                    <h3 className="text-xl font-bold mb-1">{slide.title}</h3>
-                    <p className="text-3xl lg:text-5xl font-medium leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
+                  <div className="absolute lg:top-[40%] top-16 lg:right-16 right-8 text-white z-40">
+                    <h3 className="text-lg lg:text-xl font-bold mb-1">{slide.title}</h3>
+                    <p className="text-2xl lg:text-4xl font-medium leading-tight lg:w-[600px] md:w-96 drop-shadow-lg">{slide.description}</p>
                   </div>
                 </div>
               )}

@@ -69,9 +69,9 @@ export interface HeroDB {
     type: string;
     title: string;
     link: string;
-    image: string;
+    image?: string;
     description: string;
-    createdAt: string;
+    createdat: string;
 }
 
 export interface SessionProps {
