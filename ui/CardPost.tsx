@@ -105,13 +105,13 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
         );
     }
 
-    if (error || posts.length === 0) {
-        return (
-            <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
-                <h2 className="text-2xl font-bold mb-2 text-main-bg">لا يوجد مقالات</h2>
-            </div>
-        );
-    }
+    // if (error || posts.length === 0) {
+    //     return (
+    //         <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
+    //             <h2 className="text-2xl font-bold mb-2 text-main-bg">لا يوجد مقالات</h2>
+    //         </div>
+    //     );
+    // }
 
     const handelShare = (post: Post) => {
         setNameShare(post.personName) // This is the original author
@@ -155,12 +155,18 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
             />
 
             <div className={` ${stateCard === "profile" && "max-w-3xl mx-auto mt-6"}`}>
-                {( stateCard === "page") && (
+                
                     <button className="bg-main text-white p-3 rounded-xl w-[200px] block ml-auto mb-8 cursor-pointer hover:bg-emerald-900 transition-all duration-300 font-bold shadow-md hover:shadow-lg active:scale-95"
                         onClick={() => setToggle(!toggle)}
                     > {"اضافة مقال "} </button>
-                )}
-                {[...posts].reverse().slice(0, visibleCount).map((post) => (
+                
+                { error || posts.length === 0 ? (
+                     <div className="mt-6 max-w-3xl mx-auto bg-main/5 dark:bg-main/10 rounded-2xl p-8 text-center border border-main/10">
+                <h2 className="text-2xl font-bold mb-2 text-main-bg">لا يوجد مقالات</h2>
+            </div>
+                ) :
+                
+                [...posts].reverse().slice(0, visibleCount).map((post) => (
                     <div key={post.postID} className="mb-6 md:mb-14 group select-none">
                         {/* Official Brand Frame */}
 
