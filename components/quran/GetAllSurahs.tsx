@@ -24,6 +24,8 @@ interface Surah {
 const GetAllSurahs: React.FC = async () => {
   const surahs = await getSurahs();
 
+  console.log(surahs)
+
   return (
     <div dir="rtl">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

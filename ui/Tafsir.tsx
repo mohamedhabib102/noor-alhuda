@@ -1,5 +1,5 @@
 import { MdClose } from "react-icons/md";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 export interface TafsirData {
     id: number;
@@ -14,15 +14,16 @@ interface TafsirProps {
     setToggle: (toggle: boolean) => void;
     tafsir: TafsirData | null;
     onPlay?: () => void;
+    isPlaying?: boolean;
 }
 
-const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay }) => {
+const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay, isPlaying }) => {
 
     return (
         <>
-            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-40 bg-black/40 backdrop-blur-sm transition-all duration-300`} onClick={() => setToggle(false)}></div>
+            <div className={`${toggle ? "opacity-100 visible" : "opacity-0 invisible"} fixed top-0 left-0 inset-0 z-[90] bg-black/40 backdrop-blur-sm transition-all duration-300`} onClick={() => setToggle(false)}></div>
             <div className={`${toggle ? "opacity-100 visible scale-100 -translate-x-1/2 -translate-y-1/2" : "opacity-0 invisible scale-95 -translate-x-1/2 -translate-y-1/2"}
-        transition-all duration-300 fixed top-1/2 left-1/2 z-50 lg:w-96 w-10/12 max-h-[80vh] overflow-auto no-scrollbar m-auto bg-white dark:bg-zinc-900 py-8 px-6 rounded-3xl shadow-2xl border border-gray-100 dark:border-zinc-800`}>
+        transition-all duration-300 fixed top-1/2 left-1/2 z-[100] lg:w-96 w-10/12 max-h-[80vh] overflow-auto no-scrollbar m-auto bg-white dark:bg-zinc-900 py-8 px-6 rounded-3xl shadow-2xl border border-gray-100 dark:border-zinc-800`}>
                 
                 <div className="flex items-center justify-between mb-6 pb-2 border-b border-emerald-100 dark:border-emerald-900/50">
                     <button onClick={() => setToggle(false)} className="cursor-pointer transition duration-200 hover:text-red-500 dark:text-gray-200">
@@ -31,7 +32,7 @@ const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay }) =>
                     <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400"> التفسير الميسر </span>
                     {onPlay && (
                          <button onClick={onPlay} className="cursor-pointer transition duration-200 text-emerald-600 hover:scale-110">
-                            <FaPlay size={20} />
+                            {isPlaying ? <FaPause size={20} /> : <FaPlay size={20} />}
                         </button>
                     )}
                 </div>
