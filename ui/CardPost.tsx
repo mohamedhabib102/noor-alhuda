@@ -15,6 +15,7 @@ import { Post } from "@/types/Types";
 import { z } from "zod"
 import { MdDelete } from "react-icons/md";
 import DeletePostContent from "./deletePost";
+import { useToast } from "@/ui/Toast";
 
 interface CardPostProps {
     stateCard: string
@@ -22,6 +23,7 @@ interface CardPostProps {
 
 const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
     const { userData } = useAuth();
+    const { showToast } = useToast();
 
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
@@ -290,7 +292,7 @@ const CardPost: React.FC<CardPostProps> = ({ stateCard }) => {
                                                 if (userData?.personID) {
                                                     handelShare(post);
                                                 } else {
-                                                    alert("يجب تسجيل الدخول أولاً")
+                                                    showToast("يجب تسجيل الدخول أولاً", "warning")
                                                 }
                                             }}
                                         >

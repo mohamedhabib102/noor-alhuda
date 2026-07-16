@@ -10,6 +10,8 @@ import { FaPlay, FaPause, FaChevronDown } from "react-icons/fa6";
 import { FaChevronRight, FaChevronLeft, FaHashtag } from "react-icons/fa6";
 import { MdMusicNote } from "react-icons/md";
 import Link from "next/link";
+import { getFromIDB, saveToIDB } from "@/lib/idb";
+import { useToast } from "@/ui/Toast";
 
 /* ─────────────── Types ─────────────── */
 interface Reciter {
@@ -52,6 +54,8 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
   surahNumber,
   surahMeta,
 }) => {
+  const { showToast } = useToast();
+
   /* State */
   const [reciters, setReciters] = useState<Reciter[]>([]);
   const [selectedReciter, setSelectedReciter] = useState<string>(DEFAULT_RECITER);
@@ -65,6 +69,18 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
   const [sajda, setSajda] = useState<Sajda | null>(null);
   const [loadingAyahs, setLoadingAyahs] = useState(false);
   const [reciterSearch, setReciterSearch] = useState("");
+  const [bookmarks, setBookmarks] = useState<any[]>([]);
+
+  const loadBookmarks = () => {
+    const saved = localStorage.getItem("quran-bookmarks");
+    if (saved) {
+      setBookmarks(JSON.parse(saved));
+    }
+  };
+
+  useEffect(() => {
+    loadBookmarks();
+  }, []);
 
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -73,7 +89,14 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
   useEffect(() => {
     fetch("https://api.alquran.cloud/v1/edition?format=audio&language=ar")
       .then((res) => res.json())
-      .then((data) => setReciters(data.data || []));
+      .then((data) => {
+        setReciters(data.data || []);
+        saveToIDB("reciters", "all", data.data || []);
+      })
+      .catch(async () => {
+        const cached = await getFromIDB("reciters", "all");
+        if (cached) setReciters(cached);
+      });
   }, []);
 
   /* ── Fetch tafsir on mount ── */
@@ -82,7 +105,14 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
       `https://quranenc.com/api/v1/translation/sura/arabic_moyassar/${surahNumber}`
     )
       .then((res) => res.json())
-      .then((data) => setTafsir(data.result || []));
+      .then((data) => {
+        setTafsir(data.result || []);
+        saveToIDB("tafsir", `${surahNumber}`, data.result || []);
+      })
+      .catch(async () => {
+        const cached = await getFromIDB("tafsir", `${surahNumber}`);
+        if (cached) setTafsir(cached);
+      });
   }, [surahNumber]);
 
   /* ── Fetch ayahs when reciter changes ── */
@@ -103,9 +133,14 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
       .then((res) => res.json())
       .then((data) => {
         setSurahAyahs(data.data?.ayahs || []);
+        saveToIDB("surah-ayahs", `${surahNumber}-${selectedReciter}`, data.data?.ayahs || []);
         setLoadingAyahs(false);
       })
-      .catch(() => setLoadingAyahs(false));
+      .catch(async () => {
+        const cached = await getFromIDB("surah-ayahs", `${surahNumber}-${selectedReciter}`);
+        if (cached) setSurahAyahs(cached);
+        setLoadingAyahs(false);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedReciter, surahNumber]);
 
@@ -122,6 +157,11 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
 
   /* ─────────── Audio Handlers ─────────── */
   const handlePlayPause = (index: number) => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      showToast("يجب الاتصال بالإنترنت لتشغيل التلاوة الصوتية.", "warning");
+      return;
+    }
+
     const currentAudio = audioRefs.current[index];
     if (!currentAudio) return;
 
@@ -146,6 +186,11 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
   };
 
   const handleEnded = (index: number) => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      setPlayingIndex(null);
+      return;
+    }
+
     const nextIndex = index + 1;
     if (nextIndex < surahAyahs.length) {
       const nextAudio = audioRefs.current[nextIndex];
@@ -208,6 +253,8 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
         toggle={toggleTafsir}
         setToggle={setToggleTafsir}
         tafsir={selectedTafsir}
+        surahName={surahMeta.name}
+        onBookmarkUpdate={loadBookmarks}
         isPlaying={
           selectedTafsir && playingIndex !== null
             ? surahAyahs.findIndex((a) => a.numberInSurah === Number(selectedTafsir.aya)) === playingIndex
@@ -245,6 +292,7 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
                 onEnded={handleEnded}
                 onAyahClick={handleAyahClick}
                 loading={loadingAyahs}
+                bookmarks={bookmarks}
               />
             </div>
 

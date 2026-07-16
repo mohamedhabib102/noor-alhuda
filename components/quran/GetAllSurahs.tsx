@@ -1,4 +1,6 @@
 import Link from "next/link"
+import OfflineDownloader from "@/components/quran/OfflineDownloader";
+import { FaBookmark } from "react-icons/fa";
 
 
 
@@ -24,10 +26,21 @@ interface Surah {
 const GetAllSurahs: React.FC = async () => {
   const surahs = await getSurahs();
 
-  console.log(surahs)
 
   return (
     <div dir="rtl">
+      <OfflineDownloader />
+
+      <div className="flex justify-start mb-6">
+        <Link 
+          href="/bookmarks" 
+          className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-main/10 text-main border border-main/20 rounded-2xl font-bold shadow-sm hover:bg-main hover:text-white transition-all duration-300"
+        >
+          <FaBookmark />
+          <span>العلامات المحفوظة</span>
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {surahs.map((sur: Surah) => (
           <Link

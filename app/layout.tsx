@@ -8,6 +8,7 @@ import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import { ContextProviderWrapper as AuthProvider } from "@/lib/contextapi";
 import { ContextProviderWrapper as RadioProvider } from "@/lib/radioContextapi";
+import { ToastProvider } from "@/ui/Toast";
 
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -128,11 +129,13 @@ export default function RootLayout({
       <body className={`antialiased`}>
         <AuthProvider>
           <RadioProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-            <Footer />
+            <ToastProvider>
+              <Header />
+              <main>
+                {children}
+              </main>
+              <Footer />
+            </ToastProvider>
           </RadioProvider>
         </AuthProvider>
       </body>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FaTrash, FaEdit, FaCheckCircle, FaTimesCircle, FaUser, FaRegQuestionCircle, FaCommentDots } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import ExpandableText from "@/components/posts/ExpandableText";
+import { useToast } from "@/ui/Toast";
 
 interface Question {
     questionID: number;
@@ -18,6 +19,7 @@ interface Question {
 }
 
 const QuestionsPage = () => {
+    const { showToast } = useToast();
     const [questions, setQuestions] = useState<Question[]>([]);
     const [loading, setLoading] = useState(true);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -45,10 +47,10 @@ const QuestionsPage = () => {
         try {
             await req.delete(`/api/Alhoda_Alnabawya/DeleteQuestion/${id}`);
             setQuestions(questions.filter((q) => q.questionID !== id));
-            alert("تم حذف السؤال بنجاح");
+            showToast("تم حذف السؤال بنجاح", "success");
         } catch (error) {
-            console.error("Failed to delete question", error);
-            alert("حدث خطأ أثناء الحذف");
+            console.error(error);
+            showToast("حدث خطأ أثناء الحذف", "error");
         }
     };
 
@@ -67,10 +69,10 @@ const QuestionsPage = () => {
                 q.questionID === selectedQuestion.questionID ? { ...q, isFound } : q
             ));
             setIsUpdateModalOpen(false);
-            alert("تم تحديث الحالة بنجاح");
+            showToast("تم تحديث الحالة بنجاح", "success");
         } catch (error) {
-            console.error("Failed to update status", error);
-            alert("حدث خطأ أثناء تحديث الحالة");
+            console.error(error);
+            showToast("حدث خطأ أثناء تحديث الحالة", "error");
         } finally {
             setUpdateLoading(false);
         }

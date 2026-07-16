@@ -7,6 +7,7 @@ import { FaShare } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 import ShareZekr from "@/ui/ShareZekr";
+import { getFromIDB, saveToIDB } from "@/lib/idb";
 
 interface AzkarProps {
   list: AdhkarItem[];
@@ -21,11 +22,16 @@ const Azkar: React.FC<AzkarProps> = ({ list, loading }) => {
   useEffect(() => {
     const fetchAzkar = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/adhkar`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/adhkar`);
         const data = await res.json();
         setAzkar(data);
+        await saveToIDB("adhkar", "all", data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching adhkar, trying offline cache:", error);
+        const cached = await getFromIDB("adhkar", "all");
+        if (cached) {
+          setAzkar(cached);
+        }
       }
     };
 

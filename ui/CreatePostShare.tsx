@@ -8,6 +8,7 @@ import req from '@/lib/axios';
 import { useAuth } from '@/lib/contextapi';
 import { useRouter } from 'next/navigation';
 import ExpandableText from '@/components/posts/ExpandableText';
+import { useToast } from '@/ui/Toast';
 
 interface CreatePostShareProps {
     toggle: boolean;
@@ -37,6 +38,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
     sharePaltform
 }) => {
     const { userData } = useAuth();
+    const { showToast } = useToast();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
@@ -77,7 +79,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             });
 
             if (res.status === 200 || res.status === 201) {
-                alert('تمت مشاركة المنشور بنجاح');
+                showToast('تمت مشاركة المنشور بنجاح', 'success');
                 setToggle(false);
                 getAllPosts();
             }
@@ -85,7 +87,7 @@ const CreatePostShare: React.FC<CreatePostShareProps> = ({
             console.error('Error sharing post:', err);
             setError('حدث خطأ أثناء مشاركة المنشور، يرجى المحاولة مرة أخرى.');
             setToggle(false);
-            alert('حدث خطأ أثناء مشاركة المنشور، يرجى المحاولة مرة أخرى.');
+            showToast('حدث خطأ أثناء مشاركة المنشور، يرجى المحاولة مرة أخرى.', 'error');
         } finally {
             setLoading(false);
         }

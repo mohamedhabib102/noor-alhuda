@@ -9,9 +9,11 @@ import req from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaEye } from "react-icons/fa6";
+import { useToast } from "@/ui/Toast";
 
 const SettingsPage: React.FC = () => {
     const { userData, login } = useAuth();
+    const { showToast } = useToast();
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -126,11 +128,11 @@ const SettingsPage: React.FC = () => {
 
             // Store last update time
             localStorage.setItem(`lastUpdate_${userData!.personID}`, Date.now().toString());
-            alert("تم تحديث البيانات بنجاح");
+            showToast("تم تحديث البيانات بنجاح", "success");
             router.push("/profile");
         } catch (error) {
-            console.error(error);
-            alert("حدث خطأ أثناء تحديث البيانات");
+            console.error("Error updating profile:", error);
+            showToast("حدث خطأ أثناء تحديث البيانات", "error");
         } finally {
             setLoading(false);
         }

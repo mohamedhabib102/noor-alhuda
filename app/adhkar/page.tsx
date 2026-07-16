@@ -6,6 +6,7 @@ import CustomTitle from "@/ui/CustomTitle";
 import Azkar from "@/components/adhkar/Azkar";
 import { AdhkarItem } from "@/types/Types";
 import { BsEmojiFrown } from "react-icons/bs";
+import { getFromIDB, saveToIDB } from "@/lib/idb";
 
 
 
@@ -17,11 +18,16 @@ const AdhkarPage: React.FC = () => {
     const fetchData = async () => {
         setLoading(true)
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/adhkar?type=category`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/adhkar?type=category`);
         const data = await res.json();
         setAdhkar(data);
+        await saveToIDB("adhkar-categories", "all", data);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching adhkar categories, trying offline cache:", err);
+        const cached = await getFromIDB("adhkar-categories", "all");
+        if (cached) {
+          setAdhkar(cached);
+        }
       } finally{
         setLoading(false)
       }

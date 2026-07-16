@@ -27,6 +27,7 @@ interface SurhaProps {
   onEnded: (index: number) => void;
   onAyahClick: (ayah: Ayah) => void;
   loading?: boolean;
+  bookmarks?: any[];
 }
 
 /* ─────────── Component ─────────── */
@@ -37,6 +38,7 @@ const SurhaPage: React.FC<SurhaProps> = ({
   onEnded,
   onAyahClick,
   loading,
+  bookmarks,
 }) => {
   /* Error state */
   if (!surah || !Array.isArray(surah.ayahs) || surah.ayahs.length === 0) {
@@ -74,6 +76,7 @@ const SurhaPage: React.FC<SurhaProps> = ({
         const isActive = playingIndex === index;
         const showPageNumber =
           index === 0 || ayah.page !== surah.ayahs[index - 1].page;
+        const isBookmarked = bookmarks?.some(b => Number(b.sura) === surah.number && Number(b.aya) === ayah.numberInSurah);
 
         return (
           <div
@@ -110,7 +113,9 @@ const SurhaPage: React.FC<SurhaProps> = ({
                 ${
                   isActive
                     ? "bg-main/20 dark:bg-main/30 text-main dark:text-gray-100 scale-105"
-                    : "text-foreground dark:text-gray-200 hover:bg-main/5 dark:hover:bg-white/5"
+                    : isBookmarked
+                      ? "text-amber-600 dark:text-amber-400 font-bold bg-amber-500/10"
+                      : "text-foreground dark:text-gray-200 hover:bg-main/5 dark:hover:bg-white/5"
                 }
                 ${ayah.sajda && typeof ayah.sajda === "object" ? "text-main!" : ""}
               `}

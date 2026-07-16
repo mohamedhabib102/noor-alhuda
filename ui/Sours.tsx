@@ -5,6 +5,7 @@ import AchievementMessage from "./AchievementMessage";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ImCheckboxChecked } from "react-icons/im";
+import { getFromIDB, saveToIDB } from "@/lib/idb";
 
 const Surahs: React.FC = () => {
     const [surahs, setSurahs] = useState<Surah[]>([]);
@@ -29,8 +30,13 @@ const Surahs: React.FC = () => {
                 const res = await fetch("https://api.alquran.cloud/v1/surah");
                 const data = await res.json();
                 setSurahs(data.data);
+                await saveToIDB("surahs", "all", data.data);
             } catch (error) {
-                console.error("Error fetching surahs:", error);
+                console.error("Error fetching surahs, trying offline cache:", error);
+                const cached = await getFromIDB("surahs", "all");
+                if (cached) {
+                    setSurahs(cached);
+                }
             } finally {
                 setLoading(false);
             }

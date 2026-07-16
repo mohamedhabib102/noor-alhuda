@@ -9,6 +9,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { BsFilePostFill } from "react-icons/bs";
+import { FaBookmark } from "react-icons/fa";
 import Link from "next/link";
 import ShowImageProfile from "@/ui/ShowImageProfile";
 
@@ -172,6 +173,13 @@ const ProfileUser: React.FC = () => {
                   >
                     <BsFilePostFill size={20} />
                     <span>استعراض المقالات والأسئلة</span>
+                  </Link>
+                  <Link
+                    href="/bookmarks"
+                    className="inline-flex items-center gap-3 px-6 py-3 mt-3 rounded-2xl bg-white dark:bg-main/10 text-main border border-main/20 font-black text-sm hover:bg-main hover:text-white transition-all shadow-sm"
+                  >
+                    <FaBookmark size={20} />
+                    <span>العلامات المحفوظة (القرآن)</span>
                   </Link>
                 </div>
               </div>

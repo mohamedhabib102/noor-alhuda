@@ -6,8 +6,10 @@ import { AiOutlineLoading3Quarters, AiOutlinePlus, AiOutlineDelete, AiOutlineLin
 import { HiOutlineTag, HiOutlineDocumentText } from "react-icons/hi";
 import axios from "axios";
 import { HeroDB } from "@/types/Types";
+import { useToast } from "@/ui/Toast";
 
 const HeroManagementPage = () => {
+    const { showToast } = useToast();
     const [heroes, setHeroes] = useState<HeroDB[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -64,18 +66,17 @@ const HeroManagementPage = () => {
                 const hid = typeof h._id === 'object' && h._id?.$oid ? h._id.$oid : h._id;
                 return hid !== mongoId;
             }));
+            showToast("تم الحذف بنجاح", "success");
         } catch (err) {
             console.error("Error deleting hero:", err);
-            alert("حدث خطأ أثناء حذف الفعالية");
+            showToast("حدث خطأ أثناء حذف الفعالية", "error");
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`/api/hero`, formData);
-
-
+            await axios.post(`/api/hero`, formData);
             setFormData({
                 title: "",
                 type: "video",
@@ -84,9 +85,10 @@ const HeroManagementPage = () => {
             });
             setIsAdding(false);
             fetchHeroes();
+            showToast("تم الإضافة بنجاح", "success");
         } catch (err) {
             console.error("Error creating hero:", err);
-            alert("حدث خطأ أثناء إضافة العنصر");
+            showToast("حدث خطأ أثناء إضافة العنصر", "error");
         }
     };
 
