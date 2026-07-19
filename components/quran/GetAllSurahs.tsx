@@ -29,7 +29,7 @@ const GetAllSurahs: React.FC = async () => {
 
   return (
     <div dir="rtl">
-      <OfflineDownloader />
+      {/* <OfflineDownloader /> */}
 
       <div className="flex justify-start mb-6">
         <Link 

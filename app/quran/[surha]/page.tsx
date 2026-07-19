@@ -8,12 +8,27 @@ interface Props {
 }
 
 const getSurahMeta = async (surahNumber: string) => {
-  const res = await fetch(
+  const textRes = await fetch(
+    `https://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`,
+    { cache: "force-cache" }
+  );
+  const textData = await textRes.json();
+
+  const audioRes = await fetch(
     `https://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`,
     { cache: "force-cache" }
   );
-  const data = await res.json();
-  return data.data;
+  const audioData = await audioRes.json();
+
+  const combinedAyahs = textData.data.ayahs.map((ayah: any, index: number) => ({
+    ...ayah,
+    audio: audioData.data?.ayahs?.[index]?.audio || "",
+  }));
+
+  return {
+    ...textData.data,
+    ayahs: combinedAyahs,
+  };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -60,6 +75,8 @@ const SurhaPage: React.FC<Props> = async ({ params }) => {
   const resolvedParams = await params;
   const surahNumber = resolvedParams.surha;
   const surah = await getSurahMeta(surahNumber);
+
+  console.log(surah);
 
   return (
     <>

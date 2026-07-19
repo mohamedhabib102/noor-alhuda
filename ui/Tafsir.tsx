@@ -1,6 +1,7 @@
-import { MdClose } from "react-icons/md";
+import { MdClose, MdShare } from "react-icons/md";
 import { FaPlay, FaPause, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import ShareAyah from "./ShareAyah";
 
 export interface TafsirData {
     id: number;
@@ -22,6 +23,7 @@ interface TafsirProps {
 
 const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay, isPlaying, surahName, onBookmarkUpdate }) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [shareAyah, setShareAyah] = useState<{ text: string; numberInSurah: number } | null>(null);
 
     useEffect(() => {
         if (!tafsir || !toggle) return;
@@ -73,6 +75,9 @@ const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay, isPl
                     </button>
                     <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400"> التفسير الميسر </span>
                     <div className="flex items-center gap-4">
+                        <button onClick={() => setShareAyah(tafsir ? { text: tafsir.arabic_text, numberInSurah: Number(tafsir.aya) } : null)} className="cursor-pointer transition duration-200 hover:scale-110 text-gray-400 hover:text-main" title="مشاركة الآية كصورة">
+                            <MdShare size={22} />
+                        </button>
                         <button onClick={handleBookmark} className={`cursor-pointer transition duration-200 hover:scale-110 ${isBookmarked ? 'text-main' : 'text-gray-400 hover:text-main'}`} title="علامة حفظ">
                             {isBookmarked ? <FaBookmark size={20} /> : <FaRegBookmark size={20} />}
                         </button>
@@ -94,6 +99,12 @@ const Tafsir: React.FC<TafsirProps> = ({ toggle, setToggle, tafsir, onPlay, isPl
                     </p>
                 </div>
             </div>
+
+            <ShareAyah 
+                ayah={shareAyah} 
+                surahName={surahName || ""} 
+                onClose={() => setShareAyah(null)} 
+            />
         </>
     );
 }; 

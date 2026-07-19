@@ -70,6 +70,31 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
   const [loadingAyahs, setLoadingAyahs] = useState(false);
   const [reciterSearch, setReciterSearch] = useState("");
   const [bookmarks, setBookmarks] = useState<any[]>([]);
+  const [viewMode, setViewMode] = useState<"text" | "image" | null>(null);
+  const [invertImageColors, setInvertImageColors] = useState<boolean>(true);
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("quran-view-mode");
+    if (savedMode === "text" || savedMode === "image") {
+      setViewMode(savedMode);
+    } else {
+      setViewMode("text");
+    }
+    const savedInvert = localStorage.getItem("quran-invert-colors");
+    if (savedInvert !== null) {
+      setInvertImageColors(savedInvert === "true");
+    }
+  }, []);
+
+  const handleViewModeChange = (mode: "text" | "image") => {
+    setViewMode(mode);
+    localStorage.setItem("quran-view-mode", mode);
+  };
+
+  const handleInvertChange = (invert: boolean) => {
+    setInvertImageColors(invert);
+    localStorage.setItem("quran-invert-colors", String(invert));
+  };
 
   const loadBookmarks = () => {
     const saved = localStorage.getItem("quran-bookmarks");
@@ -132,13 +157,24 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
     )
       .then((res) => res.json())
       .then((data) => {
-        setSurahAyahs(data.data?.ayahs || []);
-        saveToIDB("surah-ayahs", `${surahNumber}-${selectedReciter}`, data.data?.ayahs || []);
+        const fetchedAyahs = data.data?.ayahs || [];
+        const mergedAyahs = fetchedAyahs.map((ayah: Ayah, idx: number) => ({
+          ...ayah,
+          text: surahMeta.ayahs[idx]?.text || ayah.text
+        }));
+        setSurahAyahs(mergedAyahs);
+        saveToIDB("surah-ayahs", `${surahNumber}-${selectedReciter}`, mergedAyahs || []);
         setLoadingAyahs(false);
       })
       .catch(async () => {
         const cached = await getFromIDB("surah-ayahs", `${surahNumber}-${selectedReciter}`);
-        if (cached) setSurahAyahs(cached);
+        if (cached) {
+          const mergedCached = cached.map((ayah: Ayah, idx: number) => ({
+            ...ayah,
+            text: surahMeta.ayahs[idx]?.text || ayah.text
+          }));
+          setSurahAyahs(mergedCached);
+        }
         setLoadingAyahs(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -281,19 +317,89 @@ const SurahContainer: React.FC<SurahContainerProps> = ({
           <div>
             <CustomTitle title={surahMeta.name} success={true} description={""} />
 
+            {/* Mode Switcher */}
+            {viewMode !== null && (
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+                <div className="flex bg-main/5 dark:bg-white/5 p-1 rounded-2xl border border-main/10 dark:border-white/10">
+                  <button
+                    onClick={() => handleViewModeChange("text")}
+                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                      viewMode === "text"
+                        ? "bg-main text-white shadow-md shadow-main/10"
+                        : "text-gray-500 dark:text-gray-400 hover:text-main dark:hover:text-white"
+                    }`}
+                  >
+                    <span>وضع القراءة (نص)</span>
+                  </button>
+                  <button
+                    onClick={() => handleViewModeChange("image")}
+                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                      viewMode === "image"
+                        ? "bg-main text-white shadow-md shadow-main/10"
+                        : "text-gray-500 dark:text-gray-400 hover:text-main dark:hover:text-white"
+                    }`}
+                  >
+                    <span>وضع المصحف (صور)</span>
+                  </button>
+                </div>
+
+                {viewMode === "image" && (
+                  <button
+                    onClick={() => handleInvertChange(!invertImageColors)}
+                    className={`px-5 py-2.5 rounded-2xl border font-semibold text-xs transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                      invertImageColors
+                        ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
+                        : "bg-gray-100 dark:bg-zinc-800 border-transparent text-gray-500"
+                    }`}
+                  >
+                    <span>مريح للعين (في الوضع الداكن)</span>
+                    <span className={`w-2 h-2 rounded-full ${invertImageColors ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />
+                  </button>
+                )}
+              </div>
+            )}
+
             {/* Surah Display */}
             <div className="mt-10">
-              <SurahDisplay
-                surah={{ ...surahMeta, ayahs: surahAyahs }}
-                tafsir={tafsir}
-                audioRefs={audioRefs}
-                playingIndex={playingIndex}
-                onPlayPause={handlePlayPause}
-                onEnded={handleEnded}
-                onAyahClick={handleAyahClick}
-                loading={loadingAyahs}
-                bookmarks={bookmarks}
-              />
+              {viewMode === "image" ? (
+                <div className="flex flex-col items-center gap-4 md:gap-8">
+                  {Array.from(new Set(surahAyahs.map((ayah) => ayah.page)))
+                    .sort((a, b) => a - b)
+                    .map((pageNumber) => (
+                      <div
+                        key={pageNumber}
+                        className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 border border-gray-100/70 dark:border-zinc-800/70 rounded-2xl md:rounded-3xl p-1.5 md:p-4 shadow-lg overflow-hidden flex flex-col items-center"
+                      >
+                        <img
+                          src={`https://cdn.myquran.com/img/page/${pageNumber}.png`}
+                          alt={`صفحة ${pageNumber}`}
+                          className={`w-full h-auto object-contain transition-all duration-300 select-none ${
+                            invertImageColors ? "dark:invert dark:hue-rotate-180" : ""
+                          }`}
+                          loading="lazy"
+                        />
+                        <div className="mt-2 md:mt-4 pt-2 md:pt-3 border-t border-gray-50 dark:border-zinc-800/50 w-full flex justify-between items-center text-[10px] md:text-xs font-semibold text-gray-400 dark:text-zinc-500 px-2 md:px-0">
+                          <span>سورة {surahMeta.name}</span>
+                          <span className="bg-main/5 dark:bg-main/20 text-main px-2.5 py-0.5 rounded-full">
+                            صفحة {pageNumber}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              ) : (
+                <SurahDisplay
+                  surah={{ ...surahMeta, ayahs: surahAyahs }}
+                  tafsir={tafsir}
+                  audioRefs={audioRefs}
+                  playingIndex={playingIndex}
+                  onPlayPause={handlePlayPause}
+                  onEnded={handleEnded}
+                  onAyahClick={handleAyahClick}
+                  loading={loadingAyahs}
+                  bookmarks={bookmarks}
+                />
+              )}
             </div>
 
             {/* Navigation Bar */}
